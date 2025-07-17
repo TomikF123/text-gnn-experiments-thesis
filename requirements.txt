@@ -4,3 +4,5 @@ torch
 matplotlib
 jupyter_client
 jupyter_core
+ipykernel
+nltk
