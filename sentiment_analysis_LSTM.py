@@ -247,7 +247,7 @@ print("Test Accuracy: {:.2f}".format(num_correct/len(test_loader.dataset)))
 
 ###############################################################################
 ############  13. TEST THE TRAINED MODEL ON A RANDOM SINGLE REVIEW ############
-###############################################################################
+###############################################################################<
 def predict(net, review, seq_length = 200):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     

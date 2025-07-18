@@ -13,3 +13,11 @@ def get_root_path():
 
 def get_data_path():
     return join(get_root_path(), 'data')
+
+
+def get_configs_path():
+    return join(get_root_path(), 'runConfigs')
+
+
+def get_models_path():
+    return join(get_root_path(), 'models')
