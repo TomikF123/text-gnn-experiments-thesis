@@ -6,3 +6,6 @@ jupyter_client
 jupyter_core
 ipykernel
 nltk
+torch_scatter
+torch_geometric
+klepto
