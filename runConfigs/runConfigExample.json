@@ -11,7 +11,9 @@
     "shuffle": true,
     "random_seed": 42,
     "preprocessing": {
-      "remove_stopwords": true
+      "remove_stopwords": true,
+      "remove_rare_words": true,
+      "lemmatization": false
     }
   },
 

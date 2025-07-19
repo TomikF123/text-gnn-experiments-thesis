@@ -21,3 +21,6 @@ def get_configs_path():
 
 def get_models_path():
     return join(get_root_path(), 'models')
+
+def get_saved_path():
+    return join(get_root_path(), 'saved') # cached torch.datasets, splitted according to a config

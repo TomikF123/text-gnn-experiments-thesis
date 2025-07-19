@@ -1,0 +1,33 @@
+{
+"experiment_name": "test",
+"run_name": "test_run",
+"model_type": "lstm",
+"dataset": {
+    "name": "mr",
+    "tvt_split": [0.7, 0, 0.3],
+    "shuffle": true,
+    "random_seed": 123,
+    "preprocessing": {
+      "remove_stopwords": true,
+      "remove_rare_words": false,
+      "lemmatization": false
+    },
+    "encoding": {
+      "type_text": "index",
+      "type_label": "normal"
+    }
+  },
+"common_params": {
+    "epochs": 10,
+    "batch_size": 32,
+    "lr": 0.001,
+    "seed": 123
+  },
+"model_specific_params": {
+    "hidden_dim": 128,
+    "dropout": 0.5,
+    "num_layers": 2,
+    "bidirectional": true
+  }
+
+}
