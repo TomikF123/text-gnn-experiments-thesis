@@ -41,9 +41,7 @@ def build_word_to_index(vocab:dict) -> dict:
     word_to_index = {word: idx for idx, word in enumerate(vocab.keys())}
     return word_to_index
 
-def encode_dataset(df:pd.DataFrame, encode_token_type:str,model_type:str,vocab:dict=None):
-    if  model_type == "lstm":
-        return encode_tokens(encode_token_type,df =df["text"],vocab=vocab),encode_labels(df["label"])
+
 
     pass
 def encode_tokens(encode_token_type,vocab,df:pd.Series, max_len:int=None)->torch.Tensor:

@@ -6,6 +6,9 @@ from os import environ, makedirs
 import pytz
 import re
 from socket import gethostname
+from sklearn.model_selection import train_test_split
+import torch
+
 
 def get_root_path():
     return dirname(abspath(__file__))
@@ -24,3 +27,25 @@ def get_models_path():
 
 def get_saved_path():
     return join(get_root_path(), 'saved') # cached torch.datasets, splitted according to a config
+
+def get_tensors_tvt_split(tensors: dict, save_path: str,tvt_split: list,seed: int = 42)->dict[str, tuple[torch.Tensor, torch.Tensor]]:
+    #os.makedirs(save_path, exist_ok=True)
+    #from sklearn.model_selection import train_test_split
+    X = tensors['X']
+    y = tensors['y']
+    train_ratio = tvt_split[0]
+    val_ratio = tvt_split[1]
+    test_ratio = tvt_split[2]
+    X_train, X_temp, y_train, y_temp = train_test_split(
+        X, y, test_size=(1 - train_ratio), random_state=seed, stratify=y
+    )
+    if val_ratio > 0:
+        X_val, X_test, y_val, y_test = train_test_split(
+            X_temp, y_temp, test_size=(test_ratio / (test_ratio + val_ratio)), random_state=seed, stratify=y_temp
+        )
+    else:
+        X_val, y_val = None, None
+        X_test, y_test = X_temp, y_temp
+    return {"train": (X_train, y_train),
+            "val": (X_val, y_val),
+            "test": (X_test, y_test)}
