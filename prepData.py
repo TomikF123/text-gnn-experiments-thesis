@@ -8,9 +8,11 @@ import torch
 from collections import Counter
 import torch.nn.functional as F
 
-def clean_data(df:pd.DataFrame, label_col:str='label', text_col:str='text',remove_stop_words:bool=True,remove_rare_words:int=True,vocab_size:int=None)-> list[pd.DataFrame,dict]:    
+def clean_data(df:pd.DataFrame, label_col:str='label', text_col:str='text',remove_stop_words:bool=True,remove_rare_words:int=True,vocab_size:int=None)-> list[pd.DataFrame,dict]:
+    #orig_len = len(df) #debug
     df.dropna(subset=[f"{text_col}"], inplace=True)
     df.dropna(subset=[f"{label_col}"], inplace=True)
+    #print(f"Cleaned data from {orig_len} to {len(df)} samples.") #debug
     df[f"{text_col}"] = df[f"{text_col}"].astype(str)
     df[f"{text_col}"] = df[f"{text_col}"].str.lower()
     df[f"{text_col}"] = clean_doc(df[f"{text_col}"])
@@ -20,7 +22,12 @@ def clean_data(df:pd.DataFrame, label_col:str='label', text_col:str='text',remov
     if remove_rare_words:
         df[f"{text_col}"],vocab = rare_words_removal(df[f"{text_col}"], vocab, min_freq=remove_rare_words)
     #df[f"{label_col}"] = encode_labels(df[f"{label_col}"])  
-
+    df.dropna(subset=[f"{text_col}"], inplace=True)
+    print(f"number of NAs in {text_col}: {df[f'{text_col}'].isna().sum()}")
+    df = df[df[text_col].apply(lambda x: len(x) > 0)].copy()
+    print("Number of rows that have empty text:", df[f"{text_col}"].apply(lambda x: len(x) == 0).sum())
+    #final_len = len(df)#debug
+    #print(f"Cleaned data from {orig_len} to {final_len} samples.") #debug
     return df, vocab
 
 def create_vocab(df:pd.Series,vocab_size:int)->dict:
@@ -42,8 +49,6 @@ def build_word_to_index(vocab:dict) -> dict:
     return word_to_index
 
 
-
-    pass
 def encode_tokens(encode_token_type,vocab,df:pd.Series, max_len:int=None)->torch.Tensor:
     if encode_token_type == "one-hot":
         vocab_size = len(vocab)
@@ -79,12 +84,10 @@ def encode_labels(df:pd.Series)-> torch.Tensor:
     tensor  = torch.tensor(le.fit_transform(df)) #dtype=torch.long?
     return tensor
 
-
-
 def clean_doc(df:pd.Series):
     remove_https = re.compile(r"http[s]?\:\/\/.[a-zA-Z0-9\.\/\_?=%&#\-\+!]+")
     remove_punct = re.compile(r'[^\w\s]')
-
+    #These should follow some logical order
     df = df.apply(lambda x: remove_https.sub(' ', x))
     df = df.apply(lambda x: remove_punct.sub(' ', x))
     df = df.apply(lambda x: x.split())

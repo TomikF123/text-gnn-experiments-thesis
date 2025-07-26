@@ -38,12 +38,15 @@ import nltk
 nltk.download("stopwords", download_dir=data_dir)
 
 #Download Glove embeddings
-# glove_dir = os.path.join(data_dir, "glove")
-# os.makedirs(glove_dir, exist_ok=True)
-# import requests
-# glove_url = "https://nlp.stanford.edu/data/glove.6B.zip"
-# glove_zip_path = os.path.join(glove_dir, "glove.6B.zip")
-# if not os.path.exists(glove_zip_path):
-#     response = requests.get(glove_url)
-#     # with open(glove_zip_path, "wb``") as f:
-    #     f.write(response.content)`
+glove_dir = os.path.join(data_dir, "glove")
+os.makedirs(glove_dir, exist_ok=True)
+import requests
+glove_url = "https://nlp.stanford.edu/data/glove.6B.zip"
+glove_zip_path = os.path.join(glove_dir, "glove.6B.zip")
+if not os.path.exists(glove_zip_path):
+    "downloading glove embeddings..."
+    response = requests.get(glove_url)
+    with open(glove_zip_path, "wb") as f:
+        f.write(response.content)
+
+print("Glove embedings are ready.")

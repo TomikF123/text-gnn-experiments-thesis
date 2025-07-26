@@ -6,8 +6,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 from dataset import TextDataset
 from prepData import clean_data, encode_tokens, encode_labels
-from utils import get_data_path, get_saved_path
-from utils import get_tensors_tvt_split  # You may later refactor this to utils if needed
+from utils import get_data_path, get_saved_path,get_tensors_tvt_split,load_glove_embeddings
 
 
 def encode_lstm_dataset(df, encode_token_type, vocab):
@@ -20,14 +19,26 @@ def create_lstm_dataset(dataset_config: dict, save_fn: str):
     preprocess_config = dataset_config["preprocess"]
     vocab_size = dataset_config.get("vocab_size", None)
     df= pd.read_csv(os.path.join(get_data_path(), f"{name}.csv"))
-    df,vocab = clean_data(df, remove_stop_words=preprocess_config["remove_stopwords"], remove_rare_words=preprocess_config["remove_rare_words"],vocab_size=vocab_size) # remove the vocab..
-    X_tensor,y_tensors = encode_lstm_dataset(df, encode_token_type=dataset_config["encoding"]["encode_token_type"],vocab=vocab)
-    split_dict = get_tensors_tvt_split(tensors={"X": X_tensor, "y": y_tensors},tvt_split= dataset_config["tvt_split"],save_path=save_fn, seed=dataset_config["random_seed"])
-    for split, (X, y) in split_dict.items():
-        dataset = LSTMDataset(data=X, labels=y)
-        save_dir = os.path.join(get_saved_path(), save_fn)
-        os.makedirs(save_dir, exist_ok=True)
-        torch.save(dataset, os.path.join(save_dir, f"{split}.pt"))
+    df,vocab = clean_data(df, remove_stop_words=preprocess_config["remove_stopwords"], remove_rare_words=preprocess_config["remove_rare_words"],vocab_size=vocab_size) 
+    #X_tensor,y_tensors = encode_lstm_dataset(df, encode_token_type=dataset_config["encoding"]["encode_token_type"],vocab=vocab)
+    split_dict = get_tensors_tvt_split(tensors={"X": df["text"], "y": df["label"]},tvt_split= dataset_config["tvt_split"],seed=dataset_config["random_seed"])
+    save_dir = os.path.join(get_saved_path(), save_fn)
+    os.makedirs(save_dir, exist_ok=True)
+    for split, (text, labels) in split_dict.items():
+        if text is None or labels is None:
+            continue  # Skip val split if not used
+        df_split = pd.DataFrame(data={"text": text.reset_index(drop=True).apply(lambda x: " ".join(x)),"label": labels.reset_index(drop=True)})
+        df_split.to_csv(os.path.join(save_dir, f"{split}.csv"), index=False)
+    import pickle
+    with open(os.path.join(save_dir, "vocab.pkl"), "wb") as f:
+        pickle.dump(vocab, f)
+    if dataset_config["encoding"]["encode_token_type"] == "glove":
+        glove_path = dataset_config["encoding"]["glove_path"]
+        embedding_dim = dataset_config["encoding"]["embedding_dim"]
+        embedding_matrix = load_glove_embeddings(glove_path, vocab, embedding_dim)
+        # Save embedding matrix
+        torch.save(embedding_matrix, os.path.join(save_dir, "embedding_matrix.pt"))
+
 
 def create_lstm_filename(dataset_config: dict) -> str:
     name = dataset_config["name"]
@@ -41,18 +52,25 @@ def create_lstm_filename(dataset_config: dict) -> str:
     
     return f"{name}_train_{train_ratio}_val_{val_ratio}_test_{test_ratio}_seed_{dataset_config['random_seed']}_stop_words_{remove_stopwords}_rare_words_{remove_rare_words}_vocab_size_{vocab_size}"
 
-class LSTMDataset(TextDataset):
-    def __init__(self, data:np.array, labels:np.array,pad_token:int=0, max_len:int=None, embeddings_path:str = None):
-        super().__init__(data, labels)
+class LSTMDataset(torch.utils.data.Dataset):
+    def __init__(self, csv_path, vocab: dict, encode_token_type="index", max_len=None):
+        self.df = pd.read_csv(csv_path)
+        self.vocab = vocab
+        self.encode_token_type = encode_token_type
+        self.max_len = max_len
 
-    
-    def pad_seq(self, seq,max_len):
-        pass
+    def __len__(self):
+        return len(self.df)
 
-    def apply_embeddings(self, embeddings_path,vocab):
-        pass
-    def build_vocab(self, data):
-       pass
     def __getitem__(self, idx):
-        return self.data[idx], self.labels[idx]
+        row = self.df.iloc[idx]
+        text = row["text"].split()  # assumes clean_doc() has already been used
+        label = int(row["label"])
+
+        token_ids = [self.vocab.get(w, self.vocab["<UNK>"]) for w in text]
+
+        if self.max_len:
+            token_ids = token_ids[:self.max_len]
+
+        return torch.tensor(token_ids, dtype=torch.long), torch.tensor(label, dtype=torch.long)
 

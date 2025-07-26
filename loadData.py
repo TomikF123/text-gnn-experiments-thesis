@@ -46,13 +46,6 @@ if not os.path.exists(get_saved_path()):
 
 def load_data(dataset_config: dict, model_type: str) -> dict[str,TextDataset]:
     save_fn = create_file_name(dataset_config, model_type)
-    # name = dataset_config["name"]
-    # train_ratio = int(dataset_config["tvt_split"][0] * 100)
-    # val_ratio = int(dataset_config["tvt_split"][1] * 100)
-    # test_ratio = 100 - train_ratio - val_ratio
-    # preprocess_config = dataset_config["preprocess"]
-    # remove_stopwords = preprocess_config["remove_stopwords"]
-    # remove_rare_words = preprocess_config["remove_rare_words"]
     save_path = os.path.join(get_saved_path(), save_fn)
     if not os.path.exists(save_path):
         create_dataset(save_fn = save_fn, model_type=model_type, dataset_config=dataset_config)
@@ -61,18 +54,23 @@ def load_data(dataset_config: dict, model_type: str) -> dict[str,TextDataset]:
         #save_path = os.path.join(get_saved_path(), save_fn)
         dataset_dict = {}
 
-        train_path = os.path.join(save_path, "train.pt")
-        val_path = os.path.join(save_path, "val.pt")
-        test_path = os.path.join(save_path, "test.pt")
+        train_path = os.path.join(save_path, "train.csv")
+        val_path = os.path.join(save_path, "val.csv")
+        test_path = os.path.join(save_path, "test.csv")
+        vocab_path = os.path.join(save_path, "vocab.pkl")
 
         if os.path.exists(train_path):
-            dataset_dict["train"] = torch.load(train_path,weights_only=False)
-
+            #dataset_dict["train"] = torch.load(train_path,weights_only=False)
+            dataset_dict["train"] = train_path
         if os.path.exists(val_path):
-            dataset_dict["val"] = torch.load(val_path,weights_only=False)
+            #dataset_dict["val"] = torch.load(val_path,weights_only=False)
+            dataset_dict["val"] = val_path
 
         if os.path.exists(test_path):
-            dataset_dict["test"] = torch.load(test_path,weights_only=False)
+            #dataset_dict["test"] = torch.load(test_path,weights_only=False)
+            dataset_dict["test"] = test_path
+        if os.path.exists(vocab_path):
+            dataset_dict["vocab"] = vocab_path
 
         if not dataset_dict:
             raise FileNotFoundError(f"No dataset splits found in {save_path}")
@@ -86,15 +84,16 @@ if __name__ == "__main__":
         "random_seed": 42,
         "vocab_size": None,
         "preprocess": {
-            "remove_stopwords": False,
+            "remove_stopwords": True,
             "remove_rare_words": 0
         },
         "encoding": {
-            "encode_token_type": "index"
+            "encode_token_type": "index",
+            "dim":None
         }
     }
     model_type = "lstm"
     print("Loading dataset...")
     dataset = load_data(dataset_config, model_type)
     print("Dataset loaded!")
-    print(dataset["train"].data[0]) 
+    print(dataset) 
