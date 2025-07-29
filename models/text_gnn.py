@@ -1,4 +1,4 @@
-#from config import FLAGS
+# from config import FLAGS
 
 import torch.nn.functional as F
 import torch.nn as nn
@@ -11,17 +11,34 @@ from torch_geometric.nn.inits import glorot, zeros
 
 
 class TextGNN(nn.Module):
-    def __init__(self, pred_type, node_embd_type, num_layers, layer_dim_list, act, bn, num_labels, class_weights, dropout):
+    def __init__(
+        self,
+        pred_type,
+        node_embd_type,
+        num_layers,
+        layer_dim_list,
+        act,
+        bn,
+        num_labels,
+        class_weights,
+        dropout,
+    ):
         super(TextGNN, self).__init__()
         self.node_embd_type = node_embd_type
         self.layer_dim_list = layer_dim_list
         self.num_layers = num_layers
         self.dropout = dropout
-        if pred_type == 'softmax':
+        if pred_type == "softmax":
             assert layer_dim_list[-1] == num_labels
-        elif pred_type == 'mlp':
+        elif pred_type == "mlp":
             dims = self._calc_mlp_dims(layer_dim_list[-1], num_labels)
-            self.mlp = MLP(layer_dim_list[-1], num_labels, num_hidden_lyr=len(dims), hidden_channels=dims, bn=False)
+            self.mlp = MLP(
+                layer_dim_list[-1],
+                num_labels,
+                num_hidden_lyr=len(dims),
+                hidden_channels=dims,
+                bn=False,
+            )
         self.pred_type = pred_type
         assert len(layer_dim_list) == (num_layers + 1)
         self.act = act
@@ -40,28 +57,32 @@ class TextGNN(nn.Module):
 
     def _loss(self, ins, dataset):
         pred_inds = dataset.node_ids
-        if self.pred_type == 'softmax':
+        if self.pred_type == "softmax":
             y_preds = ins[pred_inds]
-        elif self.pred_type == 'mlp':
+        elif self.pred_type == "mlp":
             y_preds = self.mlp(ins[pred_inds])
         else:
             raise NotImplementedError
-        y_true = torch.tensor(dataset.label_inds[pred_inds], dtype=torch.long, device=FLAGS.device)
+        y_true = torch.tensor(
+            dataset.label_inds[pred_inds], dtype=torch.long, device=FLAGS.device
+        )
         loss = self.loss(y_preds, y_true)
         return loss, y_preds.cpu().detach().numpy()
 
     def _create_node_embd_layers(self):
         layers = nn.ModuleList()
         for i in range(self.num_layers):
-            act = self.act if i < self.num_layers - 1 else 'identity'
-            layers.append(NodeEmbedding(
-                type=self.node_embd_type,
-                in_dim=self.layer_dim_list[i],
-                out_dim=self.layer_dim_list[i + 1],
-                act=act,
-                bn=self.bn,
-                dropout=self.dropout if i != 0 else False
-            ))
+            act = self.act if i < self.num_layers - 1 else "identity"
+            layers.append(
+                NodeEmbedding(
+                    type=self.node_embd_type,
+                    in_dim=self.layer_dim_list[i],
+                    out_dim=self.layer_dim_list[i + 1],
+                    act=act,
+                    bn=self.bn,
+                    dropout=self.dropout if i != 0 else False,
+                )
+            )
         return layers
 
     def _calc_mlp_dims(self, mlp_dim, output_dim=1):
@@ -80,15 +101,14 @@ class NodeEmbedding(nn.Module):
         self.in_dim = in_dim
         self.out_dim = out_dim
         self.type = type
-        if type == 'gcn':
+        if type == "gcn":
             self.conv = GCNConv(in_dim, out_dim)
             self.act = create_act(act, out_dim)
-        elif type == 'gat':
+        elif type == "gat":
             self.conv = GATConv(in_dim, out_dim)
             self.act = create_act(act, out_dim)
         else:
-            raise ValueError(
-                'Unknown node embedding layer type {}'.format(type))
+            raise ValueError("Unknown node embedding layer type {}".format(type))
         self.bn = bn
         if self.bn:
             self.bn = torch.nn.BatchNorm1d(out_dim)
@@ -99,9 +119,11 @@ class NodeEmbedding(nn.Module):
     def forward(self, ins, pyg_graph):
         if self.dropout:
             ins = self.dropout(ins)
-        if self.type == 'gcn':
+        if self.type == "gcn":
             if FLAGS.use_edge_weights:
-                x = self.conv(ins, pyg_graph.edge_index, edge_weight=pyg_graph.edge_attr)
+                x = self.conv(
+                    ins, pyg_graph.edge_index, edge_weight=pyg_graph.edge_attr
+                )
             else:
                 x = self.conv(ins, pyg_graph.edge_index)
         else:
@@ -111,28 +133,44 @@ class NodeEmbedding(nn.Module):
 
 
 class MLP(nn.Module):
-    '''mlp can specify number of hidden layers and hidden layer channels'''
+    """mlp can specify number of hidden layers and hidden layer channels"""
 
-    def __init__(self, input_dim, output_dim, activation_type='relu', num_hidden_lyr=2,
-                 hidden_channels=None, bn=False):
+    def __init__(
+        self,
+        input_dim,
+        output_dim,
+        activation_type="relu",
+        num_hidden_lyr=2,
+        hidden_channels=None,
+        bn=False,
+    ):
         super().__init__()
         self.out_dim = output_dim
         if not hidden_channels:
             hidden_channels = [input_dim for _ in range(num_hidden_lyr)]
         elif len(hidden_channels) != num_hidden_lyr:
             raise ValueError(
-                "number of hidden layers should be the same as the lengh of hidden_channels")
+                "number of hidden layers should be the same as the lengh of hidden_channels"
+            )
         self.layer_channels = [input_dim] + hidden_channels + [output_dim]
         self.activation = create_act(activation_type)
-        self.layers = nn.ModuleList(list(
-            map(self.weight_init, [nn.Linear(self.layer_channels[i], self.layer_channels[i + 1])
-                                   for i in range(len(self.layer_channels) - 1)])))
+        self.layers = nn.ModuleList(
+            list(
+                map(
+                    self.weight_init,
+                    [
+                        nn.Linear(self.layer_channels[i], self.layer_channels[i + 1])
+                        for i in range(len(self.layer_channels) - 1)
+                    ],
+                )
+            )
+        )
         self.bn = bn
         if self.bn:
             self.bn = torch.nn.BatchNorm1d(output_dim)
 
     def weight_init(self, m):
-        torch.nn.init.xavier_uniform_(m.weight, gain=nn.init.calculate_gain('relu'))
+        torch.nn.init.xavier_uniform_(m.weight, gain=nn.init.calculate_gain("relu"))
         return m
 
     def forward(self, x):
@@ -150,22 +188,23 @@ class MLP(nn.Module):
 
 
 def create_act(act, num_parameters=None):
-    if act == 'relu':
+    if act == "relu":
         return nn.ReLU()
-    elif act == 'prelu':
+    elif act == "prelu":
         return nn.PReLU(num_parameters)
-    elif act == 'sigmoid':
+    elif act == "sigmoid":
         return nn.Sigmoid()
-    elif act == 'tanh':
+    elif act == "tanh":
         return nn.Tanh()
-    elif act == 'identity':
+    elif act == "identity":
+
         class Identity(nn.Module):
             def forward(self, x):
                 return x
 
         return Identity()
     else:
-        raise ValueError('Unknown activation function {}'.format(act))
+        raise ValueError("Unknown activation function {}".format(act))
 
 
 class GCNConv(MessagePassing):
@@ -195,13 +234,10 @@ class GCNConv(MessagePassing):
             an additive bias. (default: :obj:`True`)
     """
 
-    def __init__(self,
-                 in_channels,
-                 out_channels,
-                 improved=False,
-                 cached=False,
-                 bias=True):
-        super(GCNConv, self).__init__('add')
+    def __init__(
+        self, in_channels, out_channels, improved=False, cached=False, bias=True
+    ):
+        super(GCNConv, self).__init__("add")
 
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -214,7 +250,7 @@ class GCNConv(MessagePassing):
         if bias:
             self.bias = Parameter(torch.Tensor(out_channels))
         else:
-            self.register_parameter('bias', None)
+            self.register_parameter("bias", None)
 
         self.reset_parameters()
 
@@ -226,24 +262,26 @@ class GCNConv(MessagePassing):
     @staticmethod
     def norm(edge_index, num_nodes, edge_weight, improved=False, dtype=None):
         if edge_weight is None:
-            edge_weight = torch.ones((edge_index.size(1), ),
-                                     dtype=dtype,
-                                     device=edge_index.device)
+            edge_weight = torch.ones(
+                (edge_index.size(1),), dtype=dtype, device=edge_index.device
+            )
         edge_weight = edge_weight.view(-1)
         assert edge_weight.size(0) == edge_index.size(1)
 
         edge_index, edge_weight = remove_self_loops(edge_index, edge_weight)
         edge_index = add_self_loops(edge_index, num_nodes)
-        loop_weight = torch.full((num_nodes, ),
-                                 1 if not improved else 2,
-                                 dtype=edge_weight.dtype,
-                                 device=edge_weight.device)
+        loop_weight = torch.full(
+            (num_nodes,),
+            1 if not improved else 2,
+            dtype=edge_weight.dtype,
+            device=edge_weight.device,
+        )
         edge_weight = torch.cat([edge_weight, loop_weight], dim=0)
 
         row, col = edge_index
         deg = scatter_add(edge_weight, row, dim=0, dim_size=num_nodes)
         deg_inv_sqrt = deg.pow(-0.5)
-        deg_inv_sqrt[deg_inv_sqrt == float('inf')] = 0
+        deg_inv_sqrt[deg_inv_sqrt == float("inf")] = 0
 
         return edge_index, deg_inv_sqrt[row] * edge_weight * deg_inv_sqrt[col]
 
@@ -255,8 +293,9 @@ class GCNConv(MessagePassing):
             x = torch.matmul(x, self.weight)
 
         if not self.cached or self.cached_result is None:
-            edge_index, norm = GCNConv.norm(edge_index, x.size(0), edge_weight,
-                                            self.improved, x.dtype)
+            edge_index, norm = GCNConv.norm(
+                edge_index, x.size(0), edge_weight, self.improved, x.dtype
+            )
             self.cached_result = edge_index, norm
 
         edge_index, norm = self.cached_result
@@ -271,8 +310,9 @@ class GCNConv(MessagePassing):
         return aggr_out
 
     def __repr__(self):
-        return '{}({}, {})'.format(self.__class__.__name__, self.in_channels,
-                                   self.out_channels)
+        return "{}({}, {})".format(
+            self.__class__.__name__, self.in_channels, self.out_channels
+        )
 
 
 class GATConv(MessagePassing):
@@ -312,15 +352,17 @@ class GATConv(MessagePassing):
             an additive bias. (default: :obj:`True`)
     """
 
-    def __init__(self,
-                 in_channels,
-                 out_channels,
-                 heads=1,
-                 concat=True,
-                 negative_slope=0.2,
-                 dropout=0,
-                 bias=True):
-        super(GATConv, self).__init__('add')
+    def __init__(
+        self,
+        in_channels,
+        out_channels,
+        heads=1,
+        concat=True,
+        negative_slope=0.2,
+        dropout=0,
+        bias=True,
+    ):
+        super(GATConv, self).__init__("add")
 
         self.in_channels = in_channels
         self.out_channels = out_channels
@@ -329,8 +371,7 @@ class GATConv(MessagePassing):
         self.negative_slope = negative_slope
         self.dropout = dropout
 
-        self.weight = Parameter(
-            torch.Tensor(in_channels, heads * out_channels))
+        self.weight = Parameter(torch.Tensor(in_channels, heads * out_channels))
         self.att = Parameter(torch.Tensor(1, heads, 2 * out_channels))
 
         if bias and concat:
@@ -338,7 +379,7 @@ class GATConv(MessagePassing):
         elif bias and not concat:
             self.bias = Parameter(torch.Tensor(out_channels))
         else:
-            self.register_parameter('bias', None)
+            self.register_parameter("bias", None)
 
         self.reset_parameters()
 
@@ -380,6 +421,6 @@ class GATConv(MessagePassing):
         return aggr_out
 
     def __repr__(self):
-        return '{}({}, {}, heads={})'.format(self.__class__.__name__,
-                                             self.in_channels,
-                                             self.out_channels, self.heads)
+        return "{}({}, {}, heads={})".format(
+            self.__class__.__name__, self.in_channels, self.out_channels, self.heads
+        )

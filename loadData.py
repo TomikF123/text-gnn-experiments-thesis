@@ -4,16 +4,17 @@ from utils import get_data_path, get_saved_path
 import pandas as pd
 import torch
 import os
-#from loaders.lstmLoader import LSTMDataset
-from utils import get_tensors_tvt_split
-from torch.utils.data import DataLoader 
+from utils import get_function_from_path, filter_kwargs_for_class
 
-
-import importlib
 
 DATASET_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_dataset",
-    "text_gcn": "loaders.textGCNLoader.create_textgcn_dataset", #future
+    "text_gcn": "loaders.textGCNLoader.create_textgcn_dataset",  # future
+}
+
+DATASETS = {
+    "lstm": "loaders.lstmLoader.LSTMDataset",
+    "text_gcn": TextDataset,  # future
 }
 
 FILENAME_CREATORS = {
@@ -22,17 +23,22 @@ FILENAME_CREATORS = {
     "text_level_gnn": "loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
 }
 
+COLLATE_FN_CREATORS = {
+    "lstm": "loaders.lstmLoader.lstm_collate_fn",
+    "text_gcn": "loaders.textGCNLoader.textgcn_collate_fn",  # future
+    "text_level_gnn": "loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
+}
 
-def get_function_from_path(path: str):
-    module_name, fn_name = path.rsplit(".", 1)
-    module = importlib.import_module(module_name)
-    return getattr(module, fn_name)
+if not os.path.exists(get_saved_path()):
+    os.makedirs(get_saved_path())
 
-def create_dataset(dataset_config:dict, model_type:str, save_fn:str):
+
+def create_dataset(dataset_config: dict, model_type: str, save_fn: str):
     if model_type not in DATASET_CREATORS:
         raise ValueError(f"Invalid model type{model_type}")
     create_fn = get_function_from_path(DATASET_CREATORS[model_type])
     create_fn(dataset_config, save_fn)
+
 
 def create_file_name(dataset_config: dict, model_type: str) -> str:
     if model_type not in FILENAME_CREATORS:
@@ -40,60 +46,58 @@ def create_file_name(dataset_config: dict, model_type: str) -> str:
     fn_path = FILENAME_CREATORS[model_type]
     creator_fn = get_function_from_path(fn_path)
     return creator_fn(dataset_config)
-#Create a saved folder at get_saved_path() if it does not exist
-if not os.path.exists(get_saved_path()):
-    os.makedirs(get_saved_path())
 
-def load_data(dataset_config: dict, model_type: str) -> dict[str,TextDataset]:
+
+def get_dataset_class(model_type: str) -> TextDataset:
+    if model_type not in DATASETS:
+        raise ValueError(f"Unsupported model type: {model_type}")
+    dataset_class = get_function_from_path(DATASETS[model_type])
+    return dataset_class
+
+
+def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
     save_fn = create_file_name(dataset_config, model_type)
     save_path = os.path.join(get_saved_path(), save_fn)
     if not os.path.exists(save_path):
-        create_dataset(save_fn = save_fn, model_type=model_type, dataset_config=dataset_config)
-        return load_data(dataset_config, model_type)
+        create_dataset(
+            save_fn=save_fn, model_type=model_type, dataset_config=dataset_config
+        )
+        return load_data(dataset_config, model_type, split)
     else:
-        #save_path = os.path.join(get_saved_path(), save_fn)
-        dataset_dict = {}
-
-        train_path = os.path.join(save_path, "train.csv")
-        val_path = os.path.join(save_path, "val.csv")
-        test_path = os.path.join(save_path, "test.csv")
+        dataset_class = get_dataset_class(model_type)
+        csv_path = os.path.join(save_path, f"{split}.csv")
         vocab_path = os.path.join(save_path, "vocab.pkl")
+        embedding_matrix_path = os.path.join(save_path, "embedding_matrix.pt")
+        print(dataset_config.keys(), "############DEBUG#############")
+        dataset_conf = filter_kwargs_for_class(dataset_class, dataset_config)
+        dataset_conf["csv_path"] = csv_path
+        dataset_conf["vocab_path"] = vocab_path
+        dataset_conf["embedding_matrix_path"] = (
+            embedding_matrix_path
+            if dataset_config["encoding"]["encode_token_type"] == "glove"
+            else None
+        )  # HARD CODED :/
+        print(dataset_conf.keys(), "############DEBUG#############")
+        dataset = dataset_class(**dataset_conf)
+        return dataset
 
-        if os.path.exists(train_path):
-            #dataset_dict["train"] = torch.load(train_path,weights_only=False)
-            dataset_dict["train"] = train_path
-        if os.path.exists(val_path):
-            #dataset_dict["val"] = torch.load(val_path,weights_only=False)
-            dataset_dict["val"] = val_path
-
-        if os.path.exists(test_path):
-            #dataset_dict["test"] = torch.load(test_path,weights_only=False)
-            dataset_dict["test"] = test_path
-        if os.path.exists(vocab_path):
-            dataset_dict["vocab"] = vocab_path
-
-        if not dataset_dict:
-            raise FileNotFoundError(f"No dataset splits found in {save_path}")
-    return dataset_dict
 
 if __name__ == "__main__":
     # Example usage
     dataset_config = {
         "name": "20ng",
-        "tvt_split": [0.8,0, 0.1],
+        "tvt_split": [0.8, 0, 0.1],
         "random_seed": 42,
         "vocab_size": None,
-        "preprocess": {
-            "remove_stopwords": True,
-            "remove_rare_words": 0
-        },
+        "preprocess": {"remove_stopwords": False, "remove_rare_words": 5},
         "encoding": {
-            "encode_token_type": "index",
-            "dim":None
-        }
+            "encode_token_type": "glove",
+            "embedding_dim": 50,
+            "tokens_trained_on": 6,
+        },
     }
     model_type = "lstm"
     print("Loading dataset...")
     dataset = load_data(dataset_config, model_type)
     print("Dataset loaded!")
-    print(dataset) 
+    print(dataset)

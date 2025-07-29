@@ -9,25 +9,28 @@
     "random_seed": 123,
     "preprocessing": {
       "remove_stopwords": true,
-      "remove_rare_words": false,
-      "lemmatization": false
+      "remove_rare_words": false
     },
     "encoding": {
-      "type_text": "index",
-      "type_label": "normal"
+      "type_text": "index"
     }
   },
-"common_params": {
-    "epochs": 10,
-    "batch_size": 32,
-    "lr": 0.001,
-    "seed": 123
-  },
-"model_specific_params": {
-    "hidden_dim": 128,
-    "dropout": 0.5,
-    "num_layers": 2,
-    "bidirectional": true
+  "model_config":{
+    "common_params": {
+      "epochs": 10,
+      "batch_size": 32,
+      "seed": 123
+    },
+    "model_specific_params": {
+      "hidden_dim": 128,
+      "dropout": 0.5,
+      "num_layers": 2,
+      "bidirectional": true,
+      "embedding_dim": 50,
+      "lr": 0.001
+    }
+
   }
+
 
 }

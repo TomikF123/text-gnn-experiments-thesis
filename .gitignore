@@ -3,6 +3,7 @@ Text-GCN/
 data/
 saved/
 mlruns/
+text-gnn/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
