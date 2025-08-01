@@ -7,6 +7,16 @@ import torch
 from torch.utils.data import DataLoader
 
 
+parser = argparse.ArgumentParser(description="Run model from JSON config")
+parser.add_argument(
+    "--config",
+    type=str,
+    required=True,
+    help="Path to JSON config file (e.g. runConfigTextGCN.json)"
+)
+args = parser.parse_args()
+config = args.config
+#print(parser.print_help())
 def parse_json(config_path):
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"The file '{config_path}' does not exist.")
@@ -16,8 +26,18 @@ def parse_json(config_path):
 
     return data
 
+configs_path = utils.get_configs_path()
+config_path = os.path.join(configs_path, config)
+print("Loading config from:", config_path)
+parsed_config = parse_json(config_path)
+print(parsed_config)
 
-if __name__ == "__main__":
+train_data_set = load_data(
+    dataset_config=parsed_config["dataset"],
+    model_type=parsed_config["model_type"],
+    split="train",
+)
+if __name__ == "__ain__":
     # parser = argparse.ArgumentParser(description="Run model from JSON config")
     # parser.add_argument(
     #     "--config",

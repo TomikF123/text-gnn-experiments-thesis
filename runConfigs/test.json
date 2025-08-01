@@ -9,10 +9,11 @@
     "random_seed": 123,
     "preprocessing": {
       "remove_stopwords": true,
-      "remove_rare_words": false
+      "remove_rare_words": 0
     },
     "encoding": {
-      "type_text": "index"
+      "type_text": "glove",
+      "embeding_dim": 50
     }
   },
   "model_config":{
@@ -22,7 +23,7 @@
       "seed": 123
     },
     "model_specific_params": {
-      "hidden_dim": 128,
+      "hidden_dim": 64,
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
