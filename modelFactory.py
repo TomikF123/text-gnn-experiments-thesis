@@ -3,6 +3,7 @@ from utils import get_function_from_path
 MODEL_CREATORS = {
     "lstm": "models.lstm.model.create_lstm_model",
     "text_gcn": "models.text_gcn.model.create_text_gcn_model",  # future
+    "fastText": "models.fastText.model.create_fasttext_model",  # future
 }
 
 

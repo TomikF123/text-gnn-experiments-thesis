@@ -148,32 +148,51 @@ def get_function_from_path(path: str):
     return getattr(module, fn_name)
 
 
+def flatten_and_filter(d):
+    flat = {}
+    for key, value in d.items():
+        if isinstance(value, dict):
+            flat.update(flatten_and_filter(value))  # Recurse into nested dicts
+        else:
+            flat[key] = value
+    return flat
+
+
 def filter_kwargs_for_class(cls, config_dict) -> dict:
     signature = inspect.signature(cls.__init__)
     valid_keys = set(signature.parameters.keys()) - {"self"}
-
-    def flatten_and_filter(d):
-        flat = {}
-        for key, value in d.items():
-            if isinstance(value, dict):
-                flat.update(flatten_and_filter(value))  # Recurse into nested dicts
-            else:
-                flat[key] = value
-        return flat
 
     flattened = flatten_and_filter(config_dict)
     return {k: v for k, v in flattened.items() if k in valid_keys}
 
 
+def create_file_name(**kwargs):
+    flat = flatten_and_filter(kwargs)
+    print("Flattened kwargs:", flat)
+
+
 if __name__ == "__main__":
-    vocab = {"<PAD>": 0, "hello": 1, "world": 2, "ahoj": 3, "efsdfdf": 4}
-    emb = load_glove_embeddings(vocab=vocab, embedding_dim=50, tokens_trained_on=6)
-    # print(emb)
-    # print(emb.shape)
-    # print(emb[0])  # Should be all zeros for <PAD>
-    # print(emb[1])  # Should be the embedding for "hello"
-    # print(emb[2])  # Should be the embedding for "world"
-    print(emb[3])  # Should be random initialized
-    print(emb[4])  # Should be random innitialized
-    # print(get_root_path())
-    # print(get_data_path())
+    # vocab = {"<PAD>": 0, "hello": 1, "world": 2, "ahoj": 3, "efsdfdf": 4}
+    # emb = load_glove_embeddings(vocab=vocab, embedding_dim=50, tokens_trained_on=6)
+    # # print(emb)
+    # # print(emb.shape)
+    # # print(emb[0])  # Should be all zeros for <PAD>
+    # # print(emb[1])  # Should be the embedding for "hello"
+    # # print(emb[2])  # Should be the embedding for "world"
+    # print(emb[3])  # Should be random initialized
+    # print(emb[4])  # Should be random innitialized
+    # # print(get_root_path())
+    # # print(get_data_path())
+    dataset_config = {
+        "name": "mr",
+        "tvt_split": [0.9, 0, 0.1],
+        "random_seed": 42,
+        "vocab_size": None,
+        "preprocess": {"remove_stopwords": False, "remove_rare_words": 0},
+        "encoding": {
+            "embedding_dim": 300,
+            "encode_token_type": "glove",
+            "tokens_trained_on": 6,
+        },
+    }
+    create_file_name(**dataset_config)

@@ -114,7 +114,7 @@ class LSTMDataset(TextDataset):
         vocab_path: str = None,
         max_len: int = None,
     ):
-        super().__init__(df=None, labels=None, vocab=None)
+        super().__init__()
         self.df = pd.read_csv(csv_path)
         self.vocab = pickle.load(open(vocab_path, "rb")) if vocab_path else None
         self.encode_token_type = encode_token_type

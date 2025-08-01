@@ -10,10 +10,12 @@ from utils import get_function_from_path, filter_kwargs_for_class
 DATASET_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_dataset",
     "text_gcn": "loaders.textGCNLoader.create_textgcn_dataset",  # future
+    "fastText": "loaders.fastTextLoader.create_fasttext_dataset",  # future
 }
 
 DATASETS = {
     "lstm": "loaders.lstmLoader.LSTMDataset",
+    "fastText": "loaders.lstmLoader.LSTMDataset",
     "text_gcn": TextDataset,  # future
 }
 
@@ -21,6 +23,7 @@ FILENAME_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_filename",
     "text_gcn": "loaders.textGCNLoader.create_textgcn_filename",  # future
     "text_level_gnn": "loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
+    "fastText": "loaders.fastTextLoader.create_fasttext_filename",  # future
 }
 
 COLLATE_FN_CREATORS = {

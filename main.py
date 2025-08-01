@@ -51,8 +51,8 @@ if __name__ == "__main__":
     }
 
     model_config = {
-        "model_type": "lstm",
-        "embedding_dim": 300,
+        "model_type": "fastText",
+        "embedding_dim": 60,
         "common_params": {
             "batch_size": 128,
             "num_epochs": 25,

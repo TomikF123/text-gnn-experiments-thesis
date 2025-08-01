@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from loaders.lstmLoader import LSTMDataset
+from models.base_text_classifier import BaseTextClassifier
 
 
 def create_lstm_model(
@@ -33,7 +34,7 @@ def create_lstm_model(
     )
 
 
-class LSTMClassifier(nn.Module):
+class LSTMClassifier(BaseTextClassifier):
     def __init__(
         self,
         vocab_size: int = None,
@@ -48,7 +49,13 @@ class LSTMClassifier(nn.Module):
         encoding_type: str = "index",
         use_attention: bool = True,  # ✅ NEW FLAG
     ):
-        super().__init__()
+        super().__init__(
+            vocab_size=vocab_size,
+            embedding_dim=embedding_dim,
+            output_size=output_dim,
+            padding_idx=0,
+            freeze_embeddings=freeze_embeddings,
+        )
         self.freeze_embeddings = freeze_embeddings
         self.encoding_type = encoding_type
         self.use_attention = use_attention
