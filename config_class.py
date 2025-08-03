@@ -1,15 +1,24 @@
-from pydantic import BaseModel, Field, validator, root_validator
+from pydantic import BaseModel, Field, field_validator,model_validator
 from typing import List, Optional
-
+from typing import Union,Literal
 
 class PreprocessingConfig(BaseModel):
     remove_stopwords: bool = False
-    remove_rare_words: int = 0  # could also be float if you allow frequency thresholds
+    remove_rare_words: int = 0  # minimum word frequency to keep in the vocabulary 
+    vocab_size: Optional[int] = None  # restircts to vocabulary to n most frequent words, is applied after removing stopwords and rare words
 
 
-class EncodingConfig(BaseModel):
-    type: str  # e.g., "glove", "onehot", "bert"
-    embedding_dim: Optional[int] = None  # not always needed, e.g., for "bert"
+# Base shared fields (optional)
+class BaseEncodingConfig(BaseModel):
+    embedding_dim: Optional[int] = None
+
+class ExternalEncodingConfig(BaseEncodingConfig):
+    encode_token_type: Literal["glove", "bert"]
+    tokens_trained_on: int
+    path: Optional[str] = None
+
+class InternalEncodingConfig(BaseEncodingConfig):
+    encode_token_type: Literal["index", "onehot"]
 
 
 class DatasetConfig(BaseModel):
@@ -17,8 +26,8 @@ class DatasetConfig(BaseModel):
     tvt_split: List[float] = Field(..., min_items=3, max_items=3)  # train/val/test
     shuffle: bool = True
     random_seed: int = 42
-    preprocessing: Optional[PreprocessingConfig] = None
-    encoding: Optional[EncodingConfig] = None
+    preprocess: Optional[PreprocessingConfig] = None
+    encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
 
     def __repr__(self):
         base = super().__repr__()
@@ -26,8 +35,9 @@ class DatasetConfig(BaseModel):
 
 
 class ModelConfig(BaseModel):
-    type: str  # e.g., "TextGCN", "LSTM"
-    parameters: Optional[dict] = None  # additional model-specific parameters
+    model_type: str  # e.g., "TextGCN", "LSTM"
+    common_params: dict 
+    model_specific_params: Optional[dict]
 
 
 class loggingConfig(BaseModel):
@@ -42,7 +52,23 @@ class Config(BaseModel):
     experiment_name: str
     run_name: str
     dataset: DatasetConfig
+    #encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
     model_conf: ModelConfig
+    
+    @model_validator(mode="after")
+    def set_emb_dim(cls, values):
+        if values.model_conf.common_params.get("embedding_dim") is None:
+            values.model_conf.common_params["embedding_dim"] = (
+                values.dataset.encoding.embedding_dim
+            )
+        return values
+
+
+    # Ensure embedding_dim is set from dataset encoding
+    # @field_validator
+    # def val_embedings(cls, values):
+        
+
 
     class Config:
         extra = "forbid"  # Disallow extra fields not defined in the model
@@ -86,4 +112,3 @@ if __name__ == "__main__":
         dataset=dataset_config,
         model_config=model_config,
     )
-print(conf)

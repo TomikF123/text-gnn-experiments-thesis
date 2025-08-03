@@ -114,16 +114,18 @@ class LSTMDataset(TextDataset):
         vocab_path: str = None,
         max_len: int = None,
     ):
-        super().__init__()
-        self.df = pd.read_csv(csv_path)
-        self.vocab = pickle.load(open(vocab_path, "rb")) if vocab_path else None
-        self.encode_token_type = encode_token_type
+        
+        df = pd.read_csv(csv_path)
+        vocab = pickle.load(open(vocab_path, "rb")) if vocab_path else None
+        #self.encode_token_type = encode_token_type
+        super().__init__(df=df,vocab = vocab,encode_token_type=encode_token_type)
         self.embedding_matrix = (
             torch.load(embedding_matrix_path) if embedding_matrix_path else None
         )
         self.texts = self.df["text"].tolist()
         self.labels = self.df["label"].tolist()
         self.max_len = max_len
+        self.collate_fn = lstm_collate_fn
         assert self.vocab is not None, "Vocabulary must be provided."
 
         # self.max_len = max_len if max_len is not None else max(len(text.split()) for text in self.texts)

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from loaders.lstmLoader import LSTMDataset
 from models.base_text_classifier import BaseTextClassifier
-
+from models.lstm.train import train_lstm
 
 def create_lstm_model(
     model_config: dict, dataset_config: dict, dataset: LSTMDataset = None
@@ -86,6 +86,7 @@ class LSTMClassifier(BaseTextClassifier):
 
         self.fc = nn.Linear(hidden_dim * self.direction_factor, output_dim)
         self.dropout = nn.Dropout(dropout)
+        self.train_func = train_lstm
 
     def forward(self, x):
         if self.encoding_type == "index":

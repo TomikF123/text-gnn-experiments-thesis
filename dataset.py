@@ -3,11 +3,10 @@ from torch.utils.data import Dataset
 
 class TextDataset(Dataset):
 
-    def __init__(self, df, labels, vocab: dict = None):
+    def __init__(self, df, vocab: dict = None,encode_token_type: str = "index"):
         self.df = df
-        self.labels = labels
         self.vocab = vocab
-        self.encode_token_type = None
+        self.encode_token_type = encode_token_type
 
     def __len__(self):
         return len(self.df)

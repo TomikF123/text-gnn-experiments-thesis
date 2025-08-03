@@ -11,5 +11,5 @@ def train_model(model, dataloaders, config):
     if model_type not in TRAINING_LOOPS:
         raise ValueError(f"Unsupported model type: {model_type}")
 
-    train_fn = get_function_from_path(TRAINING_LOOPS[model_type])
+    train_fn = model.train_func
     return train_fn(model, dataloaders, config)

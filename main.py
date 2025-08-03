@@ -7,9 +7,14 @@ import torch
 from torch.utils.data import DataLoader
 from utils import get_root_path
 from os.path import join
+from modelFactory import create_model
+from train import train_model
 
 # from config_class import Config, DatasetConfig, ModelConfig
 import mlflow
+from config_class import Config, DatasetConfig, ModelConfig
+
+
 
 # Set up MLflow tracking URI
 mlflow.set_tracking_uri(join(get_root_path(), "mlruns"))
@@ -39,15 +44,46 @@ def parse_json(config_path):
 
 configs_path = utils.get_configs_path()
 config_path = os.path.join(configs_path, config)
-print("Loading config from:", config_path)
 parsed_config = parse_json(config_path)
-print(parsed_config)
 
+dataset_config = DatasetConfig(**parsed_config["dataset"])
+model_config = ModelConfig(**parsed_config["model_config"])
+
+print("validating config")
+config = Config(run_name=parsed_config["run_name"],experiment_name=parsed_config["experiment_name"],dataset=dataset_config ,model_conf=model_config)
+print("Parsed config:", config.dataset.name)
+print("Loading Data")
 train_data_set = load_data(
-    dataset_config=parsed_config["dataset"],
-    model_type=parsed_config["model_type"],
+    dataset_config=config.dataset.model_dump(),
+    model_type=config.model_conf.model_type,
     split="train",
 )
+
+test_data_set = load_data(
+    dataset_config=config.dataset.model_dump(),
+    model_type=config.model_conf.model_type,
+    split="test",
+)
+print(train_data_set.__getitem__(0))
+print(train_data_set)
+train_data_loader = DataLoader(
+    train_data_set,
+    batch_size=config.model_conf.common_params["batch_size"],
+    collate_fn=train_data_set.collate_fn,
+    shuffle=True
+)
+test_data_loader = DataLoader(
+    dataset= test_data_set,
+    batch_size=config.model_conf.common_params["batch_size"],
+    collate_fn=test_data_set.collate_fn,
+    shuffle=False
+)
+
+model = create_model(model_config=config.model_conf.model_dump(), dataset_config=config.dataset.model_dump())
+trained_model = train_model(model = model,dataloaders=train_data_loader,config=config.model_conf.model_dump())
+
+eval.evaluate(model = trained_model, data_loader=test_data_loader )
+print("Train train_data_loader loaded:", train_data_loader)
 if __name__ == "__ain__":
     # parser = argparse.ArgumentParser(description="Run model from JSON config")
     # parser.add_argument(

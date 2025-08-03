@@ -3,7 +3,7 @@ import torch
 from torch import nn
 
 
-def train_lstm(model, dataloaders, config):
+def train_lstm(model, dataloader, config):
     # device = config["common_params"].get("device", "cpu")
     # print(f"Training on device: {device}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -20,7 +20,7 @@ def train_lstm(model, dataloaders, config):
         correct = 0
         total = 0
 
-        for inputs, labels in dataloaders["train"]:
+        for inputs, labels in dataloader:
             inputs, labels = inputs.to(device), labels.to(device)
 
             optimizer.zero_grad()

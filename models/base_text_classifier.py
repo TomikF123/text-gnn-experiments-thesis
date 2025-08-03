@@ -13,9 +13,9 @@ class BaseTextClassifier(nn.Module):
     ):
         super().__init__()
         self.embedding = nn.Embedding(
-            vocab_size, embedding_dim, padding_idx=padding_idx
-        )
-        if freeze_embeddings:
+            vocab_size, embedding_dim
+        ) if (vocab_size and embedding_dim) else None
+        if self.embedding and freeze_embeddings:
             self.embedding.weight.requires_grad = False
 
         self.output_size = output_size

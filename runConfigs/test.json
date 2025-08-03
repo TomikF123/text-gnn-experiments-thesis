@@ -4,19 +4,25 @@
 "model_type": "lstm",
 "dataset": {
     "name": "mr",
-    "tvt_split": [0.7, 0, 0.3],
+    "tvt_split": [0.8, 0, 0.2],
     "shuffle": true,
     "random_seed": 123,
-    "preprocessing": {
+    "preprocess": {
       "remove_stopwords": true,
-      "remove_rare_words": false
+      "remove_rare_words": 5,
+      "vocab_size": 10000
     },
     "encoding": {
-      "encode_token_type": "index",
-      "padding": "post",
-      "truncating": "post"
-  },
-  "model_config":{
+      "encode_token_type": "glove",
+      "embedding_dim":50,
+      "tokens_trained_on": 6
+      
+    }
+    
+},
+
+ "model_config":{
+    "model_type":"lstm",
     "common_params": {
       "epochs": 10,
       "batch_size": 32,
@@ -32,7 +38,4 @@
     }
 
   }
-
-
-}
 }
