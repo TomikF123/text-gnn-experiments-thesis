@@ -9,12 +9,12 @@
     "random_seed": 123,
     "preprocessing": {
       "remove_stopwords": true,
-      "remove_rare_words": 0
+      "remove_rare_words": false
     },
     "encoding": {
-      "type_text": "glove",
-      "embeding_dim": 50
-    }
+      "encode_token_type": "index",
+      "padding": "post",
+      "truncating": "post"
   },
   "model_config":{
     "common_params": {
@@ -23,7 +23,7 @@
       "seed": 123
     },
     "model_specific_params": {
-      "hidden_dim": 64,
+      "hidden_dim": 128,
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
@@ -34,4 +34,5 @@
   }
 
 
+}
 }

@@ -5,6 +5,14 @@ import utils
 from loadData import load_data
 import torch
 from torch.utils.data import DataLoader
+from utils import get_root_path
+from os.path import join
+
+# from config_class import Config, DatasetConfig, ModelConfig
+import mlflow
+
+# Set up MLflow tracking URI
+mlflow.set_tracking_uri(join(get_root_path(), "mlruns"))
 
 
 parser = argparse.ArgumentParser(description="Run model from JSON config")
@@ -12,11 +20,13 @@ parser.add_argument(
     "--config",
     type=str,
     required=True,
-    help="Path to JSON config file (e.g. runConfigTextGCN.json)"
+    help="Path to JSON config file (e.g. runConfigTextGCN.json)",
 )
 args = parser.parse_args()
 config = args.config
-#print(parser.print_help())
+
+
+# print(parser.print_help())
 def parse_json(config_path):
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"The file '{config_path}' does not exist.")
@@ -25,6 +35,7 @@ def parse_json(config_path):
         data = json.load(file)
 
     return data
+
 
 configs_path = utils.get_configs_path()
 config_path = os.path.join(configs_path, config)
