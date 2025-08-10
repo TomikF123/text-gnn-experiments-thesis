@@ -33,6 +33,10 @@ class MLP(nn.Module):
         # Output layer (no BN/activation)
         x = self.layers[-1](x)
         return x
+    
+    #TODO
+    def reset_parameters(self,act = "relu"):
+        pass
 
 
 if __name__ == "__main__":

@@ -98,5 +98,5 @@ evaluate(
     device="cuda",
 )
 print("Train train_data_loader loaded:", train_data_loader)
-if __name__ == "__ain__":
+if __name__ == "__main__":
     pass
