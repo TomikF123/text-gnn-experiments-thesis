@@ -12,7 +12,7 @@ def train_lstm(model, dataloader, config):
     optimizer = torch.optim.Adam(model.parameters(), lr=config.get("lr", 1e-3))
     criterion = nn.CrossEntropyLoss()
 
-    num_epochs = config["common_params"].get("num_epochs", 10)
+    num_epochs = config["common_params"].get("epochs", 10)
 
     for epoch in range(num_epochs):
         model.train()

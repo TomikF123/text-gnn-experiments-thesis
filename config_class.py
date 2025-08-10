@@ -1,21 +1,26 @@
-from pydantic import BaseModel, Field, field_validator,model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from typing import List, Optional
-from typing import Union,Literal
+from typing import Union, Literal
+
 
 class PreprocessingConfig(BaseModel):
     remove_stopwords: bool = False
-    remove_rare_words: int = 0  # minimum word frequency to keep in the vocabulary 
-    vocab_size: Optional[int] = None  # restircts to vocabulary to n most frequent words, is applied after removing stopwords and rare words
+    remove_rare_words: int = 0  # minimum word frequency to keep in the vocabulary
+    vocab_size: Optional[int] = (
+        None  # restircts to vocabulary to n most frequent words, is applied after removing stopwords and rare words
+    )
 
 
 # Base shared fields (optional)
 class BaseEncodingConfig(BaseModel):
     embedding_dim: Optional[int] = None
 
+
 class ExternalEncodingConfig(BaseEncodingConfig):
     encode_token_type: Literal["glove", "bert"]
     tokens_trained_on: int
-    path: Optional[str] = None
+    embedding_dim: int
+
 
 class InternalEncodingConfig(BaseEncodingConfig):
     encode_token_type: Literal["index", "onehot"]
@@ -36,8 +41,8 @@ class DatasetConfig(BaseModel):
 
 class ModelConfig(BaseModel):
     model_type: str  # e.g., "TextGCN", "LSTM"
-    common_params: dict 
-    model_specific_params: Optional[dict]
+    common_params: dict
+    model_specific_params: dict
 
 
 class loggingConfig(BaseModel):
@@ -52,9 +57,9 @@ class Config(BaseModel):
     experiment_name: str
     run_name: str
     dataset: DatasetConfig
-    #encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
+    # encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
     model_conf: ModelConfig
-    
+
     @model_validator(mode="after")
     def set_emb_dim(cls, values):
         if values.model_conf.common_params.get("embedding_dim") is None:
@@ -63,12 +68,9 @@ class Config(BaseModel):
             )
         return values
 
-
     # Ensure embedding_dim is set from dataset encoding
     # @field_validator
     # def val_embedings(cls, values):
-        
-
 
     class Config:
         extra = "forbid"  # Disallow extra fields not defined in the model

@@ -3,14 +3,17 @@ import torch.nn as nn
 from loaders.lstmLoader import LSTMDataset
 from models.base_text_classifier import BaseTextClassifier
 from models.lstm.train import train_lstm
+from models.mlp import MLP
+
 
 def create_lstm_model(
     model_config: dict, dataset_config: dict, dataset: LSTMDataset = None
 ):
     common_params = model_config.get("common_params", {})
     model_specific_params = model_config.get("model_specific_params", {})
-    vocab_size = dataset_config.get("vocab_size", None)
-    embedding_dim = model_config.get("embedding_dim", 50)
+    # print(*model_specific_params)
+    vocab_size = dataset_config["preprocess"].get("vocab_size", None)
+    embedding_dim = model_specific_params.get("embedding_dim", 50)
     hidden_dim = model_specific_params.get("hidden_size", 128)
     output_dim = model_specific_params.get("output_size", 20)
     num_layers = model_specific_params.get("num_layers", 2)
@@ -18,7 +21,7 @@ def create_lstm_model(
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
     freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
-    encoding_type = dataset_config["encoding"].get("encode_token_type", "index")
+    encoding_type = dataset_config["encoding"].get("encode_token_type", "glove")
     print("freeze=" + f"{freeze_embeddings}")
     return LSTMClassifier(
         vocab_size=vocab_size,
@@ -47,13 +50,14 @@ class LSTMClassifier(BaseTextClassifier):
         embedding_matrix: torch.Tensor = None,
         freeze_embeddings: bool = False,
         encoding_type: str = "index",
-        use_attention: bool = True,  # ✅ NEW FLAG
+        use_attention: bool = True,
+        use_mlp_as_head: bool = True,
     ):
         super().__init__(
             vocab_size=vocab_size,
             embedding_dim=embedding_dim,
             output_size=output_dim,
-            padding_idx=0,
+            #  padding_idx=0,
             freeze_embeddings=freeze_embeddings,
         )
         self.freeze_embeddings = freeze_embeddings
@@ -61,7 +65,7 @@ class LSTMClassifier(BaseTextClassifier):
         self.use_attention = use_attention
 
         if encoding_type == "index":
-            self.embedding = nn.Embedding(vocab_size, embedding_dim)
+            self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
             if embedding_matrix is not None:
                 self.embedding.weight = nn.Parameter(embedding_matrix)
                 self.embedding.weight.requires_grad = not self.freeze_embeddings
@@ -84,7 +88,18 @@ class LSTMClassifier(BaseTextClassifier):
         if self.use_attention:
             self.attention = nn.Linear(hidden_dim * self.direction_factor, 1)
 
-        self.fc = nn.Linear(hidden_dim * self.direction_factor, output_dim)
+        if use_mlp_as_head:
+            self.head = MLP(
+                in_dim=hidden_dim * self.direction_factor,
+                hidden_dims=[64],  # list of hidden sizes, or empty list for linear
+                out_dim=output_dim,
+                act="relu",
+                use_bn=True,
+                dropout=0.5,
+            )
+        else:
+            self.head = nn.Linear(hidden_dim * self.direction_factor, output_dim)
+
         self.dropout = nn.Dropout(dropout)
         self.train_func = train_lstm
 
@@ -106,7 +121,7 @@ class LSTMClassifier(BaseTextClassifier):
                 last_hidden = h_n[-1]
             out = self.dropout(last_hidden)
 
-        return self.fc(out)
+        return self.head(out)
 
     def __repr__(self):
         base = super().__repr__()

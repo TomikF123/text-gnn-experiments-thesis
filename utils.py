@@ -7,6 +7,7 @@ import re
 from socket import gethostname
 from sklearn.model_selection import train_test_split
 import torch
+import torch.nn as nn
 import zipfile
 from contextlib import contextmanager
 import importlib
@@ -166,9 +167,26 @@ def filter_kwargs_for_class(cls, config_dict) -> dict:
     return {k: v for k, v in flattened.items() if k in valid_keys}
 
 
-def create_file_name(**kwargs):
+def create_file_name(**kwargs):  # unused
     flat = flatten_and_filter(kwargs)
     print("Flattened kwargs:", flat)
+
+
+def create_act(act, num_parameters=None):
+    if act == "relu":
+        return nn.ReLU
+    elif act == "tanh":
+        return nn.Tanh()
+    elif act == "sigmoid":
+        return nn.Sigmoid()
+    elif act == "leaky_relu":
+        return nn.LeakyReLU(negative_slope=0.01)
+    elif act == "softmax":
+        return nn.Softmax(dim=1)
+    elif act == "softplus":
+        return nn.Softplus()
+    else:
+        raise ValueError(f"Unsupported activation function: {act}")
 
 
 if __name__ == "__main__":
