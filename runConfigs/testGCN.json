@@ -11,9 +11,9 @@
         "remove_rare_words": 0
       },
       "encoding": {
-        "encode_token_type": "glove",
-        "tokens_trained_on": 6,
-        "embedding_dim": 300
+        "graph":{
+          
+        }
       }
       
   },
@@ -29,8 +29,6 @@
         "hidden_dim": 128,
         "dropout": 0.5,
         "num_layers": 2,
-        "bidirectional": true,
-        "embedding_dim": 300,
         "lr": 0.001
       }
   

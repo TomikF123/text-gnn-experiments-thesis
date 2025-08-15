@@ -9,19 +9,19 @@ from torch_geometric.nn import GCNConv, GATConv
 
 DATASET_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_dataset",
-    "text_gcn": "loaders.textGCNLoader.create_textgcn_dataset",  # future
+    "text_gcn": "loaders.tempLoader.create_gnn_dataset",  # future
     "fastText": "loaders.fastTextLoader.create_fasttext_dataset",  # future
 }
 
 DATASETS = {
     "lstm": "loaders.lstmLoader.LSTMDataset",
     "fastText": "loaders.lstmLoader.LSTMDataset",
-    "text_gcn": TextDataset,  # future
+    "text_gcn": "loaders.tempLoader.GraphTextDataset",  # future
 }
 
 FILENAME_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_filename",
-    "text_gcn": "loaders.textGCNLoader.create_textgcn_filename",  # future
+    "text_gcn": "loaders.tempLoader.create_gnn_filename",  # future
     "text_level_gnn": "loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
     "fastText": "loaders.fastTextLoader.create_fasttext_filename",  # future
 }
@@ -66,12 +66,12 @@ def create_dir_if_not_exists(path: str):
 create_dir_if_not_exists(get_saved_path())
 
 
-def create_dataset(dataset_config: dict, model_type: str, dataset_save_path: str):
-    parent_dir_path = os.path.join(get_saved_path(), dataset_save_path)
+def create_dataset(dataset_save_path:str,full_path:str, model_type: str, dataset_config: dict, missing_parrent: bool = False):
+    #parent_dir_path = os.path.join(get_saved_path(), dataset_save_path)
     if model_type not in DATASET_CREATORS:
         raise ValueError(f"Invalid model type{model_type}")
     create_fn = get_function_from_path(DATASET_CREATORS[model_type])
-    create_fn(dataset_config, dataset_save_path)
+    create_fn(dataset_save_path=dataset_save_path, full_path=full_path, dataset_config=dataset_config, missing_parrent=missing_parrent)
 
 
 def create_file_name(dataset_config: dict, model_type: str) -> str:
@@ -88,35 +88,32 @@ def get_dataset_class(model_type: str) -> TextDataset:
     dataset_class = get_function_from_path(DATASETS[model_type])
     return dataset_class
 
+#def load_split():
+#    pass
 
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
     # save_fn = create_file_name(dataset_config, model_type)
+    print(dataset_config.get("vocab_size"), "############VOCAB#############")
     dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
-    dataset_save_path = os.path.join(get_saved_path(), dataset_dir_name)
-    if not os.path.exists(dataset_save_path):
+    dataset_save_path = os.path.join(get_saved_path(), dataset_dir_name) # path to the dataset save directory
+    save_fn = create_file_name(dataset_config, model_type)  # dir name of the model/architecture specific enodings of the preprocess dataset
+    full_path = os.path.join(dataset_save_path, save_fn) # full relative path of the model/architecture specific enodings of the preprocess dataset(parrent dir)
+
+    if not os.path.exists(full_path):
         create_dataset(
-            save_fn=dataset_dir_name,
+            dataset_save_path=dataset_save_path,
+            full_path = full_path,
             model_type=model_type,
             dataset_config=dataset_config,
-            missing_parrent=True,
+            missing_parrent= not os.path.exists(dataset_save_path),
         )
         return load_data(dataset_config, model_type, split)
-    elif not os.path.exists(
-        os.path.join(dataset_save_path, create_file_name(dataset_config, model_type))
-    ):
-        create_dataset(
-            save_fn=dataset_dir_name,
-            model_type=model_type,
-            dataset_config=dataset_config,
-            missing_parrent=False,
-        )
-        return load_data(dataset_config, model_type, split)
-        # if dataset_encoded is not in dataset_save_path
-    else:  # else if dataset_encoded already exists
+ 
+    else:  
         dataset_class = get_dataset_class(model_type)
         csv_path = os.path.join(dataset_save_path, f"{split}.csv")
         vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
-        embedding_matrix_path = os.path.join(dataset_save_path, "embedding_matrix.pt")
+        embedding_matrix_path = os.path.join(full_path, "embedding_matrix.pt")
         print(dataset_config.keys(), "############DEBUG#############")
         dataset_conf = filter_kwargs_for_class(dataset_class, dataset_config)
         dataset_conf["csv_path"] = csv_path

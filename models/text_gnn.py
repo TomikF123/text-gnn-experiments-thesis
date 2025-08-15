@@ -125,7 +125,7 @@ class TextGNN(nn.Module):
 #         if self.type == "gcn":
 #             if FLAGS.use_edge_weights:
 #                 x = self.conv(
-#                     ins, pyg_graph.edge_index, edge_weight=pyg_graph.edge_attr
+#                     ins, <.edge_index, edge_weight=pyg_graph.edge_attr
 #                 )
 #             else:
 #                 x = self.conv(ins, pyg_graph.edge_index)

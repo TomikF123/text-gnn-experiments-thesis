@@ -33,6 +33,9 @@ class DatasetConfig(BaseModel):
     random_seed: int = 42
     preprocess: Optional[PreprocessingConfig] = None
     encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
+    vocab_size: Optional[int] = (
+        None  # restircts to vocabulary to n most frequent words, is applied after removing stopwords and rare words
+    )
 
     def __repr__(self):
         base = super().__repr__()

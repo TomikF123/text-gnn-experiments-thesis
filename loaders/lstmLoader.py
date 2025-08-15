@@ -14,7 +14,7 @@ from utils import (
 )
 import pickle
 from loaders.utils import create_dir_name_based_on_dataset_config
-from create_basic_dataset import create_basic_dataset
+from loaders.create_basic_dataset import create_basic_dataset
 
 # def encode_lstm_dataset(df, encode_token_type, vocab):
 #     X = encode_tokens(encode_token_type, df=df["text"], vocab=vocab)
@@ -44,7 +44,7 @@ def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
 
 
 def create_lstm_dataset(
-    dataset_config: dict, dataset_save_path: str, missing_parrent: bool = False
+    dataset_config: dict, dataset_save_path: str, full_path:str, missing_parrent: bool = False
 ):
     """
     save some lstm/rnn specific dataset files in the base dataset
@@ -62,8 +62,10 @@ def create_lstm_dataset(
             vocab, embedding_dim, tokens_trained_on=6
         )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
         # Save embedding matrix
+        #create the sub dir at path = full_path
+        os.makedirs(full_path, exist_ok=True)
         torch.save(
-            embedding_matrix, os.path.join(dataset_save_path, "embedding_matrix.pt")
+            embedding_matrix, os.path.join(full_path, "embedding_matrix.pt")
         )
 
 

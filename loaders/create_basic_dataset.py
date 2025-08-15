@@ -11,7 +11,7 @@ from dataset import TextDataset
 from prepData import clean_data
 
 
-def create_basic_dataset(dataset_config: dict, save_fn: str):
+def create_basic_dataset(dataset_config: dict, dataset_save_path: str):
     """
     Creates the base of the dataset needed. That is a preprocessed CSV files and vocab.
     """
@@ -33,7 +33,7 @@ def create_basic_dataset(dataset_config: dict, save_fn: str):
         tvt_split=dataset_config["tvt_split"],
         seed=dataset_config["random_seed"],
     )
-    save_dir = os.path.join(get_saved_path(), save_fn)
+    save_dir = dataset_save_path
     os.makedirs(save_dir, exist_ok=True)
     for split, (text, labels) in split_dict.items():
         if text is None or labels is None:
