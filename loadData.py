@@ -5,7 +5,7 @@ import pandas as pd
 import torch
 import os
 from utils import get_function_from_path, filter_kwargs_for_class
-
+from torch_geometric.nn import GCNConv, GATConv
 
 DATASET_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_dataset",
@@ -32,15 +32,46 @@ COLLATE_FN_CREATORS = {
     "text_level_gnn": "loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
 }
 
-if not os.path.exists(get_saved_path()):
-    os.makedirs(get_saved_path())
+
+from utils import slugify
 
 
-def create_dataset(dataset_config: dict, model_type: str, save_fn: str):
+def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
+    name = dataset_config["name"]
+    train_ratio = int(dataset_config["tvt_split"][0] * 100)
+    val_ratio = int(dataset_config["tvt_split"][1] * 100)
+    test_ratio = 100 - train_ratio - val_ratio
+    preprocess_config = dataset_config["preprocess"]
+    remove_stopwords = preprocess_config["remove_stopwords"]
+    remove_rare_words = preprocess_config["remove_rare_words"]
+    vocab_size = dataset_config.get("vocab_size", None)
+    parts = [
+        name,
+        f"train_{train_ratio}",
+        f"val_{val_ratio}",
+        f"test_{test_ratio}",
+        f"stop_words_remove_{remove_stopwords}",
+        f"rare_words_remove_{remove_rare_words}",
+        f"vocab_size_{vocab_size}",
+    ]
+    dir_name = "_".join(parts)
+    return slugify(dir_name)
+
+
+def create_dir_if_not_exists(path: str):
+    if not os.path.exists(path):
+        os.makedirs(path)
+
+
+create_dir_if_not_exists(get_saved_path())
+
+
+def create_dataset(dataset_config: dict, model_type: str, dataset_save_path: str):
+    parent_dir_path = os.path.join(get_saved_path(), dataset_save_path)
     if model_type not in DATASET_CREATORS:
         raise ValueError(f"Invalid model type{model_type}")
     create_fn = get_function_from_path(DATASET_CREATORS[model_type])
-    create_fn(dataset_config, save_fn)
+    create_fn(dataset_config, dataset_save_path)
 
 
 def create_file_name(dataset_config: dict, model_type: str) -> str:
@@ -59,18 +90,33 @@ def get_dataset_class(model_type: str) -> TextDataset:
 
 
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
-    save_fn = create_file_name(dataset_config, model_type)
-    save_path = os.path.join(get_saved_path(), save_fn)
-    if not os.path.exists(save_path):
+    # save_fn = create_file_name(dataset_config, model_type)
+    dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
+    dataset_save_path = os.path.join(get_saved_path(), dataset_dir_name)
+    if not os.path.exists(dataset_save_path):
         create_dataset(
-            save_fn=save_fn, model_type=model_type, dataset_config=dataset_config
+            save_fn=dataset_dir_name,
+            model_type=model_type,
+            dataset_config=dataset_config,
+            missing_parrent=True,
         )
         return load_data(dataset_config, model_type, split)
-    else:
+    elif not os.path.exists(
+        os.path.join(dataset_save_path, create_file_name(dataset_config, model_type))
+    ):
+        create_dataset(
+            save_fn=dataset_dir_name,
+            model_type=model_type,
+            dataset_config=dataset_config,
+            missing_parrent=False,
+        )
+        return load_data(dataset_config, model_type, split)
+        # if dataset_encoded is not in dataset_save_path
+    else:  # else if dataset_encoded already exists
         dataset_class = get_dataset_class(model_type)
-        csv_path = os.path.join(save_path, f"{split}.csv")
-        vocab_path = os.path.join(save_path, "vocab.pkl")
-        embedding_matrix_path = os.path.join(save_path, "embedding_matrix.pt")
+        csv_path = os.path.join(dataset_save_path, f"{split}.csv")
+        vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
+        embedding_matrix_path = os.path.join(dataset_save_path, "embedding_matrix.pt")
         print(dataset_config.keys(), "############DEBUG#############")
         dataset_conf = filter_kwargs_for_class(dataset_class, dataset_config)
         dataset_conf["csv_path"] = csv_path
@@ -79,7 +125,7 @@ def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
             embedding_matrix_path
             if dataset_config["encoding"]["encode_token_type"] == "glove"
             else None
-        )  # HARD CODED :/
+        )  # HARD CODED :/+
         print(dataset_conf.keys(), "############DEBUG#############")
         dataset = dataset_class(**dataset_conf)
         return dataset

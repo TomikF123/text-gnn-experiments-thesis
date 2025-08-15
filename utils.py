@@ -172,6 +172,14 @@ def create_file_name(**kwargs):  # unused
     print("Flattened kwargs:", flat)
 
 
+def slugify(text):
+    import re
+
+    text = str(text).lower()
+    text = re.sub(r"[^a-z0-9]+", "-", text)
+    return text.strip("-")
+
+
 def create_act(act, num_parameters=None):
     if act == "relu":
         return nn.ReLU

@@ -25,7 +25,7 @@ parser.add_argument(
     "--config",
     type=str,
     required=True,
-    help="Path to JSON config file (e.g. runConfigTextGCN.json)",
+    help="Name of the JSON config file inside ./saved (e.g. runConfigTextGCN.json)",
 )
 args = parser.parse_args()
 config = args.config

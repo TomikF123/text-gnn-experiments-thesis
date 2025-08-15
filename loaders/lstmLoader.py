@@ -13,6 +13,8 @@ from utils import (
     load_glove_embeddings,
 )
 import pickle
+from loaders.utils import create_dir_name_based_on_dataset_config
+from create_basic_dataset import create_basic_dataset
 
 # def encode_lstm_dataset(df, encode_token_type, vocab):
 #     X = encode_tokens(encode_token_type, df=df["text"], vocab=vocab)
@@ -41,39 +43,18 @@ def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
     return padded_inputs, labels
 
 
-def create_lstm_dataset(dataset_config: dict, save_fn: str):
-    name = dataset_config["name"]
-    preprocess_config = dataset_config["preprocess"]
-    vocab_size = dataset_config.get("vocab_size", None)
-    df = pd.read_csv(os.path.join(get_data_path(), f"{name}.csv"))
-    df, vocab = clean_data(
-        df,
-        remove_stop_words=preprocess_config["remove_stopwords"],
-        remove_rare_words=preprocess_config["remove_rare_words"],
-        vocab_size=vocab_size,
-    )
-    # X_tensor,y_tensors = encode_lstm_dataset(df, encode_token_type=dataset_config["encoding"]["encode_token_type"],vocab=vocab)
-    split_dict = get_tensors_tvt_split(
-        tensors={"X": df["text"], "y": df["label"]},
-        tvt_split=dataset_config["tvt_split"],
-        seed=dataset_config["random_seed"],
-    )
-    save_dir = os.path.join(get_saved_path(), save_fn)
-    os.makedirs(save_dir, exist_ok=True)
-    for split, (text, labels) in split_dict.items():
-        if text is None or labels is None:
-            continue  # Skip val split if not used
-        df_split = pd.DataFrame(
-            data={
-                "text": text.reset_index(drop=True).apply(lambda x: " ".join(x)),
-                "label": labels.reset_index(drop=True),
-            }
+def create_lstm_dataset(
+    dataset_config: dict, dataset_save_path: str, missing_parrent: bool = False
+):
+    """
+    save some lstm/rnn specific dataset files in the base dataset
+    """
+    if missing_parrent:
+        create_basic_dataset(
+            dataset_config=dataset_config, dataset_save_path=dataset_save_path
         )
-        df_split.to_csv(os.path.join(save_dir, f"{split}.csv"), index=False)
-    import pickle
 
-    with open(os.path.join(save_dir, "vocab.pkl"), "wb") as f:
-        pickle.dump(vocab, f)
+    vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
     if dataset_config["encoding"]["encode_token_type"] == "glove":
         # glove_path = dataset_config["encoding"]["glove_path"]
         embedding_dim = dataset_config["encoding"]["embedding_dim"]
@@ -81,18 +62,24 @@ def create_lstm_dataset(dataset_config: dict, save_fn: str):
             vocab, embedding_dim, tokens_trained_on=6
         )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
         # Save embedding matrix
-        torch.save(embedding_matrix, os.path.join(save_dir, "embedding_matrix.pt"))
+        torch.save(
+            embedding_matrix, os.path.join(dataset_save_path, "embedding_matrix.pt")
+        )
+
+
+from utils import slugify
 
 
 def create_lstm_filename(dataset_config: dict) -> str:
     name = dataset_config["name"]
-    train_ratio = int(dataset_config["tvt_split"][0] * 100)
-    val_ratio = int(dataset_config["tvt_split"][1] * 100)
-    test_ratio = 100 - train_ratio - val_ratio
-    preprocess_config = dataset_config["preprocess"]
-    remove_stopwords = preprocess_config["remove_stopwords"]
-    remove_rare_words = preprocess_config["remove_rare_words"]
-    vocab_size = dataset_config.get("vocab_size", None)
+    # train_ratio = int(dataset_config["tvt_split"][0] * 100)
+    # val_ratio = int(dataset_config["tvt_split"][1] * 100)
+    # test_ratio = 100 - train_ratio - val_ratio
+    # preprocess_config = dataset_config["preprocess"]
+    # remove_stopwords = preprocess_config["remove_stopwords"]
+    # remove_rare_words = preprocess_config["remove_rare_words"]
+    # vocab_size = dataset_config.get("vocab_size", None)
+    # encoding_config = dataset_config["encoding"]
     tokens_trained_on = dataset_config["encoding"].get("tokens_trained_on", None)
     embed_dim = dataset_config["encoding"].get("embedding_dim", None)
     encode_token_type = (
@@ -101,8 +88,13 @@ def create_lstm_filename(dataset_config: dict) -> str:
         else ""
     )
     encode_token_type += f"_{embed_dim}d" if embed_dim else ""
+
+    parts = [
+        f"{name}_seed_{dataset_config['random_seed']}",
+        f"text_encoded_{encode_token_type}",
+    ]
     # PROPERTIES
-    return f"{name}_train_{train_ratio}_val_{val_ratio}_test_{test_ratio}_seed_{dataset_config['random_seed']}_stop_words_{remove_stopwords}_rare_words_{remove_rare_words}_vocab_size_{vocab_size}_text_encoded_{encode_token_type}"
+    return slugify("_".join(parts))
 
 
 class LSTMDataset(TextDataset):
@@ -114,11 +106,11 @@ class LSTMDataset(TextDataset):
         vocab_path: str = None,
         max_len: int = None,
     ):
-        
+
         df = pd.read_csv(csv_path)
         vocab = pickle.load(open(vocab_path, "rb")) if vocab_path else None
-        #self.encode_token_type = encode_token_type
-        super().__init__(df=df,vocab = vocab,encode_token_type=encode_token_type)
+        # self.encode_token_type = encode_token_type
+        super().__init__(df=df, vocab=vocab, encode_token_type=encode_token_type)
         self.embedding_matrix = (
             torch.load(embedding_matrix_path) if embedding_matrix_path else None
         )

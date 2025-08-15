@@ -1,37 +1,39 @@
 {
-    "experiment_name": "test",
-    "run_name": "test_run",
-    "dataset": {
-        "name": "mr",
-        "random_seed": 123,
-        "preprocess": {
-          "remove_stopwords": false,
-          "remove_rare_words": 0
-        },
-        "encoding": {
-          "encode_token_type": "glove",
-          "tokens_trained_on": 6,
-          "embedding_dim": 300
-        }
-        
-    },
-    
-     "model_config":{
-        "model_type":"lstm",
-        "common_params": {
-          "epochs": 15,
-          "batch_size": 32,
-          "seed": 123
-        },
-        "model_specific_params": {
-          "hidden_dim": 128,
-          "dropout": 0.9,
-          "num_layers": 3,
-          "bidirectional": true,
-          "embedding_dim": 300,
-          "lr": 0.001
-        }
-    
+  "experiment_name": "test",
+  "run_name": "test_run",
+  "dataset": {
+      "name": "mr",
+      "tvt_split": [0.9, 0, 0.1],
+      "shuffle": true,
+      "random_seed": 123,
+      "preprocess": {
+        "remove_stopwords": false,
+        "remove_rare_words": 0
+      },
+      "encoding": {
+        "encode_token_type": "glove",
+        "tokens_trained_on": 6,
+        "embedding_dim": 300
       }
+      
+  },
+  
+   "model_config":{
+      "model_type":"text_gcn",
+      "common_params": {
+        "epochs": 15,
+        "batch_size": 32,
+        "seed": 123
+      },
+      "model_specific_params": {
+        "hidden_dim": 128,
+        "dropout": 0.5,
+        "num_layers": 2,
+        "bidirectional": true,
+        "embedding_dim": 300,
+        "lr": 0.001
+      }
+  
     }
-    
+  }
+  
