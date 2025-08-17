@@ -11,9 +11,24 @@ class PreprocessingConfig(BaseModel):
     )
 
 
+class GNNencodingConfig(BaseModel):
+    x_type: Literal["identity", "glove", "bert"] = "identity"  # type of node features
+    window_size: int = 20  # size of the context window for GNN encoding
+    embedding_dim: Optional[int] = (
+        None  # dimension of the node embeddings, if applicable
+    )
+    preset: Optional[str] = None  # preset for GNN encoding, e.g., "text_gcn", "gat"
+
+
+class RNNencodingConfig(BaseModel):
+    pass
+
+
 # Base shared fields (optional)
 class BaseEncodingConfig(BaseModel):
+
     embedding_dim: Optional[int] = None
+    hidden_dim: Optional[int] = None
 
 
 class ExternalEncodingConfig(BaseEncodingConfig):
@@ -32,7 +47,19 @@ class DatasetConfig(BaseModel):
     shuffle: bool = True
     random_seed: int = 42
     preprocess: Optional[PreprocessingConfig] = None
-    encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
+    rnn_encoding: Optional[Union[InternalEncodingConfig, ExternalEncodingConfig]] = None
+    gnn_encoding: Optional[GNNencodingConfig] = None
+
+    @model_validator(mode="after")
+    def check_single_encoding(cls, values):
+        if (values.rnn_encoding is not None) and (values.gnn_encoding is not None):
+            raise ValueError(
+                "Only one of rnn_encoding or gnn_encoding should be provided."
+            )
+        if (values.rnn_encoding is None) and (values.gnn_encoding is None):
+            raise ValueError("One of rnn_encoding or gnn_encoding must be provided.")
+        return values
+
     vocab_size: Optional[int] = (
         None  # restircts to vocabulary to n most frequent words, is applied after removing stopwords and rare words
     )
@@ -63,13 +90,13 @@ class Config(BaseModel):
     # encoding: Union[ExternalEncodingConfig, InternalEncodingConfig]
     model_conf: ModelConfig
 
-    @model_validator(mode="after")
-    def set_emb_dim(cls, values):
-        if values.model_conf.common_params.get("embedding_dim") is None:
-            values.model_conf.common_params["embedding_dim"] = (
-                values.dataset.encoding.embedding_dim
-            )
-        return values
+    # @model_validator(mode="after")
+    # def set_emb_dim(cls, values):
+    #     if values.model_conf.common_params.get("embedding_dim") is None:
+    #         values.model_conf.common_params["embedding_dim"] = (
+    #             values.dataset.encoding.embedding_dim
+    #         )
+    #     return values
 
     # Ensure embedding_dim is set from dataset encoding
     # @field_validator
@@ -86,11 +113,10 @@ if __name__ == "__main__":
         "random_seed": 42,
         "vocab_size": 10000,
         "preprocess": {"remove_stopwords": False, "remove_rare_words": 0},
-        "encoding": {
-            "embedding_dim": 300,
-            "encode_token_type": "glove",
-            "tokens_trained_on": 6,
+        "rnn_encoding": {
+            # Add any required fields for RNNencodingConfig here
         },
+        # "gnn_encoding": { ... }  # Uncomment and use this instead if you want GNNencodingConfig
     }
     model_config = {
         "model_type": "fastText",
@@ -115,5 +141,5 @@ if __name__ == "__main__":
         experiment_name="text_classification_experiment",
         run_name="run_1",
         dataset=dataset_config,
-        model_config=model_config,
+        model_conf=model_config,
     )

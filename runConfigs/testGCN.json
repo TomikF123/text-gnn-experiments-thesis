@@ -10,10 +10,10 @@
         "remove_stopwords": false,
         "remove_rare_words": 0
       },
-      "encoding": {
-        "graph":{
-          
-        }
+      "gnn_encoding": {
+          "preset":"None",
+          "window_size": 2,
+          "x_type":"identity"
       }
       
   },

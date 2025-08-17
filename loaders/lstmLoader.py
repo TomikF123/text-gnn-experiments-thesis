@@ -43,8 +43,11 @@ def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
     return padded_inputs, labels
 
 
-def create_lstm_dataset(
-    dataset_config: dict, dataset_save_path: str, full_path:str, missing_parrent: bool = False
+def create_lstm_artifacts(
+    dataset_config: dict,
+    dataset_save_path: str,
+    full_path: str,
+    missing_parrent: bool = False,
 ):
     """
     save some lstm/rnn specific dataset files in the base dataset
@@ -62,26 +65,36 @@ def create_lstm_dataset(
             vocab, embedding_dim, tokens_trained_on=6
         )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
         # Save embedding matrix
-        #create the sub dir at path = full_path
+        # create the sub dir at path = full_path
         os.makedirs(full_path, exist_ok=True)
-        torch.save(
-            embedding_matrix, os.path.join(full_path, "embedding_matrix.pt")
-        )
+        torch.save(embedding_matrix, os.path.join(full_path, "embedding_matrix.pt"))
 
 
 from utils import slugify
 
 
-def create_lstm_filename(dataset_config: dict) -> str:
+def get_lstm_dataset_object(
+    dataset_save_path: str,
+    full_path: str,
+    dataset_config: dict,
+    split: str,
+    model_type: str,
+) -> TextDataset:
+    csv_path = os.path.join(dataset_save_path, f"{split}.csv")
+    vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
+    embedding_matrix_path = os.path.join(full_path, "embedding_matrix.pt")
+
+    return LSTMDataset(
+        encode_token_type=dataset_config["encoding"].get("encode_token_type", "index"),
+        embedding_matrix_path=embedding_matrix_path,
+        csv_path=csv_path,
+        vocab_path=vocab_path,
+        max_len=dataset_config.get("max_len", None),
+    )
+
+
+def create_lstm_filename(dataset_config: dict, model_type: str) -> str:
     name = dataset_config["name"]
-    # train_ratio = int(dataset_config["tvt_split"][0] * 100)
-    # val_ratio = int(dataset_config["tvt_split"][1] * 100)
-    # test_ratio = 100 - train_ratio - val_ratio
-    # preprocess_config = dataset_config["preprocess"]
-    # remove_stopwords = preprocess_config["remove_stopwords"]
-    # remove_rare_words = preprocess_config["remove_rare_words"]
-    # vocab_size = dataset_config.get("vocab_size", None)
-    # encoding_config = dataset_config["encoding"]
     tokens_trained_on = dataset_config["encoding"].get("tokens_trained_on", None)
     embed_dim = dataset_config["encoding"].get("embedding_dim", None)
     encode_token_type = (
@@ -126,7 +139,7 @@ class LSTMDataset(TextDataset):
 
         # self.min_len = min(len(text.split()) for text in self.texts)
 
-    def encode_tokens(self, tokens: list[str]) -> torch.Tensor:
+    def encode_tokens(self, tokens: list[str]) -> torch.Tensor:  # TODO: add lru chache
         if self.max_len is not None:
             tokens = tokens[: self.max_len]
         if self.encode_token_type == "index":

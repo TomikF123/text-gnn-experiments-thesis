@@ -6,14 +6,18 @@ from tqdm import tqdm
 import pickle
 import os.path
 from pathlib import Path
-def load_vocab(dataset_path:str):
-    vocab_path = (os.path.join(dataset_path,"vocab.pkl"))
-    with open(vocab_path,"rb") as f:
+import torch
+
+
+def load_vocab(dataset_path: str):
+    vocab_path = os.path.join(dataset_path, "vocab.pkl")
+    with open(vocab_path, "rb") as f:
         return pickle.load(f)
 
 
-
-def load_dataset_csvs(dataset_path: str | Path, split: str | None = None) -> pd.DataFrame:
+def load_dataset_csvs(
+    dataset_path: str | Path, split: str | None = None
+) -> pd.DataFrame:
     """
     If split is None: load and merge all CSVs found in `dataset_path`.
     If split is one of {"train","val","test"} (or any filename stem): load `<split>.csv`.
@@ -46,11 +50,11 @@ def load_dataset_csvs(dataset_path: str | Path, split: str | None = None) -> pd.
 # Public entry point
 # ----------------------------
 def build_text_graph_from_csv(
-    dataset_path: str, #./saved/<dataet_path>
+    dataset_path: str,  # ./saved/<dataet_path>
     text_col: str = "text",
     label_col: str = "label",
-    split: str | None = None,          # e.g., "split" with values {"train","val","test"}, if None then all
-    window_size: int = 20
+    split: str | None = None,  # e.g., "split" with values from tvt or None for merged
+    window_size: int = 20,  # sliding window size for word co-occurrence
 ) -> dict:
     """
     Build a TextGCN-style graph from a CSV file.
@@ -91,12 +95,13 @@ def build_text_graph_from_csv(
     adj = _build_edges(doc_list, word_id_map, vocab, word_doc_freq, window_size)
 
     return {
-        "adj": adj,                              # csr_matrix(compressed sparse row), shape (num_docs+|V|, num_docs+|V|)
-        "labels": labels_list,                   # list, len = num_docs
-        "vocab": vocab,                          # list[str]
-        "word_id_map": word_id_map,              # dict[str->int]
-        "docs": doc_list                        # list[str]
+        "adj": adj,  # csr_matrix(compressed sparse row), shape (num_docs+|V|, num_docs+|V|)
+        "labels": labels_list,  # list, len = num_docs
+        "vocab": vocab,  # list[str]
+        "word_id_map": word_id_map,  # dict[str->int]
+        "docs": doc_list,  # list[str]
     }
+
 
 # ----------------------------
 # Helpers (mostly your originals, tidied)
@@ -185,8 +190,13 @@ def _build_edges(doc_list, word_id_map, vocab, word_doc_freq, window_size=20):
     n_nodes = num_docs + len(vocab)
     adj_mat = sp.csr_matrix((weight, (row, col)), shape=(n_nodes, n_nodes))
     # Symmetrize: adj = A + A^T - min(A, A^T)
-    adj = adj_mat + adj_mat.T.multiply(adj_mat.T > adj_mat) - adj_mat.multiply(adj_mat.T > adj_mat)
+    adj = (
+        adj_mat
+        + adj_mat.T.multiply(adj_mat.T > adj_mat)
+        - adj_mat.multiply(adj_mat.T > adj_mat)
+    )
     return adj.tocsr()
+
 
 def _get_vocab(text_list):
     freq = defaultdict(int)
@@ -194,6 +204,7 @@ def _get_vocab(text_list):
         for w in doc.split():
             freq[w] += 1
     return freq
+
 
 def _build_word_doc_edges(doc_list):
     words_in_docs = defaultdict(set)
@@ -203,15 +214,52 @@ def _build_word_doc_edges(doc_list):
     word_doc_freq = {w: len(dset) for w, dset in words_in_docs.items()}
     return words_in_docs, word_doc_freq
 
+
+def _create_masks_from_tvt_split(df):
+    # Use the `tvt_split` column to create masks
+    train_mask = torch.zeros(len(df), dtype=torch.bool)
+    val_mask = torch.zeros(len(df), dtype=torch.bool)
+    test_mask = torch.zeros(len(df), dtype=torch.bool)
+
+    for i, row in df.iterrows():
+        if row["split"] == "train":
+            train_mask[i] = True
+        elif row["split"] == "val":
+            val_mask[i] = True
+        elif row["split"] == "test":
+            test_mask[i] = True
+    return train_mask, val_mask, test_mask
+
+
 if __name__ == "__main__":
     art = build_text_graph_from_csv(
-    split=None,
-    window_size=20,
-    dataset_path="./saved/mr-train-90-val-0-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none/"
-)
+        split=None,
+        window_size=20,
+        dataset_path="./saved/mr-train-90-val-0-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-100/",
+    )
 
-    adj = art["adj"]                 # scipy CSR  - sparse matrix
-    labels = art["labels"]           # list
-    vocab = art["vocab"]             # list
-    word_id_map = art["word_id_map"] # dict
-    print(art.keys(),"Adjacency matrix shape:", adj.shape,type(adj),adj[10][0],word_id_map.get("the"),vocab[art["word_id_map"]["the"]],word_id_map.get("good"),len(vocab))
+    adj = art["adj"]  # scipy CSR  - sparse matrix
+    labels = art["labels"]  # list
+    vocab = art["vocab"]  # list
+    word_id_map = art["word_id_map"]  # dict
+    docs = art["docs"]  # list
+    print(
+        art.keys(),
+        "Adjacency matrix shape:",
+        adj.shape,
+        type(adj),
+        adj[10][0],
+        word_id_map.get("the"),
+        # vocab[art["word_id_map"]["the"]],
+        word_id_map.get("good"),
+        len(vocab),
+    )
+
+    print(
+        "\nDocuments:",
+        docs[:5],  # Show first 5 documents
+        "Number of documents:",
+        len(docs),
+        "Number of words in vocab:\n",
+        len((vocab)),
+    )

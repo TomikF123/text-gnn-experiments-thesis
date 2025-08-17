@@ -9,7 +9,7 @@ from loaders.build_graph import build_text_graph_from_csv  # your builder
 from loaders.create_basic_dataset import create_basic_dataset
 
 # loaders/gnn_dataset.py
-from __future__ import annotations
+# from __future__ import annotations
 from pathlib import Path
 from typing import Optional, Literal, Dict, Any, Tuple
 
@@ -20,6 +20,9 @@ from torch_geometric.utils import from_scipy_sparse_matrix
 import scipy.sparse as sp
 
 from loaders.build_graph import build_text_graph_from_csv
+from loaders.build_graph import build_text_graph_from_csv
+import pickle
+import os
 
 
 class GraphTextDataset:
@@ -32,18 +35,22 @@ class GraphTextDataset:
     def __init__(
         self,
         dataset_path: str | Path,
-        split: Optional[str],              # None for merged (transductive), or "train"/"val"/"test"
+        split: Optional[str],  # None for merged (transductive), or "train"/"val"/"test"
         window_size: int = 20,
         x_type: Optional[Literal["identity"]] = "identity",
         device: Optional[str | torch.device] = None,
-        cache_dir: Optional[str | Path] = None,   # e.g. saved/<dataset_key>/models/<model_key>/
-        cache_tag: Optional[str] = None,          # e.g. text_gcn_seed42_win20
+        cache_dir: Optional[
+            str | Path
+        ] = None,  # e.g. saved/<dataset_key>/models/<model_key>/
+        cache_tag: Optional[str] = None,  # e.g. text_gcn_seed42_win20
     ):
         self.dataset_path = Path(dataset_path)
         self.split = split
         self.window_size = window_size
         self.x_type = x_type
-        self.device = torch.device(device) if device is not None else torch.device("cpu")
+        self.device = (
+            torch.device(device) if device is not None else torch.device("cpu")
+        )
         self.cache_dir = Path(cache_dir) if cache_dir is not None else None
         self.cache_tag = cache_tag
 
@@ -71,7 +78,7 @@ class GraphTextDataset:
             dataset_path=str(self.dataset_path),
             text_col="text",
             label_col="label",
-            split=self.split,                # None (merged) or "train"/"val"/"test"
+            split=self.split,  # None (merged) or "train"/"val"/"test"
             window_size=self.window_size,
         )
 
@@ -105,7 +112,9 @@ class GraphTextDataset:
         if isinstance(labels_list[0], str):
             classes = sorted(set(labels_list))
             map_ = {c: i for i, c in enumerate(classes)}
-            y_docs = torch.tensor([map_[c] for c in labels_list], dtype=torch.long, device=self.device)
+            y_docs = torch.tensor(
+                [map_[c] for c in labels_list], dtype=torch.long, device=self.device
+            )
         else:
             y_docs = torch.tensor(labels_list, dtype=torch.long, device=self.device)
 
@@ -113,7 +122,8 @@ class GraphTextDataset:
         y[:num_docs] = y_docs
 
         # masks
-        doc_mask = torch.zeros(N, dtype=torch.bool, device=self.device); doc_mask[:num_docs] = True
+        doc_mask = torch.zeros(N, dtype=torch.bool, device=self.device)
+        doc_mask[:num_docs] = True
         word_mask = ~doc_mask
 
         data = PyGData(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
@@ -152,6 +162,7 @@ class GraphTextDataset:
 
 # ========== FACTORIES (mirror your LSTM pattern) ==========
 
+
 def create_text_gcn_dataset(
     dataset_config: dict,
     model_config: dict,
@@ -168,7 +179,7 @@ def create_text_gcn_dataset(
 
     ds = GraphTextDataset(
         dataset_path=dataset_path,
-        split=None,                      # merged graph
+        split=None,  # merged graph
         window_size=window_size,
         x_type=x_type,
         device=device,
@@ -176,6 +187,26 @@ def create_text_gcn_dataset(
         cache_tag=cache_tag,
     )
     return ds
+
+
+def create_gnn_artifacts(
+    dataset_save_path: str,
+    dataset_config: dict,
+    full_path: str,
+    missing_parrent: bool = False,
+):
+    if missing_parrent:
+        create_basic_dataset(
+            dataset_config=dataset_config, dataset_save_path=dataset_save_path
+        )
+    return
+    # TODO: ?? move artifacts creation from dataset class to here.
+    artifacts = build_text_graph_from_csv(dataset_path=dataset_save_path)
+    os.makedirs(full_path, exist_ok=True)
+    for key, value in artifacts.items():
+        filename = f"{key}.pkl"
+        with open(os.path.join(full_path, filename), "wb") as f:
+            pickle.dump(value, f)
 
 
 def create_gat_inductive_dataset(
@@ -197,7 +228,7 @@ def create_gat_inductive_dataset(
 
     ds = GraphTextDataset(
         dataset_path=dataset_path,
-        split=split,                     # per-split graph
+        split=split,  # per-split graph
         window_size=window_size,
         x_type=x_type,
         device=device,
@@ -207,19 +238,58 @@ def create_gat_inductive_dataset(
     return ds
 
 
+def get_gnn_dataset_object(
+    model_type: str,
+    dataset_save_path: str,
+    full_path: str,
+    dataset_config: dict,
+    split: str,
+) -> GraphTextDataset:
+    if model_type == "text_gcn":
+        pass
+    elif model_type == "gat":
+        pass
+    else:
+        raise ValueError(f"Unsupported GNN model type: {model_type}")
+    return GraphTextDataset(
+        split=None,
+        dataset_path=dataset_save_path,
+        window_size=dataset_config["gnn_encoding"].get("window_size", 20),
+        x_type=dataset_config["gnn_encoding"].get("x_type", "identity"),
+        device=dataset_config.get("device", "cpu"),
+        cache_dir=full_path,
+        cache_tag=create_gnn_filename(model_type, dataset_config),
+    )
+    return "idk what to return here, need to implement the dataset object"
 
-def create_text_gnn_dataset(dataset_config: dict, dataset_save_path: str, full_path:str, missing_parrent: bool = False):
-     if missing_parrent:
-        create_basic_dataset(
-            dataset_config=dataset_config, dataset_save_path=dataset_save_path
-        )
-    
-    
-def create_gnn_filename(model_cfg: dict, dataset_cfg: dict | None = None)->str:
-    x_type = dataset_cfg.get("encoding",{}).get("x_type", "identity")
-    model_type= model_cfg.get("model_type",None)
-    parts = [x_type,"test",model_type]
-    return "_".join(parts)
 
-     
+def create_gnn_filename(model_type: str, dataset_config: dict) -> str:
+    print(dataset_config.keys())
+    print(dataset_config["gnn_encoding"])
+    print(dataset_config["preprocess"].keys())
+    x_type = dataset_config["gnn_encoding"].get("x_type", "missing")
+    window_size = dataset_config["gnn_encoding"].get("window_size", "missing")
+    model_type = model_type
+    parts = [x_type, "test", model_type, window_size]
+    return "_".join(str(p) for p in parts)
 
+
+if __name__ == "__main__":
+    # Example usage
+    dataset_config = {
+        "name": "mr",
+        "preprocess": {
+            "remove_stopwords": True,
+            "remove_rare_words": 0,
+        },
+        "tvt_split": [0.8, 0, 0.2],
+        "random_seed": 42,
+        "encoding": {
+            "x_type": "identity",
+            "window_size": 20,
+        },
+    }
+    dataset_save_path = "./data/example_dataset"
+    create_text_gnn_dataset(
+        dataset_config, dataset_save_path, full_path="./data/example_dataset.csv"
+    )

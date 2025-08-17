@@ -69,7 +69,7 @@ test_data_set = load_data(
     model_type=config.model_conf.model_type,
     split="test",
 )
-print(train_data_set.__getitem__(0))
+# print(train_data_set.__getitem__(0))
 print(train_data_set)
 train_data_loader = DataLoader(
     train_data_set,

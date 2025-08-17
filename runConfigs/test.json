@@ -6,15 +6,15 @@
     "tvt_split": [0.9, 0, 0.1],
     "shuffle": true,
     "random_seed": 123,
-    "vocab_size": 10000,
+    
     "preprocess": {
-      "remove_stopwords": true,
-      "remove_rare_words": 5
+      "remove_stopwords": false,
+      "remove_rare_words": 0
     },
-    "encoding": {
+    "rnn_encoding": {
       "encode_token_type": "glove",
       "tokens_trained_on": 6,
-      "embedding_dim": 50
+      "embedding_dim": 300
     }
     
 },
@@ -31,7 +31,7 @@
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
-      "embedding_dim": 50,
+      "embedding_dim": 300,
       "lr": 0.001
     }
 
