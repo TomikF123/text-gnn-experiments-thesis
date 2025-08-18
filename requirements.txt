@@ -8,4 +8,4 @@ ipykernel
 nltk
 torch_scatter
 torch_geometric
-klepto
+torch_sparse

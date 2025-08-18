@@ -233,9 +233,9 @@ def _create_masks_from_tvt_split(df):
 
 if __name__ == "__main__":
     art = build_text_graph_from_csv(
-        split=None,
+        split="test",
         window_size=20,
-        dataset_path="./saved/mr-train-90-val-0-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-100/",
+        dataset_path="./saved/mr-train-90-val-0-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none/",
     )
 
     adj = art["adj"]  # scipy CSR  - sparse matrix

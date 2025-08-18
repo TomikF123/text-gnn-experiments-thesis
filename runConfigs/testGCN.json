@@ -6,9 +6,10 @@
       "tvt_split": [0.9, 0, 0.1],
       "shuffle": true,
       "random_seed": 123,
+      "vocab_size": 1000,
       "preprocess": {
-        "remove_stopwords": false,
-        "remove_rare_words": 0
+        "remove_stopwords": true,
+        "remove_rare_words": 5
       },
       "gnn_encoding": {
           "preset":"None",
