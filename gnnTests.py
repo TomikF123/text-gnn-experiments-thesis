@@ -61,13 +61,20 @@ print("Loading Data")
 train_dataset = load_data(
     dataset_config=config.dataset.model_dump(),
     model_type=config.model_conf.model_type,
-    split =None
+    split=None,
 )
 
 model = create_model(
     model_config=config.model_conf.model_dump(),
     dataset_config=config.dataset.model_dump(),
 )
+
+trained_model = train_model(
+    model=model, dataloaders=train_dataset, config=config.model_conf.model_dump()
+)
+
+
+print(model)
 
 
 if __name__ == "__main__":

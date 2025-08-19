@@ -182,7 +182,7 @@ def slugify(text):
 
 def create_act(act, num_parameters=None):
     if act == "relu":
-        return nn.ReLU
+        return nn.ReLU()
     elif act == "tanh":
         return nn.Tanh()
     elif act == "sigmoid":

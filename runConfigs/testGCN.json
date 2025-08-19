@@ -6,10 +6,9 @@
       "tvt_split": [0.9, 0, 0.1],
       "shuffle": true,
       "random_seed": 123,
-      "vocab_size": 1000,
       "preprocess": {
-        "remove_stopwords": true,
-        "remove_rare_words": 5
+        "remove_stopwords": false,
+        "remove_rare_words": 0
       },
       "gnn_encoding": {
           "preset":"None",
@@ -27,10 +26,13 @@
         "seed": 123
       },
       "model_specific_params": {
-        "hidden_dim": 128,
+        "hidden_dims": [128, 128,128],
         "dropout": 0.5,
-        "num_layers": 2,
-        "lr": 0.001
+        "lr": 0.001,
+        "act": "relu",
+        "pred_type": "softmax",
+        "optimizer": "adam",
+        "use_bn": true
       }
   
     }

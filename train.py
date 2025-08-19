@@ -12,4 +12,4 @@ def train_model(model, dataloaders, config):
         raise ValueError(f"Unsupported model type: {model_type}")
 
     train_fn = model.train_func
-    return train_fn(model, dataloaders, config)
+    return train_fn(data=dataloaders, model=model)

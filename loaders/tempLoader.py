@@ -24,12 +24,10 @@ from loaders.build_graph import build_text_graph_from_csv
 import pickle
 import os
 
-PRESETS = {
-    "text_gcn": {},
-    "gat": {}
-}
+PRESETS = {"text_gcn": {}, "gat": {}}
 
-def _load_artifacts(dataset_save_path:str,split:str,window_size:int = 20):
+
+def _load_artifacts(dataset_save_path: str, split: str, window_size: int = 20):
     art = build_text_graph_from_csv(
         dataset_path=dataset_save_path,
         text_col="text",
@@ -45,22 +43,20 @@ def _load_artifacts(dataset_save_path:str,split:str,window_size:int = 20):
     num_words = len(vocab)
     return adj, labels_list, vocab, word_id_map, num_docs, num_words
 
-def _build_edges( adj: sp.csr_matrix):
+
+def _build_edges(adj: sp.csr_matrix):
     # Returns CPU tensors; caller decides device
     edge_index, edge_attr = from_scipy_sparse_matrix(adj)
     return edge_index, edge_attr
 
-def _build_node_features(x_type:str, N: int):
+
+def _build_node_features(x_type: str, N: int):
+    # AFTER (Option A):
     if x_type == "identity":
-        idx = torch.arange(N, dtype=torch.long)  # CPU by default
-        x = torch.sparse_coo_tensor(
-            indices=torch.stack([idx, idx], 0),
-            values=torch.ones(N),
-            size=(N, N),
-        ).coalesce()
-        return x
-    # Future branches: TF-IDF/embeddings
-    return None
+        x = None  # <- no identity matrix saved/used
+    else:
+        # keep whatever other feature options you add later (TF-IDF/embeddings)
+        x = None
 
 
 def _encode_labels(labels_list, num_docs: int, N: int):
@@ -76,6 +72,7 @@ def _encode_labels(labels_list, num_docs: int, N: int):
     y = torch.full((N,), -1, dtype=torch.long)
     y[:num_docs] = y_docs
     return y, cls2id
+
 
 def _build_masks(num_docs: int, N: int):
     doc_mask = torch.zeros(N, dtype=torch.bool)
@@ -94,13 +91,14 @@ def _assemble_data(x, edge_index, edge_attr, y, doc_mask, word_mask):
 def create_gnn_artifacts(
     dataset_save_path: str,
     dataset_config: dict,
-    full_path: str,missing_parrent: bool = False,
+    full_path: str,
+    missing_parrent: bool = False,
 ):
     if missing_parrent:
         create_basic_dataset(
             dataset_config=dataset_config, dataset_save_path=dataset_save_path
         )
-    
+
     inductive = False
 
     split = None if not inductive else 0
@@ -108,7 +106,11 @@ def create_gnn_artifacts(
     if inductive:
         pass
     else:
-        adj,labels_list, vocab, word_id_map, num_docs, num_words = _load_artifacts(dataset_save_path=dataset_save_path, split=split, window_size=dataset_config["gnn_encoding"].get("window_size", 20))
+        adj, labels_list, vocab, word_id_map, num_docs, num_words = _load_artifacts(
+            dataset_save_path=dataset_save_path,
+            split=split,
+            window_size=dataset_config["gnn_encoding"].get("window_size", 20),
+        )
         N = num_docs + num_words
 
         # 2) Build CPU tensors
@@ -120,7 +122,7 @@ def create_gnn_artifacts(
 
         meta = {
             "labels_list": labels_list,
-            "class_to_id": cls2id,          # helpful later for decoding predictions
+            "class_to_id": cls2id,  # helpful later for decoding predictions
             "vocab": vocab,
             "word_id_map": word_id_map,
             "num_docs": num_docs,
@@ -132,11 +134,11 @@ def create_gnn_artifacts(
     prefix = "ALL" if split is None else split.upper()
 
     torch.save(edge_index, os.path.join(full_path, f"{prefix}_edge_index.pt"))
-    torch.save(edge_attr,  os.path.join(full_path, f"{prefix}_edge_attr.pt"))
-    torch.save(x,          os.path.join(full_path, f"{prefix}_x.pt"))
-    torch.save(y,          os.path.join(full_path, f"{prefix}_y.pt"))
-    torch.save(doc_mask,   os.path.join(full_path, f"{prefix}_doc_mask.pt"))
-    torch.save(word_mask,  os.path.join(full_path, f"{prefix}_word_mask.pt"))
+    torch.save(edge_attr, os.path.join(full_path, f"{prefix}_edge_attr.pt"))
+    # torch.save(x, os.path.join(full_path, f"{prefix}_x.pt")) #TODO ???
+    torch.save(y, os.path.join(full_path, f"{prefix}_y.pt"))
+    torch.save(doc_mask, os.path.join(full_path, f"{prefix}_doc_mask.pt"))
+    torch.save(word_mask, os.path.join(full_path, f"{prefix}_word_mask.pt"))
 
     with open(os.path.join(full_path, f"{prefix}_meta.pkl"), "wb") as f:
         pickle.dump(meta, f)
@@ -148,11 +150,12 @@ def load_gnn_artifacts(full_path: str, split: str = None):
     prefix = "ALL" if split is None else split.upper()
 
     edge_index = torch.load(f"{full_path}/{prefix}_edge_index.pt", map_location="cpu")
-    edge_attr  = torch.load(f"{full_path}/{prefix}_edge_attr.pt", map_location="cpu")
-    x          = torch.load(f"{full_path}/{prefix}_x.pt", map_location="cpu")
-    y          = torch.load(f"{full_path}/{prefix}_y.pt", map_location="cpu")
-    doc_mask   = torch.load(f"{full_path}/{prefix}_doc_mask.pt", map_location="cpu")
-    word_mask  = torch.load(f"{full_path}/{prefix}_word_mask.pt", map_location="cpu")
+    edge_attr = torch.load(f"{full_path}/{prefix}_edge_attr.pt", map_location="cpu")
+    #    x = torch.load(f"{full_path}/{prefix}_x.pt", map_location="cpu") # TODO identity matrix is useless to be saved
+    x = None  # <- no identity matrix saved/used
+    y = torch.load(f"{full_path}/{prefix}_y.pt", map_location="cpu")
+    doc_mask = torch.load(f"{full_path}/{prefix}_doc_mask.pt", map_location="cpu")
+    word_mask = torch.load(f"{full_path}/{prefix}_word_mask.pt", map_location="cpu")
 
     with open(f"{full_path}/{prefix}_meta.pkl", "rb") as f:
         meta = pickle.load(f)
@@ -161,8 +164,16 @@ def load_gnn_artifacts(full_path: str, split: str = None):
     data = PyGData(x=x, edge_index=edge_index, edge_attr=edge_attr, y=y)
     data.doc_mask = doc_mask
     data.word_mask = word_mask
+    # prevent dtype mismatch
+    if getattr(data, "edge_attr", None) is not None:
+        data.edge_attr = data.edge_attr.to(torch.float32)
+
+    data.y = data.y.to(torch.long)
+    data.doc_mask = data.doc_mask.to(torch.bool)
+    data.word_mask = data.word_mask.to(torch.bool)
 
     return data, meta
+
 
 def get_gnn_dataset_object(
     model_type: str,
@@ -171,17 +182,14 @@ def get_gnn_dataset_object(
     dataset_config: dict,
     split: str,
 ):
-    split= None
+    split = None
     preset_name = dataset_config.get("preset", None)
     if preset_name is not None:
         return None
     inductive = False
 
-    data, meta = load_gnn_artifacts(
-        full_path=full_path, split=split
-    )
+    data, meta = load_gnn_artifacts(full_path=full_path, split=split)
     return data
-
 
 
 def create_gnn_filename(model_type: str, dataset_config: dict) -> str:
