@@ -6,6 +6,8 @@ import torch
 import os
 from utils import get_function_from_path, filter_kwargs_for_class
 from torch_geometric.nn import GCNConv, GATConv
+import memory_profiler
+import line_profiler
 
 ARTIFACT_CREATORS = {
     "lstm": "loaders.lstmLoader.create_lstm_artifacts",
@@ -42,6 +44,7 @@ from utils import slugify
 
 
 def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
+    dataset_config["encoding"] = dataset_config["rnn_encoding"]
     name = dataset_config["name"]
     train_ratio = int(dataset_config["tvt_split"][0] * 100)
     val_ratio = int(dataset_config["tvt_split"][1] * 100)
@@ -116,6 +119,8 @@ def get_dataset_object_func(dataset_config: dict, model_type: str):
 #    pass
 
 
+# @memory_profiler.profile
+@line_profiler
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
     # save_fn = create_file_name(dataset_config, model_type)
     # print(dataset_config.get("vocab_size"), "############VOCAB#############")

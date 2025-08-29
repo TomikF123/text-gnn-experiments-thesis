@@ -94,6 +94,7 @@ def get_lstm_dataset_object(
 
 
 def create_lstm_filename(dataset_config: dict, model_type: str) -> str:
+    dataset_config["encoding"] = dataset_config["rnn_encoding"]  # TODO this is bad
     name = dataset_config["name"]
     tokens_trained_on = dataset_config["encoding"].get("tokens_trained_on", None)
     embed_dim = dataset_config["encoding"].get("embedding_dim", None)

@@ -21,7 +21,7 @@ def create_lstm_model(
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
     freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
-    encoding_type = dataset_config["encoding"].get("encode_token_type", "glove")
+    encoding_type = dataset_config["rnn_encoding"].get("encode_token_type", "glove")
     print("freeze=" + f"{freeze_embeddings}")
     return LSTMClassifier(
         vocab_size=vocab_size,

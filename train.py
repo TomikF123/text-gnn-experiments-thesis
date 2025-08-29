@@ -12,4 +12,5 @@ def train_model(model, dataloaders, config):
         raise ValueError(f"Unsupported model type: {model_type}")
 
     train_fn = model.train_func
-    return train_fn(data=dataloaders, model=model)
+    # return train_fn(data=dataloaders, model=model) # TODO Bruh.... even model specific training funcs should have the same args right?
+    return train_fn(dataloader=dataloaders, model=model, config=config)

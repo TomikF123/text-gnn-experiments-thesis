@@ -3,7 +3,7 @@
 "run_name": "test_run",
 "dataset": {
     "name": "mr",
-    "tvt_split": [0.9, 0, 0.1],
+    "tvt_split": [0.91, 0, 0.09],
     "shuffle": true,
     "random_seed": 123,
     

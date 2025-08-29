@@ -6,12 +6,12 @@ from utils import create_act
 
 class MLP(nn.Module):
     def __init__(
-        self, in_dim, hidden_dims, out_dim, act="tanh", use_bn=False, dropout=0.0
+        self, in_dim, hidden_dims, out_dim, act="relu", use_bn=False, dropout=0.0
     ):
         super().__init__()
         Act = create_act(act)
         self.use_bn = use_bn
-        self.act = Act()
+        self.act = Act
         self.dropout = nn.Dropout(dropout) if dropout > 0 else nn.Identity()
 
         dims = [in_dim] + list(hidden_dims) + [out_dim]
@@ -33,9 +33,9 @@ class MLP(nn.Module):
         # Output layer (no BN/activation)
         x = self.layers[-1](x)
         return x
-    
-    #TODO
-    def reset_parameters(self,act = "relu"):
+
+    # TODO
+    def reset_parameters(self, act="relu"):
         pass
 
 
