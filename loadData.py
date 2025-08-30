@@ -120,7 +120,7 @@ def get_dataset_object_func(dataset_config: dict, model_type: str):
 
 
 # @memory_profiler.profile
-@line_profiler
+#@line_profiler
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
 
     """ Loads or creates and loads the dataset based on the provided configuration and model type."""
