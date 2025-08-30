@@ -6,6 +6,6 @@ jupyter_client
 jupyter_core
 ipykernel
 nltk
-torch_scatter
+#torch_scatter
 torch_geometric
-torch_sparse
+#torch_sparse

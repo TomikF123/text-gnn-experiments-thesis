@@ -122,8 +122,9 @@ def get_dataset_object_func(dataset_config: dict, model_type: str):
 # @memory_profiler.profile
 @line_profiler
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
+
+    """ Loads or creates and loads the dataset based on the provided configuration and model type."""
     # save_fn = create_file_name(dataset_config, model_type)
-    # print(dataset_config.get("vocab_size"), "############VOCAB#############")
     dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
     dataset_save_path = os.path.join(
         get_saved_path(), dataset_dir_name
