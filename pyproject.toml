@@ -1,7 +1,12 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
 [project]
-name = "experiments"
+name = "textgnn"
 version = "0.1.0"
-description = "Add your description here"
+description = "Experimental text classification framework (LSTM, FastText, GNNs)"
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
     "datasets>=4.0.0",
@@ -21,3 +26,6 @@ dev = [
     "memory-profiler>=0.61.0",
     "pytest>=8.4.1",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/textgnn"]
