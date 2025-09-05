@@ -5,7 +5,7 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 
 from textgnn.dataset import TextDataset
-from textgnn.prepData import clean_data
+from textgnn.prep_data import clean_data
 from textgnn.utils import (
     get_data_path,
     get_saved_path,

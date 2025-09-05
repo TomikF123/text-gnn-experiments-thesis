@@ -44,13 +44,19 @@ experiments/
 
 ---
 
+## Compatibility with GPUs
+
+https://developer.nvidia.com/cuda-legacy-gpus
+
+This project has torch libraries for cuda that are for gpus with CC (compute capability) = 6.1
+
 ## Installation
 
 1. **Clone the repository**:
 
 ```bash
 git clone https://github.com/TomikF123/text-gnn-experiments-thesis
-cd experiments
+cd text-gnn-experiments-thesis
 ```
 
 2. **Create a virtual environment**:
@@ -60,16 +66,16 @@ python -m venv env
 source env/bin/activate  # Windows: env\Scripts\activate
 ```
 
-3. **Install dependencies**:
+3. **Install dependencies and the package**:
 
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 
 4. **Download datasets, embeddings, and stopwords**:
 
 ```bash
-python downloadData.py
+python download_data.py
 ```
 
 ---

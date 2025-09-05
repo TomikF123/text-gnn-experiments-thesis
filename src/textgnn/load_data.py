@@ -1,5 +1,5 @@
 from .dataset import TextDataset
-from .prepData import clean_data
+from .prep_data import clean_data
 from .utils import get_data_path, get_saved_path
 import pandas as pd
 import torch
@@ -11,32 +11,32 @@ from torch_geometric.nn import GCNConv, GATConv
 # import line_profiler
 
 ARTIFACT_CREATORS = {
-    "lstm": "textgnn.loaders.lstmLoader.create_lstm_artifacts",
-    "text_gcn": "textgnn.loaders.tempLoader.create_gnn_artifacts",  # future
-    "fastText": "textgnn.loaders.fastTextLoader.create_fasttext_artifacts",  # future
+    "lstm": "textgnn.loaders.lstm_loader.create_lstm_artifacts",
+    "text_gcn": "textgnn.loaders.temp_loader.create_gnn_artifacts",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_artifacts",  # future
 }
 
 DATASETS = {
-    "lstm": "textgnn.loaders.lstmLoader.LSTMDataset",
-    "fastText": "textgnn.loaders.lstmLoader.LSTMDataset",
-    "text_gcn": "textgnn.loaders.tempLoader.GraphTextDataset",  # future
+    "lstm": "textgnn.loaders.lstm_loader.LSTMDataset",
+    "fastText": "textgnn.loaders.lstm_loader.LSTMDataset",
+    "text_gcn": "textgnn.loaders.temp_loader.GraphTextDataset",  # future
 }
 
 FILENAME_CREATORS = {
-    "lstm": "textgnn.loaders.lstmLoader.create_lstm_filename",
-    "text_gcn": "textgnn.loaders.tempLoader.create_gnn_filename",  # future
+    "lstm": "textgnn.loaders.lstm_loader.create_lstm_filename",
+    "text_gcn": "textgnn.loaders.temp_loader.create_gnn_filename",  # future
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
-    "fastText": "textgnn.loaders.fastTextLoader.create_fasttext_filename",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_filename",  # future
 }
 GET_DATASET_OBJECT_FUNCS = {
-    "lstm": "textgnn.loaders.lstmLoader.get_lstm_dataset_object",
-    "text_gcn": "textgnn.loaders.tempLoader.get_gnn_dataset_object",  # future
+    "lstm": "textgnn.loaders.lstm_loader.get_lstm_dataset_object",
+    "text_gcn": "textgnn.loaders.temp_loader.get_gnn_dataset_object",  # future
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
-    "fastText": "textgnn.loaders.fastTextLoader.get_fasttext_dataset_object",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",  # future
 }
 # COLLATE_FN_CREATORS = {
-#     "lstm": "textgnn.loaders.lstmLoader.lstm_collate_fn",
-#     "text_gcn": "textgnn.loaders.lstmLoader.LSTMDataset",  # future
+#     "lstm": "textgnn.loaders.lstm_loader.lstm_collate_fn",
+#     "text_gcn": "textgnn.loaders.lstm_loader.LSTMDataset",  # future
 #     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
 # }
 

@@ -1,12 +1,12 @@
 import json
 import os
 import argparse
-from textgnn.loadData import load_data
+from textgnn.load_data import load_data
 import torch
 from torch.utils.data import DataLoader
 from textgnn.utils import get_project_root
 from os.path import join
-from textgnn.modelFactory import create_model
+from textgnn.model_factory import create_model
 from textgnn.train import train_model
 from textgnn.eval import evaluate
 

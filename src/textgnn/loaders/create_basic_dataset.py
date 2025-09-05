@@ -8,7 +8,7 @@ from textgnn.utils import (
     load_glove_embeddings,
 )
 from textgnn.dataset import TextDataset
-from textgnn.prepData import clean_data
+from textgnn.prep_data import clean_data
 
 
 def create_basic_dataset(dataset_config: dict, dataset_save_path: str):
