@@ -4,17 +4,17 @@ import numpy as np
 import torch
 from torch.nn.utils.rnn import pad_sequence
 
-from dataset import TextDataset
-from prepData import clean_data
-from utils import (
+from textgnn.dataset import TextDataset
+from textgnn.prepData import clean_data
+from textgnn.utils import (
     get_data_path,
     get_saved_path,
     get_tensors_tvt_split,
     load_glove_embeddings,
 )
 import pickle
-from loaders.utils import create_dir_name_based_on_dataset_config
-from loaders.create_basic_dataset import create_basic_dataset
+from .utils import create_dir_name_based_on_dataset_config
+from .create_basic_dataset import create_basic_dataset
 
 # def encode_lstm_dataset(df, encode_token_type, vocab):
 #     X = encode_tokens(encode_token_type, df=df["text"], vocab=vocab)
@@ -70,7 +70,7 @@ def create_lstm_artifacts(
         torch.save(embedding_matrix, os.path.join(full_path, "embedding_matrix.pt"))
 
 
-from utils import slugify
+from textgnn.utils import slugify
 
 
 def get_lstm_dataset_object(

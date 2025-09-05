@@ -3,7 +3,7 @@ import pandas as pd
 from os.path import join, exists
 import re
 import nltk
-from utils import get_data_path
+from .utils import get_data_path
 import torch
 from collections import Counter
 import torch.nn.functional as F

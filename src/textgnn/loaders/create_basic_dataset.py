@@ -1,14 +1,14 @@
 import os
 import pandas as pd
 import torch
-from utils import (
+from textgnn.utils import (
     get_data_path,
     get_saved_path,
     get_tensors_tvt_split,
     load_glove_embeddings,
 )
-from dataset import TextDataset
-from prepData import clean_data
+from textgnn.dataset import TextDataset
+from textgnn.prepData import clean_data
 
 
 def create_basic_dataset(dataset_config: dict, dataset_save_path: str):

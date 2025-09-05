@@ -3,7 +3,7 @@ TRAINING_LOOPS = {
     "text_gcn": "models.text_gcn.train.train_text_gcn",  # TODO
 }
 
-from utils import get_function_from_path
+from .utils import get_function_from_path
 
 
 def train_model(model, dataloaders, config):

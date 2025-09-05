@@ -1,46 +1,47 @@
-from dataset import TextDataset
-from prepData import clean_data
-from utils import get_data_path, get_saved_path
+from .dataset import TextDataset
+from .prepData import clean_data
+from .utils import get_data_path, get_saved_path
 import pandas as pd
 import torch
 import os
-from utils import get_function_from_path, filter_kwargs_for_class
+from .utils import get_function_from_path, filter_kwargs_for_class
 from torch_geometric.nn import GCNConv, GATConv
-import memory_profiler
-import line_profiler
+
+# import memory_profiler
+# import line_profiler
 
 ARTIFACT_CREATORS = {
-    "lstm": "loaders.lstmLoader.create_lstm_artifacts",
-    "text_gcn": "loaders.tempLoader.create_gnn_artifacts",  # future
-    "fastText": "loaders.fastTextLoader.create_fasttext_artifacts",  # future
+    "lstm": "textgnn.loaders.lstmLoader.create_lstm_artifacts",
+    "text_gcn": "textgnn.loaders.tempLoader.create_gnn_artifacts",  # future
+    "fastText": "textgnn.loaders.fastTextLoader.create_fasttext_artifacts",  # future
 }
 
 DATASETS = {
-    "lstm": "loaders.lstmLoader.LSTMDataset",
-    "fastText": "loaders.lstmLoader.LSTMDataset",
-    "text_gcn": "loaders.tempLoader.GraphTextDataset",  # future
+    "lstm": "textgnn.loaders.lstmLoader.LSTMDataset",
+    "fastText": "textgnn.loaders.lstmLoader.LSTMDataset",
+    "text_gcn": "textgnn.loaders.tempLoader.GraphTextDataset",  # future
 }
 
 FILENAME_CREATORS = {
-    "lstm": "loaders.lstmLoader.create_lstm_filename",
-    "text_gcn": "loaders.tempLoader.create_gnn_filename",  # future
-    "text_level_gnn": "loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
-    "fastText": "loaders.fastTextLoader.create_fasttext_filename",  # future
+    "lstm": "textgnn.loaders.lstmLoader.create_lstm_filename",
+    "text_gcn": "textgnn.loaders.tempLoader.create_gnn_filename",  # future
+    "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
+    "fastText": "textgnn.loaders.fastTextLoader.create_fasttext_filename",  # future
 }
 GET_DATASET_OBJECT_FUNCS = {
-    "lstm": "loaders.lstmLoader.get_lstm_dataset_object",
-    "text_gcn": "loaders.tempLoader.get_gnn_dataset_object",  # future
-    "text_level_gnn": "loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
-    "fastText": "loaders.fastTextLoader.get_fasttext_dataset_object",  # future
+    "lstm": "textgnn.loaders.lstmLoader.get_lstm_dataset_object",
+    "text_gcn": "textgnn.loaders.tempLoader.get_gnn_dataset_object",  # future
+    "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
+    "fastText": "textgnn.loaders.fastTextLoader.get_fasttext_dataset_object",  # future
 }
 # COLLATE_FN_CREATORS = {
-#     "lstm": "loaders.lstmLoader.lstm_collate_fn",
-#     "text_gcn": "loaders.lstmLoader.LSTMDataset",  # future
-#     "text_level_gnn": "loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
+#     "lstm": "textgnn.loaders.lstmLoader.lstm_collate_fn",
+#     "text_gcn": "textgnn.loaders.lstmLoader.LSTMDataset",  # future
+#     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
 # }
 
 
-from utils import slugify
+from .utils import slugify
 
 
 def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
@@ -120,10 +121,9 @@ def get_dataset_object_func(dataset_config: dict, model_type: str):
 
 
 # @memory_profiler.profile
-#@line_profiler
+# @line_profiler
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
-
-    """ Loads or creates and loads the dataset based on the provided configuration and model type."""
+    """Loads or creates and loads the dataset based on the provided configuration and model type."""
     # save_fn = create_file_name(dataset_config, model_type)
     dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
     dataset_save_path = os.path.join(

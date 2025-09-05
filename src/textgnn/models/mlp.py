@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
-import utils
-from utils import create_act
+import textgnn.utils
+from textgnn.utils import create_act
 
 
 class MLP(nn.Module):

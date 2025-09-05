@@ -14,26 +14,29 @@ import importlib
 import inspect
 
 
-def get_root_path():
-    return dirname(abspath(__file__))
+# src/textgnn/paths.py
+from pathlib import Path
 
 
-def get_data_path():
-    return join(get_root_path(), "data")
+def get_project_root() -> Path:
+    here = Path(__file__).resolve()
+    for parent in (here, *here.parents):
+        if (parent / "pyproject.toml").exists() or (parent / ".git").exists():
+            return parent
+    # Fallback: repo root is two levels up from this file (…/src/textgnn/ -> repo/)
+    return here.parents[2]
 
 
-def get_configs_path():
-    return join(get_root_path(), "runConfigs")
+def get_data_path() -> Path:
+    return get_project_root() / "data"
 
 
-def get_models_path():
-    return join(get_root_path(), "models")
+def get_configs_path() -> Path:
+    return get_project_root() / "runConfigs"
 
 
-def get_saved_path():
-    return join(
-        get_root_path(), "saved"
-    )  # cached torch.datasets, splitted according to a config
+def get_saved_path() -> Path:
+    return get_project_root() / "saved"
 
 
 def get_tensors_tvt_split(

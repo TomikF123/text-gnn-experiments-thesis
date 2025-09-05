@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
-from loaders.lstmLoader import LSTMDataset
-from models.base_text_classifier import BaseTextClassifier
-from models.lstm.train import train_lstm
-from models.mlp import MLP
+from textgnn.loaders.lstmLoader import LSTMDataset
+from textgnn.models.base_text_classifier import BaseTextClassifier
+from textgnn.models.lstm.train import train_lstm
+from textgnn.models.mlp import MLP
 
 
 def create_lstm_model(
