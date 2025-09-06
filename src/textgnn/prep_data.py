@@ -6,7 +6,7 @@ import nltk
 from .utils import get_data_path
 import torch
 from collections import Counter
-import torch.nn.functional as F
+#import torch.nn.functional as F
 
 
 def clean_data(

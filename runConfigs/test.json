@@ -8,13 +8,13 @@
     "random_seed": 123,
     
     "preprocess": {
-      "remove_stopwords": false,
-      "remove_rare_words": 0
+      "remove_stopwords": true,
+      "remove_rare_words": 5
     },
     "rnn_encoding": {
       "encode_token_type": "glove",
       "tokens_trained_on": 6,
-      "embedding_dim": 300
+      "embedding_dim": 50
     }
     
 },
@@ -31,7 +31,7 @@
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
-      "embedding_dim": 300,
+      "embedding_dim": 50,
       "lr": 0.001
     }
 

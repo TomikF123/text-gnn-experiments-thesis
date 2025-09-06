@@ -96,7 +96,7 @@ trained_model = train_model(
 evaluate(
     model=trained_model,
     data_loader=test_data_loader,
-    device="cuda",
+    device="cpu",
 )
 print("Train train_data_loader loaded:", train_data_loader)
 if __name__ == "__main__":

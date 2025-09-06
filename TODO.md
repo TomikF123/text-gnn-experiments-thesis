@@ -2,49 +2,28 @@ Here’s a compact **TODO.md** draft you can drop straight in:
 
 ---
 
+## 0. - Provide user guide to choosing the right torch and troch_geometric - given their gpu/gpus and their compute capability (CC)
+https://docs.nvidia.com/cuda/archive/12.1.0/cuda-toolkit-release-notes/index.html?utm_source=chatgpt.com
+https://developer.nvidia.com/cuda-legacy-gpus?utm_source=chatgpt.com
 # TODO – Model & Codebase Refactor
 
-## 1. Registry & Imports
+## 1. Registry & Imports???
+ - idea: create a registry file and a config.py file. This config.py file reads the registry file and creates and the import dicts (ARTIFACT_CREATORS, DATASETS..) automaticaly, other modules will import these objects instead of storing them. The registry file could be a yaml file with list of implemented models (just names i guess).
 
-* [ ] Decide between **lazy import** (string paths + `get_function_from_path`) or **code-level registry** (real imports in `registry.py`).
-* [ ] If moving to code-level registry:
 
-  * [ ] Create `registry.py` at repo root with separate dicts: `MODEL_CREATORS`, `DATASET_CREATORS`, `TRAINING_LOOPS` (optional), etc.
-  * [ ] Remove `get_function_from_path` and string path registries once migrated.
+## 2. further addons to the hyperparameter space?
+  - include optimizers, loss function in run config - model.common_params
+  - include regularization techniques as well - 
 
-## 2. Model Architecture Unification
-
-* [ ] Create a **generic `TextGraphClassifier`**:
-
-  * Accepts a list of conv layers (`[("gcn", 128), ("gat", 64)]`, etc.).
-  * Uses PyG layers (`GCNConv`, `GATConv`, `SAGEConv`, …) from a registry.
-  * Adds classifier head (Linear or optional MLP).
-  * Keeps **loss in training loop**, not in `forward`.
-* [ ] Implement config-driven creation (conv type, dims, dropout, BN, activation).
-* [ ] Remove dataset-specific coupling from GNN `forward()` (use masks in loop).
-
-## 3. MLP Utility Class
-
-* [ ] Create a small `MLP` helper:
-
-  * Variable hidden layers & dims.
-  * Consistent init, activation, dropout, BN.
-  * Use in classifier heads instead of hand-rolling `nn.Sequential`.
-
-## 4. Dataset Handling
+## 4. Dataset Handling - graph datasets
 
 * [ ] Add `GraphTextDataset` for PyG `Data` objects.
 * [ ] Support both:
 
   * **Transductive** (TextGCN) → one big graph, masks for train/val/test.
   * **Inductive** (SAGE/GAT) → neighbor sampling / per-batch graphs.
-* [ ] Refactor `build_graph.py`:
 
-  * Remove file/path heuristics (`*_sentences_clean.txt`).
-  * Use your `prepData.clean_data` tokens directly.
-  * Return `Data` object instead of custom `TextDataset`.
-
-## 5. Weight Initialization
+## 5. Weight Initialization = overkill?
 
 * [ ] Add `reset_parameters()` method to each model:
 
@@ -53,21 +32,9 @@ Here’s a compact **TODO.md** draft you can drop straight in:
 * [ ] Call `reset_parameters()` in `__init__`.
 * [ ] Keep config simple — no per-layer micro-control unless needed.
 
-## 6. Training Loop Consistency
+## 6. non specifc stuf
+   -  Implement basic train function in textgnn.train.py
+   - implement the text_gcn.model correctly
 
-* [ ] Pick **one** approach:
-
-  * Generic loop with `training_step()` hooks in models, OR
-  * Model-specific loop from registry (but not both).
-* [ ] Ensure `collate_fn` comes from dataset object; remove unused `COLLATE_FN_CREATORS`.
-
-## 7. Memory Optimization (Thesis Focus)
-
-* [ ] Investigate PyG **NeighborLoader**, GraphSAINT, or Cluster-GCN for large graphs.
-* [ ] Implement mixed precision (AMP) for GNN training.
-* [ ] Explore activation checkpointing for deep GNNs.
-* [ ] Reduce feature sizes where possible; consider shared embeddings.
 
 ---
-
-Do you want me to also make you a **visual architecture map** of how the new registry + dataset + model creation flow will connect? That way, when you refactor, you can follow the arrows.

@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from textgnn.loaders.lstm_loader import LSTMDataset
 from textgnn.models.base_text_classifier import BaseTextClassifier
-from textgnn.models.lstm.train import train_lstm
+from textgnn.models.lstm.train import train as train_lstm
 from textgnn.models.mlp import MLP
 
 

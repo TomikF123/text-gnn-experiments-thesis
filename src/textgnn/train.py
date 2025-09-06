@@ -5,9 +5,15 @@ TRAINING_LOOPS = {
 
 from .utils import get_function_from_path
 
+def basic_inductive_training_loop(dataloader, model, config): #TODO?
+    ...
+
+def basic_transductive_training_loop(dataloader, model, config): #TODO?
+    ...
 
 def train_model(model, dataloaders, config):
-    model_type = config.get("model_type")
+    model_type = config.get("model_type",None)
+    assert(model_type is not None)
     if model_type not in TRAINING_LOOPS:
         raise ValueError(f"Unsupported model type: {model_type}")
 

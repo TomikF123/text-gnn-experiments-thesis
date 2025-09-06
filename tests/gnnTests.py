@@ -1,23 +1,23 @@
 import json
 import os
 import argparse
-import utils
-from loadData import load_data
+from textgnn import utils
+from textgnn.load_data import load_data
 import torch
 from torch.utils.data import DataLoader
-from utils import get_root_path
+from textgnn.utils import get_project_root
 from os.path import join
-from modelFactory import create_model
-from train import train_model
-from eval import evaluate
+from textgnn.model_factory import create_model
+from textgnn.train import train_model
+from textgnn.eval import evaluate
 
 # from config_class import Config, DatasetConfig, ModelConfig
 import mlflow
-from config_class import Config, DatasetConfig, ModelConfig
+from textgnn.config_class import Config, DatasetConfig, ModelConfig
 
 
 # Set up MLflow tracking URI
-mlflow.set_tracking_uri(join(get_root_path(), "mlruns"))
+mlflow.set_tracking_uri(join(get_project_root(), "mlruns"))
 
 
 parser = argparse.ArgumentParser(description="Run model from JSON config")
@@ -63,12 +63,12 @@ train_dataset = load_data(
     model_type=config.model_conf.model_type,
     split=None,
 )
-
+print("Data Loaded")
 model = create_model(
     model_config=config.model_conf.model_dump(),
     dataset_config=config.dataset.model_dump(),
 )
-
+print(model)
 trained_model = train_model(
     model=model, dataloaders=train_dataset, config=config.model_conf.model_dump()
 )

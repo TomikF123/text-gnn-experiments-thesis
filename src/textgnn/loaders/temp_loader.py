@@ -5,8 +5,8 @@ import torch
 from torch_geometric.data import InMemoryDataset, Data
 from torch_geometric.utils import from_scipy_sparse_matrix
 
-from loaders.build_graph import build_text_graph_from_csv  # your builder
-from loaders.create_basic_dataset import create_basic_dataset
+from textgnn.loaders.build_graph import build_text_graph_from_csv  # your builder
+from textgnn.loaders.create_basic_dataset import create_basic_dataset
 
 # loaders/gnn_dataset.py
 # from __future__ import annotations
@@ -19,8 +19,8 @@ from torch_geometric.data import Data as PyGData
 from torch_geometric.utils import from_scipy_sparse_matrix
 import scipy.sparse as sp
 
-from loaders.build_graph import build_text_graph_from_csv
-from loaders.build_graph import build_text_graph_from_csv
+from textgnn.loaders.build_graph import build_text_graph_from_csv
+from textgnn.loaders.build_graph import build_text_graph_from_csv
 import pickle
 import os
 

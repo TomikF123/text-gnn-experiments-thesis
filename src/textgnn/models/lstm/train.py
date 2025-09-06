@@ -3,7 +3,7 @@ import torch
 from torch import nn
 
 
-def train_lstm(model, dataloader, config):
+def train(model, dataloader, config):
     # device = config["common_params"].get("device", "cpu")
     # print(f"Training on device: {device}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

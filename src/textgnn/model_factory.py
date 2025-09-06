@@ -2,7 +2,7 @@ from .utils import get_function_from_path
 
 MODEL_CREATORS = {
     "lstm": "textgnn.models.lstm.model.create_lstm_model",
-    "text_gcn": "textgnn.models.text_gcn.model.get_gnn_model_object",
+    "text_gcn": "textgnn.models.text_gnn.model.get_gnn_model_object",
     "fastText": "textgnn.models.fastText.model.create_fasttext_model",
 }
 
