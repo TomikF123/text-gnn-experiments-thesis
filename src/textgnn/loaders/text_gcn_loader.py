@@ -25,8 +25,8 @@ def create_text_gcn_filename(dataset_config: dict) -> str:
     # PROPERTIES
     return slugify("_".join(parts))
 
-def create_text_gcn_dataset(missing_parrent:str, missing_identity_graph:str):
-    if missing_parrent:
+def create_text_gcn_dataset(missing_parent:str, missing_identity_graph:str):
+    if missing_parent:
         pass
     if missing_identity_graph:
         pass

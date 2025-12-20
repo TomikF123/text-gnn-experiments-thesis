@@ -92,9 +92,9 @@ def create_gnn_artifacts(
     dataset_save_path: str,
     dataset_config: dict,
     full_path: str,
-    missing_parrent: bool = False,
+    missing_parent: bool = False,
 ):
-    if missing_parrent:
+    if missing_parent:
         create_basic_dataset(
             dataset_config=dataset_config, dataset_save_path=dataset_save_path
         )

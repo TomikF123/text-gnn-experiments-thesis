@@ -71,16 +71,16 @@ def create_dataset_artifacts(
     full_path: str,
     model_type: str,
     dataset_config: dict,
-    missing_parrent: bool = False,
+    missing_parent: bool = False,
 ):
     if model_type not in ARTIFACT_CREATORS:
-        raise ValueError(f"Invalid model type{model_type}")
+        raise ValueError(f"Invalid model type: {model_type}")
     create_fn = get_function_from_path(ARTIFACT_CREATORS[model_type])
     create_fn(
         dataset_save_path=dataset_save_path,
         full_path=full_path,
         dataset_config=dataset_config,
-        missing_parrent=missing_parrent,
+        missing_parent=missing_parent,
     )
 
 
@@ -125,7 +125,7 @@ def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
             full_path=full_path,
             model_type=model_type,
             dataset_config=dataset_config,
-            missing_parrent=not os.path.exists(dataset_save_path),
+            missing_parent=not os.path.exists(dataset_save_path),
         )
         return load_data(dataset_config, model_type, split)
 

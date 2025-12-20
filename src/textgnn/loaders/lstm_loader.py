@@ -41,12 +41,12 @@ def create_lstm_artifacts(
     dataset_config: dict,
     dataset_save_path: str,
     full_path: str,
-    missing_parrent: bool = False,
+    missing_parent: bool = False,
 ):
     """
     save some lstm/rnn specific dataset files in the base dataset
     """
-    if missing_parrent:
+    if missing_parent:
         create_basic_dataset(
             dataset_config=dataset_config, dataset_save_path=dataset_save_path
         )
