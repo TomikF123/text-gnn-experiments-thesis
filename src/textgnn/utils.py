@@ -12,8 +12,8 @@ import zipfile
 from contextlib import contextmanager
 import importlib
 import inspect
-
-
+import pandas as pd
+from torch.utils.data import random_split
 # src/textgnn/paths.py
 from pathlib import Path
 
@@ -42,8 +42,6 @@ def get_saved_path() -> Path:
 def get_tensors_tvt_split(
     tensors: dict, tvt_split: list, seed: int = 42
 ) -> dict[str, tuple]:
-    # os.makedirs(save_path, exist_ok=True)
-    # from sklearn.model_selection import train_test_split
     X = tensors["X"]
     y = tensors["y"]
     train_ratio = tvt_split[0]
@@ -70,15 +68,37 @@ def get_tensors_tvt_split(
     }
 
 
+
+# Should be:
+def df_tvt_split(df: pd.DataFrame,tvt_split:list,seed:int = 42) -> dict[str, pd.DataFrame]:
+    train_size = int(0.7 * len(dataset))
+val_size = int(0.15 * len(dataset))
+test_size = len(dataset) - train_size - val_size
+
+train_dataset, val_dataset, test_dataset = random_split(
+    dataset, 
+    [train_size, val_size, test_size],
+    generator=torch.Generator().manual_seed(42)
+)
+
 def load_glove_embeddings(
     vocab: dict,
     embedding_dim: int,
     tokens_trained_on: str = 6,
     glove_path: str = None,
     return_missing: bool = False,
-) -> torch.Tensor | tuple[torch.Tensor, list[str]]:  # TODO: add seed ????
-    # torch.manual_seed(torch.seed)
-    embedding_matrix = torch.randn(len(vocab), embedding_dim)
+    seed: int | None = None,
+) -> torch.Tensor | tuple[torch.Tensor, list[str]]:
+    generator = None
+    if seed is not None:
+        generator = torch.Generator()
+        generator.manual_seed(seed)
+    if generator is None:
+        embedding_matrix = torch.randn(len(vocab), embedding_dim)
+    else:
+        embedding_matrix = torch.randn(
+            len(vocab), embedding_dim, generator=generator
+        )
     embedding_matrix[vocab["<PAD>"]] = torch.zeros(embedding_dim)
     found = 0
     found_words = set()

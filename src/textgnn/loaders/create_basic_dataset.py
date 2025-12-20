@@ -26,7 +26,6 @@ def create_basic_dataset(dataset_config: dict, dataset_save_path: str):
         remove_rare_words=preprocess_config["remove_rare_words"],
         vocab_size=vocab_size,
     )
-    # X_tensor,y_tensors = encode_lstm_dataset(df, encode_token_type=dataset_config["encoding"]["encode_token_type"],vocab=vocab)
 
     split_dict = get_tensors_tvt_split(
         tensors={"X": df["text"], "y": df["label"]},
@@ -49,11 +48,3 @@ def create_basic_dataset(dataset_config: dict, dataset_save_path: str):
 
     with open(os.path.join(save_dir, "vocab.pkl"), "wb") as f:
         pickle.dump(vocab, f)
-    # if dataset_config["encoding"]["encode_token_type"] == "glove":
-    #     # glove_path = dataset_config["encoding"]["glove_path"]
-    #     embedding_dim = dataset_config["encoding"]["embedding_dim"]
-    #     embedding_matrix = load_glove_embeddings(
-    #         vocab, embedding_dim, tokens_trained_on=6
-    #     )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
-    #     # Save embedding matrix
-    #     torch.save(embedding_matrix, os.path.join(save_dir, "embedding_matrix.pt"))

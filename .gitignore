@@ -5,6 +5,8 @@ saved/
 mlruns/
 text-gnn/
 notebooks/
+CLAUDE.md
+code_review_analysis.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

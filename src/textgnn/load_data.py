@@ -7,9 +7,6 @@ import os
 from .utils import get_function_from_path, filter_kwargs_for_class
 from torch_geometric.nn import GCNConv, GATConv
 
-# import memory_profiler
-# import line_profiler
-
 ARTIFACT_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_artifacts",
     "text_gcn": "textgnn.loaders.temp_loader.create_gnn_artifacts",  # future
@@ -34,12 +31,6 @@ GET_DATASET_OBJECT_FUNCS = {
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
     "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",  # future
 }
-# COLLATE_FN_CREATORS = {
-#     "lstm": "textgnn.loaders.lstm_loader.lstm_collate_fn",
-#     "text_gcn": "textgnn.loaders.lstm_loader.LSTMDataset",  # future
-#     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.textlevelgnn_collate_fn",  # future
-# }
-
 
 from .utils import slugify
 
@@ -82,7 +73,6 @@ def create_dataset_artifacts(
     dataset_config: dict,
     missing_parrent: bool = False,
 ):
-    # parent_dir_path = os.path.join(get_saved_path(), dataset_save_path)
     if model_type not in ARTIFACT_CREATORS:
         raise ValueError(f"Invalid model type{model_type}")
     create_fn = get_function_from_path(ARTIFACT_CREATORS[model_type])
@@ -116,15 +106,8 @@ def get_dataset_object_func(dataset_config: dict, model_type: str):
     return get_object_fn
 
 
-# def load_split():
-#    pass
-
-
-# @memory_profiler.profile
-# @line_profiler
 def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
     """Loads or creates and loads the dataset based on the provided configuration and model type."""
-    # save_fn = create_file_name(dataset_config, model_type)
     dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
     dataset_save_path = os.path.join(
         get_saved_path(), dataset_dir_name
@@ -147,13 +130,6 @@ def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
         return load_data(dataset_config, model_type, split)
 
     else:
-        # dataset_class = get_dataset_class(model_type)
-
-        # dataset_conf = filter_kwargs_for_class(dataset_class, dataset_config)
-
-        # HARD CODED :/+
-
-        # dataset = dataset_class(**dataset_conf)
         get_dataset_object = get_dataset_object_func(dataset_config, model_type)
         dataset = get_dataset_object(
             dataset_save_path=dataset_save_path,

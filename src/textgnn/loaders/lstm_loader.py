@@ -5,7 +5,6 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 
 from textgnn.dataset import TextDataset
-from textgnn.prep_data import clean_data
 from textgnn.utils import (
     get_data_path,
     get_saved_path,
@@ -15,11 +14,6 @@ from textgnn.utils import (
 import pickle
 from .utils import create_dir_name_based_on_dataset_config
 from .create_basic_dataset import create_basic_dataset
-
-# def encode_lstm_dataset(df, encode_token_type, vocab):
-#     X = encode_tokens(encode_token_type, df=df["text"], vocab=vocab)
-#     y = encode_labels(df["label"])
-#     return X, y
 
 
 def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
@@ -59,13 +53,10 @@ def create_lstm_artifacts(
 
     vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
     if dataset_config["encoding"]["encode_token_type"] == "glove":
-        # glove_path = dataset_config["encoding"]["glove_path"]
         embedding_dim = dataset_config["encoding"]["embedding_dim"]
         embedding_matrix = load_glove_embeddings(
             vocab, embedding_dim, tokens_trained_on=6
         )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
-        # Save embedding matrix
-        # create the sub dir at path = full_path
         os.makedirs(full_path, exist_ok=True)
         torch.save(embedding_matrix, os.path.join(full_path, "embedding_matrix.pt"))
 
@@ -125,7 +116,6 @@ class LSTMDataset(TextDataset):
 
         df = pd.read_csv(csv_path)
         vocab = pickle.load(open(vocab_path, "rb")) if vocab_path else None
-        # self.encode_token_type = encode_token_type
         super().__init__(df=df, vocab=vocab, encode_token_type=encode_token_type)
         self.embedding_matrix = (
             torch.load(embedding_matrix_path) if embedding_matrix_path else None
@@ -135,10 +125,6 @@ class LSTMDataset(TextDataset):
         self.max_len = max_len
         self.collate_fn = lstm_collate_fn
         assert self.vocab is not None, "Vocabulary must be provided."
-
-        # self.max_len = max_len if max_len is not None else max(len(text.split()) for text in self.texts)
-
-        # self.min_len = min(len(text.split()) for text in self.texts)
 
     def encode_tokens(self, tokens: list[str]) -> torch.Tensor:  # TODO: add lru chache
         if self.max_len is not None:
@@ -170,11 +156,7 @@ class LSTMDataset(TextDataset):
         else:
             raise ValueError(f"Unknown encoding type: {self.encode_token_type}")
 
-    # def __len__(self):
-    #     return len(self.df)
-
     def __getitem__(self, idx):
-        # row = self.df.iloc[idx] # iloc is o(n) supposedly, will use list instead.
         tokens = self.texts[idx].split()
         label = int(self.labels[idx])
         encoded = self.encode_tokens(tokens)

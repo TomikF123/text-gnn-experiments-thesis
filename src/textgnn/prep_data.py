@@ -1,4 +1,3 @@
-## pd.df in,
 import pandas as pd
 from os.path import join, exists
 import re
@@ -6,7 +5,6 @@ import nltk
 from .utils import get_data_path
 import torch
 from collections import Counter
-#import torch.nn.functional as F
 
 
 def clean_data(
@@ -17,10 +15,8 @@ def clean_data(
     remove_rare_words: int = True,
     vocab_size: int = None,
 ) -> list[pd.DataFrame, dict]:
-    # orig_len = len(df) #debug
     df.dropna(subset=[f"{text_col}"], inplace=True)
     df.dropna(subset=[f"{label_col}"], inplace=True)
-    # print(f"Cleaned data from {orig_len} to {len(df)} samples.") #debug
     df[f"{text_col}"] = df[f"{text_col}"].astype(str)
     df[f"{text_col}"] = df[f"{text_col}"].str.lower()
     df[f"{text_col}"] = clean_doc(df[f"{text_col}"])
@@ -32,7 +28,6 @@ def clean_data(
             df[f"{text_col}"], word_freq, min_freq=remove_rare_words
         )
     vocab = build_word_to_index(word_freq)
-    # df[f"{label_col}"] = encode_labels(df[f"{label_col}"])
     df.dropna(subset=[f"{text_col}"], inplace=True)
     print(f"number of NAs in {text_col}: {df[f'{text_col}'].isna().sum()}")
     df = df[df[text_col].apply(lambda x: len(x) > 0)].copy()
@@ -40,8 +35,6 @@ def clean_data(
         "Number of rows that have empty text:",
         df[f"{text_col}"].apply(lambda x: len(x) == 0).sum(),
     )
-    # final_len = len(df)#debug
-    # print(f"Cleaned data from {orig_len} to {final_len} samples.") #debug
     return df, vocab
 
 
@@ -123,28 +116,9 @@ def rare_words_removal(
     )
     df = df.apply(lambda x: [word for word in x if word in vocab])
     msg = f"removed {len(counter) - len(vocab)} rare words from the vocabulary, thats total {counter.total() - vocab.total()} words removed from the cropus."
-
-    # not_in_vocab = set(counter.keys()) - set(vocab.keys())
-    # print(not_in_vocab, vocab["<PAD>"], vocab["<UNK>"] )
-
     print(msg)
     return df, vocab
 
 
 if __name__ == "__main__":
-    # mr_all = pd.read_csv(join(get_data_path(), 'mr.csv'))
-    # mr_all,vocab = clean_data(mr_all,remove_stop_words=False, remove_rare_words=0,vocab_size=None)
-    # print(type(mr_all), mr_all.shape, "\n")
-    # text_tensor, label_tensor = encode_dataset(df=mr_all, encode_token_type="ti-idf", model_type="lstm",vocab=vocab)
-    # print("Text tensor shape:", text_tensor.size())
-    # #print("Label tensor shape:", label_tensor.size())
-    # print(text_tensor[0], "\n")
-    # print(build_word_to_index(build_word_freq(mr_all["text"], vocab_size=1000)))
     pass
-    # print(mr_all)
-
-    # ng20 = pd.read_csv(join(get_data_path(), '20ng.csv'))
-    # ng20 = clean_data(ng20)
-    # ng = ng20.copy()
-    # ng["label"] = encode_labels(ng20["label"])
-    # print(ng20["label"].head(5),"\n",ng["label"].head(5),"\n")
