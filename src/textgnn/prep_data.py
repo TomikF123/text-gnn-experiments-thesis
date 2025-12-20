@@ -5,6 +5,9 @@ import nltk
 from .utils import get_data_path
 import torch
 from collections import Counter
+from .logger import setup_logger
+
+logger = setup_logger(__name__)
 
 
 def clean_data(
@@ -29,11 +32,10 @@ def clean_data(
         )
     vocab = build_word_to_index(word_freq)
     df.dropna(subset=[f"{text_col}"], inplace=True)
-    print(f"number of NAs in {text_col}: {df[f'{text_col}'].isna().sum()}")
+    logger.info(f"Number of NAs in {text_col}: {df[f'{text_col}'].isna().sum()}")
     df = df[df[text_col].apply(lambda x: len(x) > 0)].copy()
-    print(
-        "Number of rows that have empty text:",
-        df[f"{text_col}"].apply(lambda x: len(x) == 0).sum(),
+    logger.info(
+        f"Number of rows with empty text: {df[f'{text_col}'].apply(lambda x: len(x) == 0).sum()}"
     )
     return df, vocab
 
@@ -93,7 +95,7 @@ def stop_words_removal(df: pd.Series, vocab: dict) -> list[pd.Series, dict]:
     from nltk.corpus import stopwords
 
     stop_words = set(stopwords.words("english"))
-    print("Removing stopwords...")  #  debug
+    logger.info("Removing stopwords...")
     # remove stopwords from vocab
     vocab = Counter(
         {word: idx for word, idx in vocab.items() if word not in stop_words}
@@ -106,7 +108,7 @@ def rare_words_removal(
 ) -> list[pd.Series, dict]:
     # remove words that appear less than min_freq times in the vocab
     counter = vocab
-    print("Removing rare words...")  # ← debug line
+    logger.info("Removing rare words...")
     vocab = Counter(
         {
             word: idx
@@ -116,7 +118,7 @@ def rare_words_removal(
     )
     df = df.apply(lambda x: [word for word in x if word in vocab])
     msg = f"removed {len(counter) - len(vocab)} rare words from the vocabulary, thats total {counter.total() - vocab.total()} words removed from the cropus."
-    print(msg)
+    logger.info(msg)
     return df, vocab
 
 

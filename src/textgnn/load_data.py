@@ -6,6 +6,9 @@ import torch
 import os
 from .utils import get_function_from_path, filter_kwargs_for_class
 from torch_geometric.nn import GCNConv, GATConv
+from .logger import setup_logger
+
+logger = setup_logger(__name__)
 
 ARTIFACT_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_artifacts",
@@ -138,7 +141,7 @@ def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
             split=split,
             model_type=model_type,
         )
-        print(dataset)
+        logger.info(f"Loaded {split} dataset: {dataset}")
         return dataset
 
 

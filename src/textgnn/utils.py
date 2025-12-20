@@ -14,8 +14,10 @@ import importlib
 import inspect
 import pandas as pd
 from torch.utils.data import random_split
-# src/textgnn/paths.py
 from pathlib import Path
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def get_project_root() -> Path:
@@ -111,8 +113,8 @@ def load_glove_embeddings(
                         found_words.add(word)
 
     missing_words = sorted(set(vocab.keys()) - found_words)
-    print(f"Found {found} GloVe vectors for {len(vocab)} vocab words.")
-    print(f"Missing {len(missing_words)} words (e.g., {missing_words[:50]}...)")
+    logger.info(f"Found {found} GloVe vectors for {len(vocab)} vocab words.")
+    logger.info(f"Missing {len(missing_words)} words (e.g., {missing_words[:50]}...)")
     if return_missing:
         return embedding_matrix, missing_words
     else:
@@ -128,7 +130,7 @@ def set_global_seed(seed: int, include_cuda: bool = True):
     torch.manual_seed(seed)
     if include_cuda and torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
-    print(f"✅ Global seed set to {seed}")
+    logger.info(f"Global seed set to {seed}")
 
 
 # def get_current_seed():
