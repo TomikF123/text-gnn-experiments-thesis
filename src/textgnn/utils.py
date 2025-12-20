@@ -69,17 +69,7 @@ def get_tensors_tvt_split(
 
 
 
-# Should be:
-def df_tvt_split(df: pd.DataFrame,tvt_split:list,seed:int = 42) -> dict[str, pd.DataFrame]:
-    train_size = int(0.7 * len(dataset))
-val_size = int(0.15 * len(dataset))
-test_size = len(dataset) - train_size - val_size
 
-train_dataset, val_dataset, test_dataset = random_split(
-    dataset, 
-    [train_size, val_size, test_size],
-    generator=torch.Generator().manual_seed(42)
-)
 
 def load_glove_embeddings(
     vocab: dict,
