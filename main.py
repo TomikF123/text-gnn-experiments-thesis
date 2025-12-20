@@ -9,10 +9,12 @@ from os.path import join
 from textgnn.model_factory import create_model
 from textgnn.train import train_model
 from textgnn.eval import evaluate
+from textgnn.logger import setup_logger
 
-# from config_class import Config, DatasetConfig, ModelConfig
 import mlflow
 from textgnn.config_class import Config, DatasetConfig, ModelConfig
+
+logger = setup_logger(__name__)
 
 
 # Set up MLflow tracking URI
@@ -50,15 +52,15 @@ parsed_config = parse_json(config_path)
 dataset_config = DatasetConfig(**parsed_config["dataset"])
 model_config = ModelConfig(**parsed_config["model_config"])
 
-print("validating config")
+logger.info("Validating config...")
 config = Config(
     run_name=parsed_config["run_name"],
     experiment_name=parsed_config["experiment_name"],
     dataset=dataset_config,
     model_conf=model_config,
 )
-print("Parsed config:", config.dataset.name)
-print("Loading Data")
+logger.info(f"Parsed config: {config.dataset.name}")
+logger.info("Loading data...")
 train_data_set = load_data(
     dataset_config=config.dataset.model_dump(),
     model_type=config.model_conf.model_type,
@@ -70,8 +72,7 @@ test_data_set = load_data(
     model_type=config.model_conf.model_type,
     split="test",
 )
-# print(train_data_set.__getitem__(0))
-print(train_data_set)
+logger.info(f"Train dataset: {train_data_set}")
 train_data_loader = DataLoader(
     train_data_set,
     batch_size=config.model_conf.common_params["batch_size"],
@@ -98,6 +99,6 @@ evaluate(
     data_loader=test_data_loader,
     device="cpu",
 )
-print("Train train_data_loader loaded:", train_data_loader)
+logger.info(f"Training complete. Data loader: {train_data_loader}")
 if __name__ == "__main__":
     pass
