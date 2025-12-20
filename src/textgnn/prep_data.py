@@ -17,7 +17,7 @@ def clean_data(
     remove_stop_words: bool = True,
     remove_rare_words: int = True,
     vocab_size: int = None,
-) -> list[pd.DataFrame, dict]:
+) -> tuple[pd.DataFrame, dict]:
     df.dropna(subset=[f"{text_col}"], inplace=True)
     df.dropna(subset=[f"{label_col}"], inplace=True)
     df[f"{text_col}"] = df[f"{text_col}"].astype(str)
@@ -68,7 +68,7 @@ def encode_labels(df: pd.Series) -> torch.Tensor:
     return tensor
 
 
-def clean_doc(df: pd.Series):
+def clean_doc(df: pd.Series) -> pd.Series:
     remove_https = re.compile(r"http[s]?\:\/\/.[a-zA-Z0-9\.\/\_?=%&#\-\+!]+")
     remove_punct = re.compile(r"[^\w\s]")
     remove_encoded_block = re.compile(  # Remove long UUencode/Base64-like lines
@@ -89,7 +89,7 @@ def clean_doc(df: pd.Series):
     return df
 
 
-def stop_words_removal(df: pd.Series, vocab: dict) -> list[pd.Series, dict]:
+def stop_words_removal(df: pd.Series, vocab: dict) -> tuple[pd.Series, dict]:
 
     nltk.data.path.append(get_data_path())
     from nltk.corpus import stopwords
@@ -105,7 +105,7 @@ def stop_words_removal(df: pd.Series, vocab: dict) -> list[pd.Series, dict]:
 
 def rare_words_removal(
     df: pd.Series, vocab: dict, min_freq: int = 2
-) -> list[pd.Series, dict]:
+) -> tuple[pd.Series, dict]:
     # remove words that appear less than min_freq times in the vocab
     counter = vocab
     logger.info("Removing rare words...")

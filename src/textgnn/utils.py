@@ -41,6 +41,31 @@ def get_saved_path() -> Path:
     return get_project_root() / "saved"
 
 
+def get_active_encoding(dataset_config: dict) -> dict:
+    """
+    Returns the active encoding config (rnn_encoding or gnn_encoding).
+    Does not mutate the original config.
+
+    Args:
+        dataset_config: Dataset configuration dictionary
+
+    Returns:
+        The active encoding configuration dict
+
+    Raises:
+        ValueError: If neither or both encodings are present
+    """
+    rnn_enc = dataset_config.get("rnn_encoding")
+    gnn_enc = dataset_config.get("gnn_encoding")
+
+    if rnn_enc is not None and gnn_enc is not None:
+        raise ValueError("Only one of rnn_encoding or gnn_encoding should be provided")
+    if rnn_enc is None and gnn_enc is None:
+        raise ValueError("One of rnn_encoding or gnn_encoding must be provided")
+
+    return rnn_enc if rnn_enc is not None else gnn_enc
+
+
 def get_tensors_tvt_split(
     tensors: dict, tvt_split: list, seed: int = 42
 ) -> dict[str, tuple]:

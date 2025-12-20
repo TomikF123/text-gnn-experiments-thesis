@@ -6,6 +6,7 @@ from torch.nn.utils.rnn import pad_sequence
 
 from textgnn.dataset import TextDataset
 from textgnn.utils import (
+    get_active_encoding,
     get_data_path,
     get_saved_path,
     get_tensors_tvt_split,
@@ -42,7 +43,7 @@ def create_lstm_artifacts(
     dataset_save_path: str,
     full_path: str,
     missing_parent: bool = False,
-):
+) -> None:
     """
     save some lstm/rnn specific dataset files in the base dataset
     """
@@ -52,11 +53,13 @@ def create_lstm_artifacts(
         )
 
     vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
-    if dataset_config["encoding"]["encode_token_type"] == "glove":
-        embedding_dim = dataset_config["encoding"]["embedding_dim"]
+    encoding = get_active_encoding(dataset_config)
+    if encoding["encode_token_type"] == "glove":
+        embedding_dim = encoding["embedding_dim"]
+        tokens_trained_on = encoding.get("tokens_trained_on", 6)
         embedding_matrix = load_glove_embeddings(
-            vocab, embedding_dim, tokens_trained_on=6
-        )  # TODO: tokens_trained_on value is hardcoded, include somehow in config
+            vocab, embedding_dim, tokens_trained_on=tokens_trained_on
+        )
         os.makedirs(full_path, exist_ok=True)
         torch.save(embedding_matrix, os.path.join(full_path, "embedding_matrix.pt"))
 
@@ -75,8 +78,9 @@ def get_lstm_dataset_object(
     vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
     embedding_matrix_path = os.path.join(full_path, "embedding_matrix.pt")
 
+    encoding = get_active_encoding(dataset_config)
     return LSTMDataset(
-        encode_token_type=dataset_config["encoding"].get("encode_token_type", "index"),
+        encode_token_type=encoding.get("encode_token_type", "index"),
         embedding_matrix_path=embedding_matrix_path,
         csv_path=csv_path,
         vocab_path=vocab_path,
@@ -85,12 +89,12 @@ def get_lstm_dataset_object(
 
 
 def create_lstm_filename(dataset_config: dict, model_type: str) -> str:
-    dataset_config["encoding"] = dataset_config["rnn_encoding"]  # TODO this is bad
+    encoding = get_active_encoding(dataset_config)
     name = dataset_config["name"]
-    tokens_trained_on = dataset_config["encoding"].get("tokens_trained_on", None)
-    embed_dim = dataset_config["encoding"].get("embedding_dim", None)
+    tokens_trained_on = encoding.get("tokens_trained_on", None)
+    embed_dim = encoding.get("embedding_dim", None)
     encode_token_type = (
-        dataset_config["encoding"]["encode_token_type"] + str(tokens_trained_on) + "B"
+        encoding["encode_token_type"] + str(tokens_trained_on) + "B"
         if str(tokens_trained_on)
         else ""
     )

@@ -4,6 +4,7 @@ from .utils import get_data_path, get_saved_path
 import pandas as pd
 import torch
 import os
+from typing import Callable
 from .utils import get_function_from_path, filter_kwargs_for_class
 from torch_geometric.nn import GCNConv, GATConv
 from .logger import setup_logger
@@ -39,7 +40,6 @@ from .utils import slugify
 
 
 def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
-    dataset_config["encoding"] = dataset_config["rnn_encoding"]
     name = dataset_config["name"]
     train_ratio = int(dataset_config["tvt_split"][0] * 100)
     val_ratio = int(dataset_config["tvt_split"][1] * 100)
@@ -75,7 +75,7 @@ def create_dataset_artifacts(
     model_type: str,
     dataset_config: dict,
     missing_parent: bool = False,
-):
+) -> None:
     if model_type not in ARTIFACT_CREATORS:
         raise ValueError(f"Invalid model type: {model_type}")
     create_fn = get_function_from_path(ARTIFACT_CREATORS[model_type])
@@ -102,7 +102,7 @@ def get_dataset_class(model_type: str) -> TextDataset:
     return dataset_class
 
 
-def get_dataset_object_func(dataset_config: dict, model_type: str):
+def get_dataset_object_func(dataset_config: dict, model_type: str) -> Callable:
     if model_type not in GET_DATASET_OBJECT_FUNCS:
         raise ValueError(f"Unsupported model type: {model_type}")
     get_object_fn = get_function_from_path(GET_DATASET_OBJECT_FUNCS[model_type])

@@ -11,7 +11,7 @@ from textgnn.dataset import TextDataset
 from textgnn.prep_data import clean_data
 
 
-def create_basic_dataset(dataset_config: dict, dataset_save_path: str):
+def create_basic_dataset(dataset_config: dict, dataset_save_path: str) -> None:
     """
     Creates the base of the dataset needed. That is a preprocessed CSV files and vocab.
     """

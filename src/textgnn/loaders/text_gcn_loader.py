@@ -3,10 +3,12 @@ import torch.nn as nn
 from dataset import TextDataset
 import pickle
 from utils import slugify
+from textgnn.utils import get_active_encoding
 
 def create_text_gcn_filename(dataset_config: dict) -> str:
     name = "text_gcn"
-    window_size = dataset_config["encoding"].get("window_size", 1)
+    encoding = get_active_encoding(dataset_config)
+    window_size = encoding.get("window_size", 1)
 
 
     # tokens_trained_on = dataset_config["encoding"].get("tokens_trained_on", None)
