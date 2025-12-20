@@ -18,6 +18,21 @@ def clean_data(
     remove_rare_words: int = True,
     vocab_size: int = None,
 ) -> tuple[pd.DataFrame, dict]:
+    """
+    DEPRECATED: This function processes all data together and causes data leakage.
+    Use clean_text_pipeline(), build_vocabulary(), and apply_vocabulary() instead.
+
+    This function is kept for backward compatibility but should not be used.
+    """
+    import warnings
+    warnings.warn(
+        "clean_data() is deprecated due to data leakage. "
+        "Use clean_text_pipeline(), build_vocabulary(), and apply_vocabulary() instead.",
+        DeprecationWarning,
+        stacklevel=2
+    )
+
+    # Keep existing implementation for backward compatibility
     df.dropna(subset=[f"{text_col}"], inplace=True)
     df.dropna(subset=[f"{label_col}"], inplace=True)
     df[f"{text_col}"] = df[f"{text_col}"].astype(str)
@@ -89,37 +104,123 @@ def clean_doc(df: pd.Series) -> pd.Series:
     return df
 
 
-def stop_words_removal(df: pd.Series, vocab: dict) -> tuple[pd.Series, dict]:
+def clean_text_pipeline(
+    text_series: pd.Series,
+    text_col: str = "text"
+) -> pd.Series:
+    """
+    Clean and tokenize text without building vocabulary.
 
-    nltk.data.path.append(get_data_path())
-    from nltk.corpus import stopwords
+    Args:
+        text_series: Series of raw text strings
+        text_col: Column name (for logging)
 
-    stop_words = set(stopwords.words("english"))
-    logger.info("Removing stopwords...")
-    # remove stopwords from vocab
-    vocab = Counter(
-        {word: idx for word, idx in vocab.items() if word not in stop_words}
-    )
-    return df.apply(lambda x: [word for word in x if word not in stop_words]), vocab
+    Returns:
+        Series of tokenized text (list[str])
+    """
+    # Drop NAs
+    text_series = text_series.dropna()
+
+    # Convert to string and lowercase
+    text_series = text_series.astype(str).str.lower()
+
+    # Apply cleaning (reuse existing clean_doc logic)
+    text_series = clean_doc(text_series)
+
+    logger.info(f"Cleaned {len(text_series)} documents")
+
+    return text_series
 
 
-def rare_words_removal(
-    df: pd.Series, vocab: dict, min_freq: int = 2
-) -> tuple[pd.Series, dict]:
-    # remove words that appear less than min_freq times in the vocab
-    counter = vocab
-    logger.info("Removing rare words...")
-    vocab = Counter(
-        {
-            word: idx
-            for word, idx in vocab.items()
-            if counter[word] >= min_freq or word in ["<PAD>", "<UNK>"]
-        }
-    )
-    df = df.apply(lambda x: [word for word in x if word in vocab])
-    msg = f"removed {len(counter) - len(vocab)} rare words from the vocabulary, thats total {counter.total() - vocab.total()} words removed from the cropus."
-    logger.info(msg)
-    return df, vocab
+def build_vocabulary(
+    text_series: pd.Series,
+    remove_stop_words: bool = True,
+    remove_rare_words: int | None = None,
+    vocab_size: int | None = None
+) -> dict[str, int]:
+    """
+    Build vocabulary from cleaned, tokenized text.
+
+    Args:
+        text_series: Series of tokenized documents (list[str])
+        remove_stop_words: Whether to exclude stopwords from vocab
+        remove_rare_words: Minimum word frequency (None to keep all)
+        vocab_size: Maximum vocabulary size (None for unlimited)
+
+    Returns:
+        word-to-index mapping with <PAD> and <UNK> tokens
+    """
+    # Build word frequency counter
+    word_freq = build_word_freq(text_series, vocab_size)
+
+    # Remove stopwords from vocabulary
+    if remove_stop_words:
+        from nltk.corpus import stopwords
+        import nltk
+        nltk.data.path.append(get_data_path())
+        stop_words = set(stopwords.words("english"))
+
+        logger.info("Removing stopwords from vocabulary...")
+        word_freq = Counter({
+            word: count for word, count in word_freq.items()
+            if word not in stop_words
+        })
+
+    # Remove rare words from vocabulary
+    if remove_rare_words:
+        logger.info(f"Removing words with frequency < {remove_rare_words}...")
+        original_count = len(word_freq)
+        word_freq = Counter({
+            word: count for word, count in word_freq.items()
+            if count >= remove_rare_words
+        })
+        logger.info(f"Removed {original_count - len(word_freq)} rare words from vocabulary")
+
+    # Build word-to-index mapping
+    vocab = build_word_to_index(word_freq)
+    logger.info(f"Final vocabulary size: {len(vocab)}")
+
+    return vocab
+
+
+def apply_vocabulary(
+    text_series: pd.Series,
+    vocab: dict[str, int],
+    remove_stop_words: bool = False
+) -> pd.Series:
+    """
+    Filter tokenized text to only include words in vocabulary.
+
+    Args:
+        text_series: Series of tokenized documents (list[str])
+        vocab: word-to-index mapping
+        remove_stop_words: Whether to also remove stopwords from documents
+
+    Returns:
+        Series of filtered tokenized documents
+    """
+    if remove_stop_words:
+        from nltk.corpus import stopwords
+        import nltk
+        nltk.data.path.append(get_data_path())
+        stop_words = set(stopwords.words("english"))
+
+        # Remove stopwords AND filter to vocab
+        text_series = text_series.apply(
+            lambda tokens: [
+                word for word in tokens
+                if word not in stop_words and word in vocab
+            ]
+        )
+    else:
+        # Only filter to vocab
+        text_series = text_series.apply(
+            lambda tokens: [word for word in tokens if word in vocab]
+        )
+
+    logger.info(f"Applied vocabulary to {len(text_series)} documents")
+
+    return text_series
 
 
 if __name__ == "__main__":

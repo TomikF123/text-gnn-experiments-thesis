@@ -95,6 +95,59 @@ def get_tensors_tvt_split(
     }
 
 
+def split_dataframe_tvt(
+    df: pd.DataFrame,
+    tvt_split: tuple[float, float, float],
+    seed: int,
+    label_col: str = "label"
+) -> dict[str, pd.DataFrame]:
+    """
+    Split DataFrame into train/val/test splits with stratification.
+
+    Args:
+        df: DataFrame with text and labels
+        tvt_split: Tuple of (train_ratio, val_ratio, test_ratio)
+        seed: Random seed for reproducibility
+        label_col: Name of the label column
+
+    Returns:
+        Dictionary with keys 'train', 'val', 'test' (val may be None if ratio is 0)
+    """
+    train_ratio, val_ratio, test_ratio = tvt_split
+
+    # First split: separate test set
+    if test_ratio > 0:
+        train_val_df, test_df = train_test_split(
+            df,
+            test_size=test_ratio,
+            random_state=seed,
+            stratify=df[label_col]
+        )
+    else:
+        train_val_df = df
+        test_df = None
+
+    # Second split: separate validation set from training
+    if val_ratio > 0:
+        # Adjust val ratio relative to remaining data
+        val_ratio_adjusted = val_ratio / (train_ratio + val_ratio)
+        train_df, val_df = train_test_split(
+            train_val_df,
+            test_size=val_ratio_adjusted,
+            random_state=seed,
+            stratify=train_val_df[label_col]
+        )
+    else:
+        train_df = train_val_df
+        val_df = None
+
+    result = {"train": train_df}
+    if val_df is not None:
+        result["val"] = val_df
+    if test_df is not None:
+        result["test"] = test_df
+
+    return result
 
 
 

@@ -56,6 +56,7 @@ def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
         f"stop_words_remove_{remove_stopwords}",
         f"rare_words_remove_{remove_rare_words}",
         f"vocab_size_{vocab_size}",
+        "v2",  # Version marker (v1 = leaky vocab, v2 = train-only vocab)
     ]
     dir_name = "_".join(parts)
     return slugify(dir_name)
@@ -121,6 +122,15 @@ def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
     full_path = os.path.join(
         dataset_save_path, save_fn
     )  # full relative path of the model/architecture specific enodings of the preprocess dataset(parrent dir)
+
+    # Check for old cache format (without v2 marker)
+    old_cache_path = dataset_save_path.replace("_v2", "")
+    if old_cache_path != dataset_save_path and os.path.exists(old_cache_path):
+        logger.warning(
+            f"Old cache detected at {old_cache_path}. "
+            "This cache has DATA LEAKAGE (vocab built from all splits). "
+            f"Using new cache at {dataset_save_path} instead."
+        )
 
     if not os.path.exists(full_path):
         create_dataset_artifacts(
