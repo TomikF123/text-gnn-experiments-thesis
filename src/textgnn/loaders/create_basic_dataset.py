@@ -3,23 +3,24 @@ import pandas as pd
 from textgnn.utils import get_data_path, get_saved_path, split_dataframe_tvt
 from textgnn.prep_data import clean_text_pipeline, build_vocabulary, apply_vocabulary
 from textgnn.logger import setup_logger
+from textgnn.config_class import DatasetConfig
 
 logger = setup_logger(__name__)
 
 
-def create_basic_dataset(dataset_config: dict, dataset_save_path: str) -> None:
+def create_basic_dataset(dataset_config: DatasetConfig, dataset_save_path: str) -> None:
     """
     Creates the base preprocessed dataset with proper train/val/test splitting.
 
     IMPORTANT: Vocabulary is built ONLY from training data to prevent data leakage.
 
     Args:
-        dataset_config: Dataset configuration dictionary
+        dataset_config: Pydantic DatasetConfig model
         dataset_save_path: Path to save preprocessed dataset artifacts
     """
-    name = dataset_config["name"]
-    preprocess_config = dataset_config["preprocess"]
-    vocab_size = dataset_config.get("vocab_size", None)
+    name = dataset_config.name
+    preprocess_config = dataset_config.preprocess
+    vocab_size = dataset_config.vocab_size
 
     # Step 1: Load raw data
     logger.info(f"Loading dataset: {name}")
@@ -30,11 +31,11 @@ def create_basic_dataset(dataset_config: dict, dataset_save_path: str) -> None:
     logger.info(f"Dataset size after dropping NAs: {len(df)}")
 
     # Step 2: SPLIT FIRST (before any vocabulary-dependent preprocessing)
-    logger.info(f"Splitting dataset with ratios: {dataset_config['tvt_split']}")
+    logger.info(f"Splitting dataset with ratios: {dataset_config.tvt_split}")
     split_dfs = split_dataframe_tvt(
         df=df,
-        tvt_split=dataset_config["tvt_split"],
-        seed=dataset_config["random_seed"],
+        tvt_split=dataset_config.tvt_split,
+        seed=dataset_config.random_seed,
         label_col="label"
     )
 
@@ -49,8 +50,8 @@ def create_basic_dataset(dataset_config: dict, dataset_save_path: str) -> None:
     logger.info("Building vocabulary from TRAINING data only...")
     vocab = build_vocabulary(
         text_series=split_dfs["train"]["text"],
-        remove_stop_words=preprocess_config["remove_stopwords"],
-        remove_rare_words=preprocess_config["remove_rare_words"],
+        remove_stop_words=preprocess_config.remove_stopwords,
+        remove_rare_words=preprocess_config.remove_rare_words,
         vocab_size=vocab_size
     )
 
@@ -60,7 +61,7 @@ def create_basic_dataset(dataset_config: dict, dataset_save_path: str) -> None:
         split_dfs[split_name]["text"] = apply_vocabulary(
             text_series=split_dfs[split_name]["text"],
             vocab=vocab,
-            remove_stop_words=preprocess_config["remove_stopwords"]
+            remove_stop_words=preprocess_config.remove_stopwords
         )
 
     # Step 6: Remove empty documents (can occur after vocab filtering)

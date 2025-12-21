@@ -16,6 +16,10 @@ import pandas as pd
 from torch.utils.data import random_split
 from pathlib import Path
 import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from .config_class import DatasetConfig, RNNencodingConfig, GNNencodingConfig
 
 logger = logging.getLogger(__name__)
 
@@ -41,22 +45,21 @@ def get_saved_path() -> Path:
     return get_project_root() / "saved"
 
 
-def get_active_encoding(dataset_config: dict) -> dict:
+def get_active_encoding(dataset_config: "DatasetConfig") -> "RNNencodingConfig | GNNencodingConfig":
     """
     Returns the active encoding config (rnn_encoding or gnn_encoding).
-    Does not mutate the original config.
 
     Args:
-        dataset_config: Dataset configuration dictionary
+        dataset_config: Dataset configuration (Pydantic DatasetConfig model)
 
     Returns:
-        The active encoding configuration dict
+        The active encoding configuration (RNNencodingConfig or GNNencodingConfig)
 
     Raises:
         ValueError: If neither or both encodings are present
     """
-    rnn_enc = dataset_config.get("rnn_encoding")
-    gnn_enc = dataset_config.get("gnn_encoding")
+    rnn_enc = dataset_config.rnn_encoding
+    gnn_enc = dataset_config.gnn_encoding
 
     if rnn_enc is not None and gnn_enc is not None:
         raise ValueError("Only one of rnn_encoding or gnn_encoding should be provided")

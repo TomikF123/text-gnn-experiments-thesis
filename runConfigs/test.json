@@ -3,18 +3,18 @@
 "run_name": "test_run",
 "dataset": {
     "name": "mr",
-    "tvt_split": [0.91, 0, 0.09],
+    "tvt_split": [0.9, 0, 0.1],
     "shuffle": true,
     "random_seed": 123,
     
     "preprocess": {
-      "remove_stopwords": true,
+      "remove_stopwords": false,
       "remove_rare_words": 5
     },
     "rnn_encoding": {
       "encode_token_type": "glove",
       "tokens_trained_on": 6,
-      "embedding_dim": 50
+      "embedding_dim": 100
     }
     
 },
@@ -31,7 +31,7 @@
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
-      "embedding_dim": 50,
+      "embedding_dim": 100,
       "lr": 0.001
     }
 

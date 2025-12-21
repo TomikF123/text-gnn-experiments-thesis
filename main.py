@@ -62,13 +62,13 @@ config = Config(
 logger.info(f"Parsed config: {config.dataset.name}")
 logger.info("Loading data...")
 train_data_set = load_data(
-    dataset_config=config.dataset.model_dump(),
+    dataset_config=config.dataset,
     model_type=config.model_conf.model_type,
     split="train",
 )
 
 test_data_set = load_data(
-    dataset_config=config.dataset.model_dump(),
+    dataset_config=config.dataset,
     model_type=config.model_conf.model_type,
     split="test",
 )
@@ -87,11 +87,11 @@ test_data_loader = DataLoader(
 )
 
 model = create_model(
-    model_config=config.model_conf.model_dump(),
-    dataset_config=config.dataset.model_dump(),
+    model_config=config.model_conf,
+    dataset_config=config.dataset,
 )
 trained_model = train_model(
-    model=model, dataloaders=train_data_loader, config=config.model_conf.model_dump()
+    model=model, dataloaders=train_data_loader, config=config.model_conf
 )
 
 evaluate(

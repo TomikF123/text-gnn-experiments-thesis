@@ -1,18 +1,20 @@
 # models/lstm/train.py
 import torch
 from torch import nn
+from textgnn.config_class import ModelConfig
+from textgnn.models.base_text_classifier import BaseTextClassifier
 
 
-def train(model, dataloader, config):
+def train(model:BaseTextClassifier, dataloader, config: ModelConfig):
     # device = config["common_params"].get("device", "cpu")
     # print(f"Training on device: {device}")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Training on device: {device}")
     model = model.to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=config.get("lr", 1e-3))
+    optimizer = torch.optim.Adam(model.parameters(), lr=config.model_specific_params.get("lr", 1e-3))
     criterion = nn.CrossEntropyLoss()
 
-    num_epochs = config["common_params"].get("epochs", 10)
+    num_epochs = config.common_params.get("epochs", 10)
 
     for epoch in range(num_epochs):
         model.train()

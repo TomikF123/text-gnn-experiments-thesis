@@ -7,6 +7,7 @@ from torch_geometric.utils import from_scipy_sparse_matrix
 
 from textgnn.loaders.build_graph import build_text_graph_from_csv  # your builder
 from textgnn.loaders.create_basic_dataset import create_basic_dataset
+from textgnn.config_class import DatasetConfig
 
 # loaders/gnn_dataset.py
 # from __future__ import annotations
@@ -90,10 +91,19 @@ def _assemble_data(x, edge_index, edge_attr, y, doc_mask, word_mask):
 
 def create_gnn_artifacts(
     dataset_save_path: str,
-    dataset_config: dict,
+    dataset_config: DatasetConfig,
     full_path: str,
     missing_parent: bool = False,
 ):
+    """
+    Create GNN-specific artifacts.
+
+    Args:
+        dataset_save_path: Path to base dataset
+        dataset_config: Pydantic DatasetConfig model
+        full_path: Path for GNN-specific artifacts
+        missing_parent: Whether to create base dataset first
+    """
     if missing_parent:
         create_basic_dataset(
             dataset_config=dataset_config, dataset_save_path=dataset_save_path
@@ -106,16 +116,17 @@ def create_gnn_artifacts(
     if inductive:
         pass
     else:
+        gnn_encoding = dataset_config.gnn_encoding
         adj, labels_list, vocab, word_id_map, num_docs, num_words = _load_artifacts(
             dataset_save_path=dataset_save_path,
             split=split,
-            window_size=dataset_config["gnn_encoding"].get("window_size", 20),
+            window_size=gnn_encoding.window_size if gnn_encoding.window_size is not None else 20,
         )
         N = num_docs + num_words
 
         # 2) Build CPU tensors
         edge_index, edge_attr = _build_edges(adj)
-        x_type = dataset_config["gnn_encoding"].get("x_type", "identity")
+        x_type = gnn_encoding.x_type if gnn_encoding.x_type is not None else "identity"
         x = _build_node_features(N=N, x_type=x_type)
         y, cls2id = _encode_labels(labels_list, num_docs, N)
         doc_mask, word_mask = _build_masks(num_docs, N)
@@ -179,11 +190,24 @@ def get_gnn_dataset_object(
     model_type: str,
     dataset_save_path: str,
     full_path: str,
-    dataset_config: dict,
+    dataset_config: DatasetConfig,
     split: str,
 ):
+    """
+    Get GNN dataset object.
+
+    Args:
+        model_type: Model type
+        dataset_save_path: Path to base dataset
+        full_path: Path to GNN artifacts
+        dataset_config: Pydantic DatasetConfig model
+        split: train/val/test
+
+    Returns:
+        GNN data object
+    """
     split = None
-    preset_name = dataset_config.get("preset", None)
+    preset_name = dataset_config.preset if hasattr(dataset_config, 'preset') else None
     if preset_name is not None:
         return None
     inductive = False
@@ -192,12 +216,20 @@ def get_gnn_dataset_object(
     return data
 
 
-def create_gnn_filename(model_type: str, dataset_config: dict) -> str:
-    print(dataset_config.keys())
-    print(dataset_config["gnn_encoding"])
-    print(dataset_config["preprocess"].keys())
-    x_type = dataset_config["gnn_encoding"].get("x_type", "missing")
-    window_size = dataset_config["gnn_encoding"].get("window_size", "missing")
+def create_gnn_filename(model_type: str, dataset_config: DatasetConfig) -> str:
+    """
+    Create filename for GNN artifacts.
+
+    Args:
+        model_type: Model type
+        dataset_config: Pydantic DatasetConfig model
+
+    Returns:
+        Filename string
+    """
+    gnn_encoding = dataset_config.gnn_encoding
+    x_type = gnn_encoding.x_type if gnn_encoding.x_type is not None else "missing"
+    window_size = gnn_encoding.window_size if gnn_encoding.window_size is not None else "missing"
     model_type = model_type
     parts = [x_type, "test", model_type, window_size]
     return "_".join(str(p) for p in parts)

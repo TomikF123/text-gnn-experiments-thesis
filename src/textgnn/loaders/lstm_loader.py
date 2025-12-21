@@ -5,6 +5,7 @@ import torch
 from torch.nn.utils.rnn import pad_sequence
 
 from textgnn.dataset import TextDataset
+from textgnn.config_class import DatasetConfig
 from textgnn.utils import (
     get_active_encoding,
     get_data_path,
@@ -39,13 +40,19 @@ def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
 
 
 def create_lstm_artifacts(
-    dataset_config: dict,
+    dataset_config: DatasetConfig,
     dataset_save_path: str,
     full_path: str,
     missing_parent: bool = False,
 ) -> None:
     """
-    save some lstm/rnn specific dataset files in the base dataset
+    Save LSTM/RNN specific dataset files in the base dataset.
+
+    Args:
+        dataset_config: Pydantic DatasetConfig model
+        dataset_save_path: Path to base dataset
+        full_path: Path for LSTM-specific artifacts
+        missing_parent: Whether to create base dataset first
     """
     if missing_parent:
         create_basic_dataset(
@@ -54,9 +61,9 @@ def create_lstm_artifacts(
 
     vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
     encoding = get_active_encoding(dataset_config)
-    if encoding["encode_token_type"] == "glove":
-        embedding_dim = encoding["embedding_dim"]
-        tokens_trained_on = encoding.get("tokens_trained_on", 6)
+    if encoding.encode_token_type == "glove":
+        embedding_dim = encoding.embedding_dim
+        tokens_trained_on = encoding.tokens_trained_on if encoding.tokens_trained_on is not None else 6
         embedding_matrix = load_glove_embeddings(
             vocab, embedding_dim, tokens_trained_on=tokens_trained_on
         )
@@ -70,41 +77,63 @@ from textgnn.utils import slugify
 def get_lstm_dataset_object(
     dataset_save_path: str,
     full_path: str,
-    dataset_config: dict,
+    dataset_config: DatasetConfig,
     split: str,
     model_type: str,
 ) -> TextDataset:
+    """
+    Get LSTM dataset object for a specific split.
+
+    Args:
+        dataset_save_path: Path to base dataset
+        full_path: Path to LSTM-specific artifacts
+        dataset_config: Pydantic DatasetConfig model
+        split: train/val/test
+        model_type: Model type
+
+    Returns:
+        LSTMDataset instance
+    """
     csv_path = os.path.join(dataset_save_path, f"{split}.csv")
     vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
     embedding_matrix_path = os.path.join(full_path, "embedding_matrix.pt")
 
     encoding = get_active_encoding(dataset_config)
     return LSTMDataset(
-        encode_token_type=encoding.get("encode_token_type", "index"),
+        encode_token_type=encoding.encode_token_type if encoding.encode_token_type is not None else "index",
         embedding_matrix_path=embedding_matrix_path,
         csv_path=csv_path,
         vocab_path=vocab_path,
-        max_len=dataset_config.get("max_len", None),
+        max_len=dataset_config.max_len if dataset_config.max_len is not None else None,
     )
 
 
-def create_lstm_filename(dataset_config: dict, model_type: str) -> str:
+def create_lstm_filename(dataset_config: DatasetConfig, model_type: str) -> str:
+    """
+    Create filename for LSTM artifacts.
+
+    Args:
+        dataset_config: Pydantic DatasetConfig model
+        model_type: Model type
+
+    Returns:
+        Filename string
+    """
     encoding = get_active_encoding(dataset_config)
-    name = dataset_config["name"]
-    tokens_trained_on = encoding.get("tokens_trained_on", None)
-    embed_dim = encoding.get("embedding_dim", None)
+    name = dataset_config.name
+    tokens_trained_on = encoding.tokens_trained_on
+    embed_dim = encoding.embedding_dim if hasattr(encoding, 'embedding_dim') else None
     encode_token_type = (
-        encoding["encode_token_type"] + str(tokens_trained_on) + "B"
-        if str(tokens_trained_on)
+        encoding.encode_token_type + str(tokens_trained_on) + "B"
+        if tokens_trained_on is not None
         else ""
     )
     encode_token_type += f"_{embed_dim}d" if embed_dim else ""
 
     parts = [
-        f"{name}_seed_{dataset_config['random_seed']}",
+        f"{name}_seed_{dataset_config.random_seed}",
         f"text_encoded_{encode_token_type}",
     ]
-    # PROPERTIES
     return slugify("_".join(parts))
 
 

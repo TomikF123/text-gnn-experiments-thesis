@@ -1,4 +1,5 @@
 from .utils import get_function_from_path
+from .config_class import ModelConfig, DatasetConfig
 
 MODEL_CREATORS = {
     "lstm": "textgnn.models.lstm.model.create_lstm_model",
@@ -7,8 +8,18 @@ MODEL_CREATORS = {
 }
 
 
-def create_model(model_config: dict, dataset_config: dict):
-    model_type = model_config["model_type"]
+def create_model(model_config: ModelConfig, dataset_config: DatasetConfig):
+    """
+    Create model based on configuration.
+
+    Args:
+        model_config: Pydantic ModelConfig model
+        dataset_config: Pydantic DatasetConfig model
+
+    Returns:
+        Model instance
+    """
+    model_type = model_config.model_type
     if model_type not in MODEL_CREATORS:
         raise ValueError(f"Unsupported model type: {model_type}")
 

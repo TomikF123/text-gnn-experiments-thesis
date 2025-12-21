@@ -4,15 +4,27 @@ from textgnn.loaders.lstm_loader import LSTMDataset
 from textgnn.models.base_text_classifier import BaseTextClassifier
 from textgnn.models.lstm.train import train as train_lstm
 from textgnn.models.mlp import MLP
+from textgnn.config_class import ModelConfig, DatasetConfig
 
 
 def create_lstm_model(
-    model_config: dict, dataset_config: dict, dataset: LSTMDataset = None
+    model_config: ModelConfig, dataset_config: DatasetConfig, dataset: LSTMDataset = None
 ):
-    common_params = model_config.get("common_params", {})
-    model_specific_params = model_config.get("model_specific_params", {})
-    # print(*model_specific_params)
-    vocab_size = dataset_config["preprocess"].get("vocab_size", None)
+    """
+    Create LSTM model from configuration.
+
+    Args:
+        model_config: Pydantic ModelConfig model
+        dataset_config: Pydantic DatasetConfig model
+        dataset: Optional LSTMDataset instance
+
+    Returns:
+        LSTMClassifier instance
+    """
+    common_params = model_config.common_params
+    model_specific_params = model_config.model_specific_params
+
+    vocab_size = dataset_config.vocab_size
     embedding_dim = model_specific_params.get("embedding_dim", 50)
     hidden_dim = model_specific_params.get("hidden_size", 128)
     output_dim = model_specific_params.get("output_size", 20)
@@ -21,8 +33,8 @@ def create_lstm_model(
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
     freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
-    encoding_type = dataset_config["rnn_encoding"].get("encode_token_type", "glove")
-    print("freeze=" + f"{freeze_embeddings}")
+    encoding_type = dataset_config.rnn_encoding.encode_token_type if dataset_config.rnn_encoding.encode_token_type is not None else "glove"
+
     return LSTMClassifier(
         vocab_size=vocab_size,
         embedding_dim=embedding_dim,

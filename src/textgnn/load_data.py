@@ -1,4 +1,5 @@
 from .dataset import TextDataset
+from .config_class import DatasetConfig
 from .prep_data import clean_data
 from .utils import get_data_path, get_saved_path
 import pandas as pd
@@ -39,15 +40,23 @@ GET_DATASET_OBJECT_FUNCS = {
 from .utils import slugify
 
 
-def create_dir_name_based_on_dataset_config(dataset_config: dict) -> str:
-    name = dataset_config["name"]
-    train_ratio = int(dataset_config["tvt_split"][0] * 100)
-    val_ratio = int(dataset_config["tvt_split"][1] * 100)
+def create_dir_name_based_on_dataset_config(dataset_config: DatasetConfig) -> str:
+    """
+    Create directory name from dataset configuration.
+
+    Args:
+        dataset_config: Pydantic DatasetConfig model
+
+    Returns:
+        Slugified directory name
+    """
+    name = dataset_config.name
+    train_ratio = int(dataset_config.tvt_split[0] * 100)
+    val_ratio = int(dataset_config.tvt_split[1] * 100)
     test_ratio = 100 - train_ratio - val_ratio
-    preprocess_config = dataset_config["preprocess"]
-    remove_stopwords = preprocess_config["remove_stopwords"]
-    remove_rare_words = preprocess_config["remove_rare_words"]
-    vocab_size = dataset_config.get("vocab_size", None)
+    remove_stopwords = dataset_config.preprocess.remove_stopwords
+    remove_rare_words = dataset_config.preprocess.remove_rare_words
+    vocab_size = dataset_config.vocab_size if dataset_config.vocab_size is not None else None
     parts = [
         name,
         f"train_{train_ratio}",
@@ -74,9 +83,19 @@ def create_dataset_artifacts(
     dataset_save_path: str,
     full_path: str,
     model_type: str,
-    dataset_config: dict,
+    dataset_config: DatasetConfig,
     missing_parent: bool = False,
 ) -> None:
+    """
+    Create dataset artifacts for the specified model type.
+
+    Args:
+        dataset_save_path: Path to save base dataset
+        full_path: Full path for model-specific artifacts
+        model_type: Type of model (lstm, gcn, etc.)
+        dataset_config: Pydantic DatasetConfig model
+        missing_parent: Whether parent directory is missing
+    """
     if model_type not in ARTIFACT_CREATORS:
         raise ValueError(f"Invalid model type: {model_type}")
     create_fn = get_function_from_path(ARTIFACT_CREATORS[model_type])
@@ -88,7 +107,17 @@ def create_dataset_artifacts(
     )
 
 
-def create_file_name(dataset_config: dict, model_type: str) -> str:
+def create_file_name(dataset_config: DatasetConfig, model_type: str) -> str:
+    """
+    Create filename for model-specific artifacts.
+
+    Args:
+        dataset_config: Pydantic DatasetConfig model
+        model_type: Type of model
+
+    Returns:
+        Filename string
+    """
     if model_type not in FILENAME_CREATORS:
         raise ValueError(f"Unsupported model type: {model_type}")
     fn_path = FILENAME_CREATORS[model_type]
@@ -103,14 +132,24 @@ def get_dataset_class(model_type: str) -> TextDataset:
     return dataset_class
 
 
-def get_dataset_object_func(dataset_config: dict, model_type: str) -> Callable:
+def get_dataset_object_func(dataset_config: DatasetConfig, model_type: str) -> Callable:
+    """
+    Get the dataset object constructor function for the model type.
+
+    Args:
+        dataset_config: Pydantic DatasetConfig model
+        model_type: Type of model
+
+    Returns:
+        Dataset constructor function
+    """
     if model_type not in GET_DATASET_OBJECT_FUNCS:
         raise ValueError(f"Unsupported model type: {model_type}")
     get_object_fn = get_function_from_path(GET_DATASET_OBJECT_FUNCS[model_type])
     return get_object_fn
 
 
-def load_data(dataset_config: dict, model_type: str, split: str) -> TextDataset:
+def load_data(dataset_config: DatasetConfig, model_type: str, split: str) -> TextDataset:
     """Loads or creates and loads the dataset based on the provided configuration and model type."""
     dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
     dataset_save_path = os.path.join(

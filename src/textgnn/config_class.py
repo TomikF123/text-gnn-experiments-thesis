@@ -46,6 +46,7 @@ class DatasetConfig(BaseModel):
     tvt_split: List[float] = Field(..., min_items=3, max_items=3)  # train/val/test
     shuffle: bool = True
     random_seed: int = 42
+    max_len:Optional[int] = None
     preprocess: Optional[PreprocessingConfig] = None
     rnn_encoding: Optional[Union[InternalEncodingConfig, ExternalEncodingConfig]] = None
     gnn_encoding: Optional[GNNencodingConfig] = None
