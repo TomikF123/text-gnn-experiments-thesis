@@ -7,6 +7,7 @@ class TextDataset(Dataset):
         self.df = df
         self.vocab = vocab
         self.encode_token_type = encode_token_type
+        self.collate_fn = None
 
     def __len__(self):
         return len(self.df)

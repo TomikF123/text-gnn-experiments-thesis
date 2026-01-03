@@ -1,11 +1,6 @@
 """Logging configuration for the textgnn package."""
 import logging
 import sys
-import mlflow
-
-# MLflow configuration
-tracking_uri = "http://localhost:5000"
-mlflow.set_tracking_uri(tracking_uri)
 
 
 def setup_logger(name: str = "textgnn", level: int = logging.INFO) -> logging.Logger:

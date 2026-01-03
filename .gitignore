@@ -6,6 +6,7 @@ mlruns/
 text-gnn/
 notebooks/
 CLAUDE.md
+*_external
 code_review_analysis.md
 # Byte-compiled / optimized / DLL files
 __pycache__/

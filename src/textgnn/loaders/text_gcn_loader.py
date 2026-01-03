@@ -1,8 +1,8 @@
 import torch
 import torch.nn as nn
-from dataset import TextDataset
+from textgnn.dataset import TextDataset
 import pickle
-from utils import slugify
+from textgnn.utils import slugify
 from textgnn.utils import get_active_encoding
 
 def create_text_gcn_filename(dataset_config: dict) -> str:

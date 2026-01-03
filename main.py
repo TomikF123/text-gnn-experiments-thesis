@@ -1,14 +1,8 @@
 import json
 import os
 import argparse
-from textgnn.load_data import load_data
-import torch
-from torch.utils.data import DataLoader
 from textgnn.utils import get_project_root
 from os.path import join
-from textgnn.model_factory import create_model
-from textgnn.train import train_model
-from textgnn.eval import evaluate
 from textgnn.logger import setup_logger
 
 import mlflow
@@ -60,45 +54,16 @@ config = Config(
     model_conf=model_config,
 )
 logger.info(f"Parsed config: {config.dataset.name}")
-logger.info("Loading data...")
-train_data_set = load_data(
-    dataset_config=config.dataset,
-    model_type=config.model_conf.model_type,
-    split="train",
-)
+logger.info(f"Model type: {config.model_conf.model_type}")
 
-test_data_set = load_data(
-    dataset_config=config.dataset,
-    model_type=config.model_conf.model_type,
-    split="test",
-)
-logger.info(f"Train dataset: {train_data_set}")
-train_data_loader = DataLoader(
-    train_data_set,
-    batch_size=config.model_conf.common_params["batch_size"],
-    collate_fn=train_data_set.collate_fn,
-    shuffle=True,
-)
-test_data_loader = DataLoader(
-    dataset=test_data_set,
-    batch_size=config.model_conf.common_params["batch_size"],
-    collate_fn=test_data_set.collate_fn,
-    shuffle=False,
-)
+# Get pipeline runner based on model type
+from textgnn.train import get_pipeline_runner
 
-model = create_model(
-    model_config=config.model_conf,
-    dataset_config=config.dataset,
-)
-trained_model = train_model(
-    model=model, dataloaders=train_data_loader, config=config.model_conf
-)
+pipeline_runner = get_pipeline_runner(config.model_conf.model_type)
 
-evaluate(
-    model=trained_model,
-    data_loader=test_data_loader,
-    device="cpu",
-)
-logger.info(f"Training complete. Data loader: {train_data_loader}")
+# Run entire pipeline (data loading → training → evaluation)
+trained_model = pipeline_runner(config)
+
+logger.info(f"Training complete!")
 if __name__ == "__main__":
     pass

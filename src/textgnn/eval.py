@@ -1,10 +1,12 @@
 import torch
 from sklearn.metrics import accuracy_score, f1_score, classification_report
 from tqdm import tqdm
+from textgnn.utils import get_device
+
 
 
 @torch.no_grad()
-def evaluate(model, data_loader, device="cpu", return_preds=False):
+def evaluate(model, data_loader, device=get_device(), return_preds=False):
     model.eval()
     model.to(device)
 

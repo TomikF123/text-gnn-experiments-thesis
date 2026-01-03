@@ -3,7 +3,7 @@ from .config_class import ModelConfig, DatasetConfig
 
 MODEL_CREATORS = {
     "lstm": "textgnn.models.lstm.model.create_lstm_model",
-    "text_gcn": "textgnn.models.text_gnn.model.get_gnn_model_object",
+    "text_gcn": "textgnn.models.textgcn.model.create_textgcn_model",
     "fastText": "textgnn.models.fastText.model.create_fasttext_model",
 }
 

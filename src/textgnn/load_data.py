@@ -14,27 +14,27 @@ logger = setup_logger(__name__)
 
 ARTIFACT_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_artifacts",
-    "text_gcn": "textgnn.loaders.temp_loader.create_gnn_artifacts",  # future
-    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_artifacts",  # future
+    "text_gcn": "textgnn.loaders.textgcn_loader.create_textgcn_artifacts",
+    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_artifacts",
 }
 
 DATASETS = {
     "lstm": "textgnn.loaders.lstm_loader.LSTMDataset",
-    "fastText": "textgnn.loaders.lstm_loader.LSTMDataset",
-    "text_gcn": "textgnn.loaders.temp_loader.GraphTextDataset",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.FastTextDataset",
+    "text_gcn": "textgnn.loaders.textgcn_loader.TextGCNDataset",
 }
 
 FILENAME_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_filename",
-    "text_gcn": "textgnn.loaders.temp_loader.create_gnn_filename",  # future
+    "text_gcn": "textgnn.loaders.textgcn_loader.create_textgcn_filename",
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
-    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_filename",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_filename",
 }
 GET_DATASET_OBJECT_FUNCS = {
     "lstm": "textgnn.loaders.lstm_loader.get_lstm_dataset_object",
-    "text_gcn": "textgnn.loaders.temp_loader.get_gnn_dataset_object",  # future
+    "text_gcn": "textgnn.loaders.textgcn_loader.get_textgcn_dataset_object",
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
-    "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",  # future
+    "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",
 }
 
 from .utils import slugify
@@ -172,6 +172,7 @@ def load_data(dataset_config: DatasetConfig, model_type: str, split: str) -> Tex
         )
 
     if not os.path.exists(full_path):
+        logger.info(f"{full_path} does not exist")
         create_dataset_artifacts(
             dataset_save_path=dataset_save_path,
             full_path=full_path,

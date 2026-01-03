@@ -3,16 +3,7 @@ import scipy.sparse as sp
 from collections import defaultdict
 from math import log
 from tqdm import tqdm
-import pickle
-import os.path
 from pathlib import Path
-import torch
-
-
-def load_vocab(dataset_path: str):
-    vocab_path = os.path.join(dataset_path, "vocab.pkl")
-    with open(vocab_path, "rb") as f:
-        return pickle.load(f)
 
 
 def load_dataset_csvs(
@@ -50,24 +41,34 @@ def load_dataset_csvs(
 # Public entry point
 # ----------------------------
 def build_text_graph_from_csv(
-    dataset_path: str,  # ./saved/<dataet_path>
+    dataset_path: str,
     text_col: str = "text",
     label_col: str = "label",
-    split: str | None = None,  # e.g., "split" with values from tvt or None for merged
-    window_size: int = 20,  # sliding window size for word co-occurrence
+    split: str | None = None,
+    window_size: int = 20,
 ) -> dict:
     """
-    Build a TextGCN-style graph from a CSV file.
+    Build a TextGCN-style graph from CSV files.
 
-    Returns a dict with:
-      - adj: scipy.sparse.csr_matrix adjacency (PMI word-word + TF-IDF doc-word, symmetrized)
-      - labels: list[int|str] length = num_docs
-      - vocab: list[str] of unique tokens
-      - word_id_map: dict[str -> int]
-      - docs: list[str] original/normalized doc texts
-      - split_dict: Optional[dict[int -> str]] mapping doc_idx -> split ("train"/"val"/"test")
+    Constructs a heterogeneous graph with document and word nodes.
+    Uses PMI (Pointwise Mutual Information) for word-word edges and
+    TF-IDF for document-word edges.
+
+    Args:
+        dataset_path: Path to directory containing CSV files
+        text_col: Name of text column in CSV (default: "text")
+        label_col: Name of label column in CSV (default: "label")
+        split: Load specific split CSV or None to merge all CSVs
+        window_size: Sliding window size for word co-occurrence (default: 20)
+
+    Returns:
+        Dictionary with:
+          - adj: scipy.sparse.csr_matrix adjacency matrix (symmetrized)
+          - labels: list of labels (length = num_docs)
+          - vocab: list of unique tokens
+          - word_id_map: dict mapping words to IDs
+          - docs: list of document texts
     """
-    # vocab = load_vocab(dataset_path=dataset_path) #TODO
     df = load_dataset_csvs(dataset_path=dataset_path, split=split)
     # Basic checks
     if text_col not in df.columns:
@@ -80,8 +81,6 @@ def build_text_graph_from_csv(
     doc_list = [" ".join(d.split()) for d in df_text]  # normalize spaces
 
     labels_list = df[label_col].tolist()
-
-    # Optional split mapping (e.g., {"train","val","test"})
 
     # Build vocab and frequencies
     word_freq = _get_vocab(doc_list)
@@ -207,59 +206,10 @@ def _get_vocab(text_list):
 
 
 def _build_word_doc_edges(doc_list):
+    """Calculate word-document frequencies for TF-IDF computation."""
     words_in_docs = defaultdict(set)
     for di, doc in enumerate(doc_list):
         for w in doc.split():
             words_in_docs[w].add(di)
     word_doc_freq = {w: len(dset) for w, dset in words_in_docs.items()}
     return words_in_docs, word_doc_freq
-
-
-def _create_masks_from_tvt_split(df):
-    # Use the `tvt_split` column to create masks
-    train_mask = torch.zeros(len(df), dtype=torch.bool)
-    val_mask = torch.zeros(len(df), dtype=torch.bool)
-    test_mask = torch.zeros(len(df), dtype=torch.bool)
-
-    for i, row in df.iterrows():
-        if row["split"] == "train":
-            train_mask[i] = True
-        elif row["split"] == "val":
-            val_mask[i] = True
-        elif row["split"] == "test":
-            test_mask[i] = True
-    return train_mask, val_mask, test_mask
-
-
-if __name__ == "__main__":
-    art = build_text_graph_from_csv(
-        split="test",
-        window_size=20,
-        dataset_path="./saved/mr-train-90-val-0-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none/",
-    )
-
-    adj = art["adj"]  # scipy CSR  - sparse matrix
-    labels = art["labels"]  # list
-    vocab = art["vocab"]  # list
-    word_id_map = art["word_id_map"]  # dict
-    docs = art["docs"]  # list
-    print(
-        art.keys(),
-        "Adjacency matrix shape:",
-        adj.shape,
-        type(adj),
-        adj[10][0],
-        word_id_map.get("the"),
-        # vocab[art["word_id_map"]["the"]],
-        word_id_map.get("good"),
-        len(vocab),
-    )
-
-    print(
-        "\nDocuments:",
-        docs[:5],  # Show first 5 documents
-        "Number of documents:",
-        len(docs),
-        "Number of words in vocab:\n",
-        len((vocab)),
-    )

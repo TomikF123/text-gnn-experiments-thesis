@@ -13,11 +13,13 @@ dependencies = [
     "ipykernel>=6.30.1",
     "jupyter-client>=8.6.3",
     "jupyter-core>=5.8.1",
+    "klepto>=0.2.5",
     "matplotlib>=3.10.6",
     "mlflow==3.1.1",
     "nltk>=3.9.1",
+    "seaborn>=0.13.2",
     "torch==2.3.0",
-    "torch-geometric==2.5.3",
+    "torch-geometric>=2.7.0",
 ]
 
 [dependency-groups]
@@ -29,3 +31,5 @@ dev = [
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/textgnn"]
+[tool.uv.extra-build-dependencies]
+torch-scatter = ["torch"]
