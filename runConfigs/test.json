@@ -3,7 +3,7 @@
 "run_name": "test_run",
 "dataset": {
     "name": "20ng",
-    "tvt_split": [0.9, 0, 0.1],
+    "tvt_split": [0.7, 0.2, 0.1],
     "shuffle": true,
     "random_seed": 123,
     
@@ -23,7 +23,7 @@
     "model_type":"lstm",
     "common_params": {
       "epochs": 15,
-      "batch_size": 2,
+      "batch_size": 32,
       "seed": 123
     },
     "model_specific_params": {

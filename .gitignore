@@ -2,12 +2,13 @@ text_gcn/
 Text-GCN/
 data/
 saved/
-mlruns/
+#mlruns/
 text-gnn/
 notebooks/
-CLAUDE.md
+mlruns
 *_external
-code_review_analysis.md
+*.md
+!README.MD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
