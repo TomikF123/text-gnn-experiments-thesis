@@ -2,8 +2,8 @@
 "experiment_name": "test",
 "run_name": "test_run",
 "dataset": {
-    "name": "mr",
-    "tvt_split": [0.9, 0.05, 0.05],
+    "name": "20ng",
+    "tvt_split": [0.9, 0, 0.1],
     "shuffle": true,
     "random_seed": 123,
     
@@ -23,7 +23,7 @@
     "model_type":"lstm",
     "common_params": {
       "epochs": 15,
-      "batch_size": 32,
+      "batch_size": 2,
       "seed": 123
     },
     "model_specific_params": {

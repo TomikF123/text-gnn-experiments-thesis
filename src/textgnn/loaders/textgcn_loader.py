@@ -199,7 +199,13 @@ class TextGCNDataset():
 
     All splits (train/val/test) share the same graph structure,
     but have different masks indicating which nodes belong to each split.
+
+    Memory Optimization: Uses class-level cache to share graph tensors
+    across all split instances, reducing memory usage by ~3x.
     """
+
+    # Class-level cache to share graph structure across all splits
+    _graph_cache = {}
 
     def __init__(self, artifact_path: str, split: str, x_type: str = "identity"):
         """
@@ -212,19 +218,36 @@ class TextGCNDataset():
         """
         # Don't call super().__init__() - TextGCN doesn't use text sequences
 
-        # Load graph artifacts (same for all splits)
-        self.edge_index = torch.load(os.path.join(artifact_path, "ALL_edge_index.pt"))
-        self.edge_attr = torch.load(os.path.join(artifact_path, "ALL_edge_attr.pt"))
-        self.y = torch.load(os.path.join(artifact_path, "ALL_y.pt"))
-        self.doc_mask = torch.load(os.path.join(artifact_path, "ALL_doc_mask.pt"))
-        self.word_mask = torch.load(os.path.join(artifact_path, "ALL_word_mask.pt"))
+        # Load or retrieve cached graph artifacts (shared across all splits)
+        if artifact_path not in TextGCNDataset._graph_cache:
+            print(f"Loading graph structure from disk (will be shared across splits)...")
+            TextGCNDataset._graph_cache[artifact_path] = {
+                'edge_index': torch.load(os.path.join(artifact_path, "ALL_edge_index.pt")),
+                'edge_attr': torch.load(os.path.join(artifact_path, "ALL_edge_attr.pt")),
+                'y': torch.load(os.path.join(artifact_path, "ALL_y.pt")),
+                'doc_mask': torch.load(os.path.join(artifact_path, "ALL_doc_mask.pt")),
+                'word_mask': torch.load(os.path.join(artifact_path, "ALL_word_mask.pt")),
+            }
 
-        # Load split-specific mask
+            # Load metadata
+            with open(os.path.join(artifact_path, "ALL_meta.pkl"), "rb") as f:
+                TextGCNDataset._graph_cache[artifact_path]['meta'] = pickle.load(f)
+
+            print(f"  → Cached graph in memory ({self._get_cache_size_mb(artifact_path):.1f} MB)")
+        else:
+            print(f"Reusing cached graph structure for {split} split (saves ~{self._get_cache_size_mb(artifact_path):.1f} MB)")
+
+        # Reference shared graph structure (no copy, just pointer)
+        cache = TextGCNDataset._graph_cache[artifact_path]
+        self.edge_index = cache['edge_index']
+        self.edge_attr = cache['edge_attr']
+        self.y = cache['y']
+        self.doc_mask = cache['doc_mask']
+        self.word_mask = cache['word_mask']
+        meta = cache['meta']
+
+        # Load split-specific mask (small, OK to load per split)
         self.split_mask = torch.load(os.path.join(artifact_path, f"{split}_mask.pt"))
-
-        # Load metadata
-        with open(os.path.join(artifact_path, "ALL_meta.pkl"), "rb") as f:
-            meta = pickle.load(f)
 
         self.vocab = meta["vocab"]
         self.num_classes = meta["num_classes"]
@@ -244,6 +267,28 @@ class TextGCNDataset():
         print(f"  - Nodes in {split} split: {self.split_mask.sum().item()}")
         print(f"  - Edges: {self.edge_index.shape[1]}")
         print(f"  - Classes: {self.num_classes}")
+
+    @staticmethod
+    def _get_cache_size_mb(artifact_path: str) -> float:
+        """Estimate cache size in MB for this artifact path."""
+        if artifact_path not in TextGCNDataset._graph_cache:
+            return 0.0
+
+        cache = TextGCNDataset._graph_cache[artifact_path]
+        total_bytes = 0
+
+        for key in ['edge_index', 'edge_attr', 'y', 'doc_mask', 'word_mask']:
+            if key in cache:
+                tensor = cache[key]
+                total_bytes += tensor.element_size() * tensor.nelement()
+
+        return total_bytes / (1024 * 1024)
+
+    @classmethod
+    def clear_cache(cls):
+        """Clear the graph cache to free memory. Useful between experiments."""
+        cls._graph_cache.clear()
+        print("Cleared TextGCN graph cache")
 
     def __len__(self):
         """Return 1 since we use transductive learning (single graph)."""

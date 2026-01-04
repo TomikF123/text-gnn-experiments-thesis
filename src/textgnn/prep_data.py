@@ -57,7 +57,14 @@ def clean_data(
 
 def build_word_freq(df: pd.Series, vocab_size: int = None) -> Counter:
     vocab_counter = Counter()
+    
     for text in df:
+        if text is None:
+            print(f"WARNING: Found None in text_series")
+            continue
+        if not isinstance(text, (list, str)):
+            print(f"WARNING: Found non-string/list type: {type(text)}, value: {text}")
+            continue
         vocab_counter.update(text)
 
     if vocab_size:
@@ -118,14 +125,18 @@ def clean_text_pipeline(
     Returns:
         Series of tokenized text (list[str])
     """
-    # Drop NAs
-    text_series = text_series.dropna()
+    # Fill NAs with empty string to preserve indices
+    text_series = text_series.fillna("")
 
     # Convert to string and lowercase
     text_series = text_series.astype(str).str.lower()
 
     # Apply cleaning (reuse existing clean_doc logic)
     text_series = clean_doc(text_series)
+
+    # Convert empty strings to empty lists (from .split() on "")
+    # This ensures all documents are lists, even if empty
+    text_series = text_series.apply(lambda x: x if isinstance(x, list) else [])
 
     logger.info(f"Cleaned {len(text_series)} documents")
 
@@ -199,6 +210,21 @@ def apply_vocabulary(
     Returns:
         Series of filtered tokenized documents
     """
+    def filter_tokens(tokens):
+        """Helper to safely filter tokens, handling NaN/invalid values."""
+        # Handle NaN or non-list values
+        if not isinstance(tokens, list):
+            return []
+
+        if remove_stop_words:
+            from nltk.corpus import stopwords
+            import nltk
+            nltk.data.path.append(get_data_path())
+            stop_words = set(stopwords.words("english"))
+            return [word for word in tokens if word not in stop_words and word in vocab]
+        else:
+            return [word for word in tokens if word in vocab]
+
     if remove_stop_words:
         from nltk.corpus import stopwords
         import nltk
@@ -207,7 +233,7 @@ def apply_vocabulary(
 
         # Remove stopwords AND filter to vocab
         text_series = text_series.apply(
-            lambda tokens: [
+            lambda tokens: [] if not isinstance(tokens, list) else [
                 word for word in tokens
                 if word not in stop_words and word in vocab
             ]
@@ -215,7 +241,7 @@ def apply_vocabulary(
     else:
         # Only filter to vocab
         text_series = text_series.apply(
-            lambda tokens: [word for word in tokens if word in vocab]
+            lambda tokens: [] if not isinstance(tokens, list) else [word for word in tokens if word in vocab]
         )
 
     logger.info(f"Applied vocabulary to {len(text_series)} documents")

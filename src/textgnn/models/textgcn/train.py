@@ -98,6 +98,10 @@ def train_textgcn(model, dataloader, config):
             train_metrics = evaluate_model(train_preds, train_true)
             train_acc = train_metrics["accuracy"]
 
+        # Free training tensors to reduce memory (keep loss for logging)
+        train_loss_value = loss.item()
+        del logits, train_logits, train_labels
+
         # ===== Validation =====
         if val_data is not None:
             model.eval()
@@ -116,6 +120,11 @@ def train_textgcn(model, dataloader, config):
                 val_true = val_labels.cpu().numpy()
                 val_metrics = evaluate_model(val_preds, val_true)
                 val_acc = val_metrics["accuracy"]
+
+                # Free validation tensors immediately to reduce memory
+                del val_logits, val_logits_subset
+                if device.type == "cuda":
+                    torch.cuda.empty_cache()
         else:
             val_loss = 0.0
             val_acc = 0.0
@@ -125,13 +134,13 @@ def train_textgcn(model, dataloader, config):
         # Print progress
         if (epoch + 1) % 10 == 0 or epoch == 0:
             print(f"Epoch {epoch+1:3d}/{epochs} | "
-                  f"Train Loss: {loss.item():.4f} | Train Acc: {train_acc:.4f} | "
+                  f"Train Loss: {train_loss_value:.4f} | Train Acc: {train_acc:.4f} | "
                   f"Val Loss: {val_loss.item() if val_data else 0:.4f} | "
                   f"Val Acc: {val_acc:.4f}")
 
         # MLflow logging
         try:
-            mlflow.log_metric("train_loss", loss.item(), step=epoch)
+            mlflow.log_metric("train_loss", train_loss_value, step=epoch)
             mlflow.log_metric("train_accuracy", train_acc, step=epoch)
             if val_data is not None:
                 mlflow.log_metric("val_loss", val_loss.item(), step=epoch)
@@ -151,7 +160,13 @@ def train_textgcn(model, dataloader, config):
                 best_epoch = epoch
                 epochs_without_improvement = 0
 
-                # Save best model state
+                # Save best model state (move to CPU to avoid GPU memory overhead)
+                # Delete old best_model_state first to free memory before cloning
+                if best_model_state is not None:
+                    del best_model_state
+                    if device.type == "cuda":
+                        torch.cuda.empty_cache()
+
                 best_model_state = {
                     key: value.cpu().clone() for key, value in model.state_dict().items()
                 }

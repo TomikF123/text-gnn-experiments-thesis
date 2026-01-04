@@ -1,18 +1,19 @@
 {
   "experiment_name": "text_gcn_experiment",
-  "run_name": "textgcn_mr_test",
+  "run_name": "textgcn_20ng_low_memory",
   "dataset": {
       "name": "20ng",
-      "tvt_split": [0.7, 0.2, 0.1],
+      "tvt_split": [0.8, 1, 0.1],
       "shuffle": true,
       "random_seed": 42,
+      "vocab_size": 50000,
       "preprocess": {
         "remove_stopwords": true,
-        "remove_rare_words": 15
+        "remove_rare_words": 30
       },
       "gnn_encoding": {
           "x_type": "identity",
-          "window_size": 20
+          "window_size": 15
       }
   },
   "model_config": {
@@ -35,4 +36,4 @@
       }
     }
   }
-  
+

@@ -8,7 +8,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Parameter
-from torch_geometric.nn.conv import MessagePassing
+# Use PyTorch Geometric's optimized GCNConv instead of custom implementation
+from torch_geometric.nn import GCNConv as PyG_GCNConv
 from torch_geometric.utils import remove_self_loops, add_self_loops
 from torch_geometric.nn.inits import glorot, zeros
 
@@ -52,7 +53,9 @@ class TextGCNClassifier(GraphTextClassifier):
             dropout: Dropout rate (0 to disable)
             use_edge_weights: Whether to use edge weights (PMI/TF-IDF)
         """
-        super().__init__(vocab_size=num_nodes, embedding_dim=num_nodes, output_size=num_classes)
+        # TextGCN uses sparse identity features, not learned embeddings
+        # Pass None to prevent base class from creating huge embedding layer
+        super().__init__(vocab_size=None, embedding_dim=None, output_size=num_classes)
 
         self.num_nodes = num_nodes
         self.num_classes = num_classes
@@ -60,6 +63,9 @@ class TextGCNClassifier(GraphTextClassifier):
         self.pred_type = pred_type
         self.use_edge_weights = use_edge_weights
         self.dropout_rate = dropout
+
+        # Cache for sparse identity matrix (created once, reused across forward passes)
+        self._cached_identity = None
 
         # Build layer dimensions: [input_dim, *hidden_dims, output_dim]
         if pred_type == "softmax":
@@ -139,8 +145,20 @@ class TextGCNClassifier(GraphTextClassifier):
 
         # Initialize node features if using identity (one-hot)
         if x is None and self.x_type == "identity":
-            # Create sparse identity matrix for efficiency
-            x = torch.eye(self.num_nodes, device=edge_index.device, dtype=torch.float32)
+            # Use cached sparse identity matrix (created once, reused)
+            if self._cached_identity is None or self._cached_identity.device != edge_index.device:
+                # Create SPARSE identity matrix (dense would use ~3.4 GB for 29K nodes!)
+                # Sparse format: only stores diagonal elements, reducing memory by ~1000x
+                indices = torch.arange(self.num_nodes, device=edge_index.device).unsqueeze(0).repeat(2, 1)
+                values = torch.ones(self.num_nodes, device=edge_index.device, dtype=torch.float32)
+                self._cached_identity = torch.sparse_coo_tensor(
+                    indices=indices,
+                    values=values,
+                    size=(self.num_nodes, self.num_nodes),
+                    dtype=torch.float32,
+                    device=edge_index.device
+                )
+            x = self._cached_identity
 
         # Forward through GCN layers
         for layer in self.layers:
@@ -167,8 +185,11 @@ class NodeEmbedding(nn.Module):
         self.in_dim = in_dim
         self.out_dim = out_dim
 
-        # GCN convolution layer
-        self.conv = GCNConv(in_dim, out_dim)
+        # Use PyTorch Geometric's optimized GCNConv with caching
+        # CRITICAL: cached=True prevents recomputing normalized adjacency every forward pass
+        # improved=False uses standard GCN normalization (not improved with 2*I)
+        # This is MUCH more memory-efficient than the custom implementation!
+        self.conv = PyG_GCNConv(in_dim, out_dim, cached=True, improved=False, normalize=True)
 
         # Activation function
         self.act = create_act(act, out_dim)
@@ -198,129 +219,9 @@ class NodeEmbedding(nn.Module):
         return x
 
 
-class GCNConv(MessagePassing):
-    """
-    Graph Convolutional Network layer.
-
-    Implements the GCN operator from Kipf & Welling (2017):
-    X' = D^(-1/2) A D^(-1/2) X W + b
-
-    where A is the adjacency matrix with self-loops added.
-    """
-
-    def __init__(self, in_channels, out_channels, improved=False, cached=False, bias=True):
-        super().__init__(aggr="add")
-
-        self.in_channels = in_channels
-        self.out_channels = out_channels
-        self.improved = improved
-        self.cached = cached
-        self.cached_result = None
-
-        # Weight matrix
-        self.weight = Parameter(torch.Tensor(in_channels, out_channels))
-
-        # Bias vector (optional)
-        if bias:
-            self.bias = Parameter(torch.Tensor(out_channels))
-        else:
-            self.register_parameter("bias", None)
-
-        self.reset_parameters()
-
-    def reset_parameters(self):
-        """Initialize parameters."""
-        glorot(self.weight)
-        zeros(self.bias)
-        self.cached_result = None
-
-    @staticmethod
-    def norm(edge_index, num_nodes, edge_weight, improved=False, dtype=None):
-        """
-        Compute normalized edge weights: D^(-1/2) A D^(-1/2).
-
-        Args:
-            edge_index: Edge connectivity [2, num_edges]
-            num_nodes: Total number of nodes
-            edge_weight: Edge weights [num_edges]
-            improved: If True, use 2*I instead of I for self-loops
-            dtype: Data type for edge weights
-
-        Returns:
-            edge_index: Edge connectivity with self-loops
-            edge_weight: Normalized edge weights
-        """
-        if edge_weight is None:
-            edge_weight = torch.ones(
-                (edge_index.size(1),), dtype=dtype, device=edge_index.device
-            )
-
-        # Remove existing self-loops
-        edge_index, edge_weight = remove_self_loops(edge_index, edge_weight)
-
-        # Add self-loops
-        fill_value = 2.0 if improved else 1.0
-        edge_index, edge_weight = add_self_loops(
-            edge_index,
-            edge_attr=edge_weight,
-            fill_value=fill_value,
-            num_nodes=num_nodes
-        )
-
-        # Compute degree
-        row, col = edge_index
-        deg = torch.bincount(row, weights=edge_weight, minlength=num_nodes).float()
-
-        # Compute D^(-1/2)
-        deg_inv_sqrt = deg.pow(-0.5)
-        deg_inv_sqrt[deg_inv_sqrt == float("inf")] = 0
-
-        # Normalize: D^(-1/2) * edge_weight * D^(-1/2)
-        return edge_index, deg_inv_sqrt[row] * edge_weight * deg_inv_sqrt[col]
-
-    def forward(self, x, edge_index, edge_weight=None):
-        """
-        Forward pass through GCN layer.
-
-        Args:
-            x: Node features [num_nodes, in_channels]
-            edge_index: Edge connectivity [2, num_edges]
-            edge_weight: Edge weights [num_edges] (optional)
-
-        Returns:
-            Node embeddings [num_nodes, out_channels]
-        """
-        # Apply linear transformation
-        if x.is_sparse:
-            x = torch.sparse.mm(x, self.weight)
-        else:
-            x = torch.matmul(x, self.weight)
-
-        # Compute normalized adjacency (cache if enabled)
-        if not self.cached or self.cached_result is None:
-            edge_index, norm = GCNConv.norm(
-                edge_index, x.size(0), edge_weight, self.improved, x.dtype
-            )
-            if self.cached:
-                self.cached_result = edge_index, norm
-        else:
-            edge_index, norm = self.cached_result
-
-        # Message passing
-        return self.propagate(edge_index, x=x, norm=norm)
-
-    def message(self, x_j, norm):
-        """Construct messages: normalize neighbor features."""
-        return norm.view(-1, 1) * x_j
-
-    def update(self, aggr_out):
-        """Update node embeddings: add bias."""
-        if self.bias is not None:
-            aggr_out = aggr_out + self.bias
-        return aggr_out
-
-    def __repr__(self):
-        return f"{self.__class__.__name__}({self.in_channels}, {self.out_channels})"
+# NOTE: Custom GCNConv class removed - now using PyTorch Geometric's optimized implementation
+# The custom implementation caused massive memory spikes (~24GB) due to inefficient message passing
+# PyG's GCNConv is highly optimized and uses sparse operations efficiently
 
 
 class MLP(nn.Module):
