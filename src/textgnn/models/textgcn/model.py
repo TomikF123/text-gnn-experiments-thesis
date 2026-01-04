@@ -143,22 +143,9 @@ class TextGCNClassifier(GraphTextClassifier):
         edge_index = data.edge_index
         edge_attr = data.edge_attr if self.use_edge_weights else None
 
-        # Initialize node features if using identity (one-hot)
-        if x is None and self.x_type == "identity":
-            # Use cached sparse identity matrix (created once, reused)
-            if self._cached_identity is None or self._cached_identity.device != edge_index.device:
-                # Create SPARSE identity matrix (dense would use ~3.4 GB for 29K nodes!)
-                # Sparse format: only stores diagonal elements, reducing memory by ~1000x
-                indices = torch.arange(self.num_nodes, device=edge_index.device).unsqueeze(0).repeat(2, 1)
-                values = torch.ones(self.num_nodes, device=edge_index.device, dtype=torch.float32)
-                self._cached_identity = torch.sparse_coo_tensor(
-                    indices=indices,
-                    values=values,
-                    size=(self.num_nodes, self.num_nodes),
-                    dtype=torch.float32,
-                    device=edge_index.device
-                )
-            x = self._cached_identity
+        # FEATURELESS MODE (TensorFlow-style):
+        # Pass None to let layers use A @ W directly instead of A @ I @ W
+        # This avoids creating identity matrix or any dense intermediates!
 
         # Forward through GCN layers
         for layer in self.layers:
@@ -185,11 +172,14 @@ class NodeEmbedding(nn.Module):
         self.in_dim = in_dim
         self.out_dim = out_dim
 
-        # Use PyTorch Geometric's optimized GCNConv with caching
-        # CRITICAL: cached=True prevents recomputing normalized adjacency every forward pass
-        # improved=False uses standard GCN normalization (not improved with 2*I)
-        # This is MUCH more memory-efficient than the custom implementation!
-        self.conv = PyG_GCNConv(in_dim, out_dim, cached=True, improved=False, normalize=True)
+        # Simple weight matrix for sparse multiplication (TensorFlow-style)
+        self.weight = nn.Parameter(torch.Tensor(in_dim, out_dim))
+        self.bias = nn.Parameter(torch.Tensor(out_dim))
+        nn.init.xavier_uniform_(self.weight)
+        nn.init.zeros_(self.bias)
+
+        # Cache for normalized adjacency (computed once)
+        self.cached_adj = None
 
         # Activation function
         self.act = create_act(act, out_dim)
@@ -198,25 +188,72 @@ class NodeEmbedding(nn.Module):
         self.bn = nn.BatchNorm1d(out_dim) if bn else None
 
         # Dropout (optional)
-        self.dropout = nn.Dropout(dropout) if dropout > 0 else None
+        self.dropout_rate = dropout
 
     def forward(self, x, edge_index, edge_weight=None):
-        """Forward pass through GCN layer."""
-        # Apply dropout to input
-        if self.dropout is not None:
-            x = self.dropout(x)
+        """
+        Forward pass - mimics TensorFlow TextGCN exactly.
 
-        # GCN convolution
-        x = self.conv(x, edge_index, edge_weight=edge_weight)
+        For featureless (x is sparse identity): compute A @ W directly
+        For regular features: compute A @ (X @ W)
+        """
+        num_nodes = edge_index.max().item() + 1
+
+        # Build normalized adjacency matrix (cached)
+        if self.cached_adj is None:
+            # Convert edge_index to sparse adjacency
+            indices = edge_index
+            values = edge_weight if edge_weight is not None else torch.ones(edge_index.shape[1], device=edge_index.device)
+
+            # Add self-loops
+            loop_index = torch.arange(num_nodes, device=edge_index.device).unsqueeze(0).repeat(2, 1)
+            loop_weight = torch.ones(num_nodes, device=edge_index.device)
+            indices = torch.cat([indices, loop_index], dim=1)
+            values = torch.cat([values, loop_weight])
+
+            # Create sparse adjacency
+            adj = torch.sparse_coo_tensor(indices, values, (num_nodes, num_nodes))
+
+            # Normalize: D^(-1/2) @ A @ D^(-1/2)
+            rowsum = torch.sparse.sum(adj, dim=1).to_dense()
+            d_inv_sqrt = torch.pow(rowsum, -0.5)
+            d_inv_sqrt[torch.isinf(d_inv_sqrt)] = 0.
+
+            # Create D^(-1/2) as sparse diagonal
+            d_indices = torch.arange(num_nodes, device=edge_index.device).unsqueeze(0).repeat(2, 1)
+            d_mat_inv_sqrt = torch.sparse_coo_tensor(d_indices, d_inv_sqrt, (num_nodes, num_nodes))
+
+            # Normalize: D^(-1/2) @ A @ D^(-1/2)
+            adj = torch.sparse.mm(torch.sparse.mm(d_mat_inv_sqrt, adj), d_mat_inv_sqrt)
+            self.cached_adj = adj.coalesce()
+
+        # Check if input is sparse identity (featureless mode)
+        is_featureless = (x is not None and
+                         hasattr(x, 'is_sparse') and
+                         x.is_sparse and
+                         x.shape[0] == x.shape[1])
+
+        if is_featureless or x is None:
+            # Featureless mode: A @ W (skip identity multiplication!)
+            output = torch.sparse.mm(self.cached_adj, self.weight)
+        else:
+            # Regular mode: A @ (X @ W)
+            if self.dropout_rate > 0 and self.training:
+                x = F.dropout(x, p=self.dropout_rate, training=self.training)
+            h = torch.matmul(x, self.weight)
+            output = torch.sparse.mm(self.cached_adj, h)
+
+        # Add bias
+        output = output + self.bias
 
         # Activation
-        x = self.act(x)
+        output = self.act(output)
 
         # Batch normalization
         if self.bn is not None:
-            x = self.bn(x)
+            output = self.bn(output)
 
-        return x
+        return output
 
 
 # NOTE: Custom GCNConv class removed - now using PyTorch Geometric's optimized implementation
