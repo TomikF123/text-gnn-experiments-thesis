@@ -32,6 +32,53 @@ def create_texting_filename(dataset_config: DatasetConfig, model_type: str) -> s
     return slugify("_".join(parts))
 
 
+def build_adjacency_from_word_count(num_words, window_size=3):
+    """
+    Build adjacency matrix from word count only (no embedding lookup).
+
+    This is much faster than build_document_graph() as it doesn't need
+    to look up GloVe embeddings.
+
+    Args:
+        num_words: Number of words in document
+        window_size: Sliding window size for co-occurrence
+
+    Returns:
+        adj: scipy sparse adjacency matrix [num_words, num_words]
+    """
+    if num_words == 0:
+        return sp.csr_matrix((1, 1))
+
+    # Build adjacency with sliding window
+    edges = []
+
+    if num_words <= window_size:
+        # Document shorter than window - fully connected
+        for i in range(num_words):
+            for j in range(i + 1, num_words):
+                edges.append((i, j))
+                edges.append((j, i))
+    else:
+        # Sliding window
+        for start in range(num_words - window_size + 1):
+            # Connect all pairs within window
+            for i in range(start, start + window_size):
+                for j in range(i + 1, start + window_size):
+                    edges.append((i, j))
+                    edges.append((j, i))
+
+    # Create sparse adjacency matrix
+    if len(edges) > 0:
+        rows, cols = zip(*edges)
+        data = np.ones(len(edges))
+        adj = sp.csr_matrix((data, (rows, cols)), shape=(num_words, num_words))
+    else:
+        # No edges - isolated nodes
+        adj = sp.csr_matrix((num_words, num_words))
+
+    return adj
+
+
 def build_document_graph(words, word_embeddings, window_size=3, weighted=False):
     """
     Build graph for a single document using sliding window.
@@ -126,13 +173,15 @@ def create_texting_artifacts(
     missing_parent: bool = False
 ) -> None:
     """
-    Create (minimal) TextING artifacts.
-    TextING builds graphs on-the-fly, so no heavy artifacts needed.
+    Create TextING artifacts with pre-computed embeddings.
+
+    Pre-computes GloVe embeddings for all documents (eliminating CPU bottleneck),
+    but builds adjacency matrices on-the-fly during training.
 
     Args:
         dataset_config: Dataset configuration
         dataset_save_path: Path to base preprocessed dataset (CSVs + vocab)
-        full_path: Path where TextING config will be saved
+        full_path: Path where TextING artifacts will be saved
         missing_parent: If True, create basic dataset first
     """
     os.makedirs(full_path, exist_ok=True)
@@ -145,13 +194,61 @@ def create_texting_artifacts(
             dataset_save_path=dataset_save_path
         )
 
-    print(f"Configuring TextING at {full_path}...")
+    print(f"Creating TextING artifacts at {full_path}...")
 
     # Get config parameters
     window_size = dataset_config.gnn_encoding.window_size if dataset_config.gnn_encoding else 3
     embedding_dim = dataset_config.gnn_encoding.embedding_dim if dataset_config.gnn_encoding else 300
 
-    # Just save config for reference (no graph pre-computation!)
+    # Load GloVe embeddings once
+    print(f"Loading GloVe {embedding_dim}d embeddings...")
+    glove_dir = get_data_path() / "glove"
+    glove_file = glove_dir / f"glove.6B.{embedding_dim}d.txt"
+
+    if not glove_file.exists():
+        raise FileNotFoundError(
+            f"GloVe embeddings not found at {glove_file}. "
+            f"Run: python -m textgnn.download_data"
+        )
+
+    word_embeddings = load_glove_embeddings(glove_file, embedding_dim)
+    print(f"  Loaded {len(word_embeddings):,} word embeddings")
+
+    # Pre-compute embeddings for each split
+    for split in ['train', 'val', 'test']:
+        csv_path = os.path.join(dataset_save_path, f"{split}.csv")
+        if not os.path.exists(csv_path):
+            print(f"  Skipping {split} (CSV not found)")
+            continue
+
+        print(f"  Pre-computing embeddings for {split}...")
+        df = pd.read_csv(csv_path)
+
+        # Create split directory
+        split_dir = os.path.join(full_path, split)
+        os.makedirs(split_dir, exist_ok=True)
+
+        # Pre-compute embeddings for each document
+        for idx, row in df.iterrows():
+            text = row['text']
+            if isinstance(text, str):
+                words = eval(text) if text.startswith('[') else text.split()
+            else:
+                words = []
+
+            # Convert words to embeddings
+            embeddings = np.zeros((len(words), embedding_dim), dtype=np.float32)
+            for i, word in enumerate(words):
+                if word in word_embeddings:
+                    embeddings[i] = word_embeddings[word]
+
+            # Save embeddings
+            embed_path = os.path.join(split_dir, f"{idx}.npy")
+            np.save(embed_path, embeddings)
+
+        print(f"    Saved {len(df)} document embeddings")
+
+    # Save config
     config_data = {
         'window_size': window_size,
         'embedding_dim': embedding_dim,
@@ -160,8 +257,9 @@ def create_texting_artifacts(
     with open(config_path, 'w') as f:
         json.dump(config_data, f, indent=2)
 
-    print(f"TextING configured with window_size={window_size}, embedding_dim={embedding_dim}")
-    print("Note: Graphs will be built on-the-fly during training (like LSTM encodes text)")
+    print(f"TextING artifacts created successfully!")
+    print(f"  - Pre-computed embeddings (fast loading, no GloVe lookup at runtime)")
+    print(f"  - Adjacency built on-the-fly (minimal overhead)")
     print(f"Config saved to: {config_path}")
 
 
@@ -206,39 +304,33 @@ class TextINGDataset(Dataset):
     Dataset for TextING - each document is a separate graph.
     Uses inductive learning (documents have independent graphs).
 
-    Builds graphs on-the-fly during __getitem__() (like LSTM encodes text).
+    Loads pre-computed embeddings (fast, no GloVe lookup),
+    builds adjacency on-the-fly (lightweight, just indices).
     """
 
     def __init__(self, csv_path: str, artifact_path: str, split: str,
                  window_size: int = 3, embedding_dim: int = 300):
         """
-        Initialize TextING dataset with on-the-fly graph construction.
+        Initialize TextING dataset with pre-computed embeddings.
 
         Args:
-            csv_path: Path to CSV file with tokenized text
-            artifact_path: Path to artifact directory (for config)
+            csv_path: Path to CSV file with labels
+            artifact_path: Path to artifact directory with pre-computed embeddings
             split: "train", "val", or "test"
             window_size: Sliding window size for co-occurrence
             embedding_dim: GloVe embedding dimension
         """
-        # Load CSV (lightweight, like LSTM)
+        # Load CSV for labels
         self.df = pd.read_csv(csv_path)
-        self.texts = self.df["text"].tolist()
         self.labels = self.df["label"].tolist()
 
-        # Load GloVe embeddings ONCE (shared across all documents)
-        print(f"Loading GloVe {embedding_dim}d embeddings...")
-        glove_dir = get_data_path() / "glove"
-        glove_file = glove_dir / f"glove.6B.{embedding_dim}d.txt"
-
-        if not glove_file.exists():
+        # Path to pre-computed embeddings
+        self.embeddings_dir = os.path.join(artifact_path, split)
+        if not os.path.exists(self.embeddings_dir):
             raise FileNotFoundError(
-                f"GloVe embeddings not found at {glove_file}. "
-                f"Run: python -m textgnn.download_data"
+                f"Pre-computed embeddings not found at {self.embeddings_dir}. "
+                "Run load_data() to create artifacts first."
             )
-
-        self.word_embeddings = load_glove_embeddings(glove_file, embedding_dim)
-        print(f"  Loaded embeddings for {len(self.word_embeddings):,} words")
 
         # Config
         self.window_size = window_size
@@ -253,38 +345,30 @@ class TextINGDataset(Dataset):
         self.num_classes = len(unique_labels)
 
         print(f"Loaded TextING dataset for {split} split:")
-        print(f"  - Documents: {len(self.texts)}")
+        print(f"  - Documents: {len(self.labels)}")
         print(f"  - Classes: {self.num_classes}")
-        print(f"  - Mode: On-the-fly graph construction (like LSTM)")
+        print(f"  - Mode: Pre-computed embeddings + on-the-fly adjacency")
 
     def __len__(self):
         """Return number of documents."""
-        return len(self.texts)
+        return len(self.labels)
 
     def __getitem__(self, idx):
         """
-        Build graph ON-THE-FLY for this document (like LSTM encodes on-the-fly).
+        Load pre-computed embeddings and build adjacency on-the-fly.
 
         Returns dict with:
             adj: adjacency matrix (dense)
             features: node features [num_nodes, embedding_dim]
             label: one-hot label
         """
-        # Get text tokens
-        text = self.texts[idx]
-        if isinstance(text, str):
-            # Parse list from string representation
-            words = eval(text) if text.startswith('[') else text.split()
-        else:
-            words = []
+        # Load pre-computed embeddings (FAST - just numpy load)
+        embed_path = os.path.join(self.embeddings_dir, f"{idx}.npy")
+        features = np.load(embed_path)  # [num_words, embedding_dim]
 
-        # BUILD GRAPH NOW (not pre-computed!)
-        adj, features = build_document_graph(
-            words,
-            self.word_embeddings,
-            self.window_size,
-            weighted=False
-        )
+        # Build adjacency from word count (FAST - no GloVe lookup!)
+        num_words = len(features)
+        adj = build_adjacency_from_word_count(num_words, self.window_size)
 
         # Get label (one-hot encode)
         label_idx = self.label_to_idx[self.labels[idx]]
