@@ -1,7 +1,8 @@
 TRAINING_LOOPS = {
     "lstm": "models.lstm.train.train_lstm",
     "fastText": "models.fastText.train.train",
-    "text_gcn": "models.text_gcn.train.train_text_gcn",  # TODO
+    "text_gcn": "models.text_gcn.train.train_text_gcn",
+    "texting": "models.texting.train.train_texting",
 }
 
 # Pipeline type registries
@@ -14,6 +15,7 @@ MODEL_PIPELINE_TYPES = {
     "lstm": "inductive",
     "fastText": "inductive",
     "text_gcn": "transductive",
+    "texting": "inductive",
 }
 
 from .utils import get_function_from_path

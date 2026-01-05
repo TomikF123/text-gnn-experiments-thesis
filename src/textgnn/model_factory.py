@@ -4,6 +4,7 @@ from .config_class import ModelConfig, DatasetConfig
 MODEL_CREATORS = {
     "lstm": "textgnn.models.lstm.model.create_lstm_model",
     "text_gcn": "textgnn.models.textgcn.model.create_textgcn_model",
+    "texting": "textgnn.models.texting.model.create_texting_model",
     "fastText": "textgnn.models.fastText.model.create_fasttext_model",
 }
 

@@ -15,6 +15,7 @@ logger = setup_logger(__name__)
 ARTIFACT_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_artifacts",
     "text_gcn": "textgnn.loaders.textgcn_loader.create_textgcn_artifacts",
+    "texting": "textgnn.loaders.texting_loader.create_texting_artifacts",
     "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_artifacts",
 }
 
@@ -22,17 +23,20 @@ DATASETS = {
     "lstm": "textgnn.loaders.lstm_loader.LSTMDataset",
     "fastText": "textgnn.loaders.fasttext_loader.FastTextDataset",
     "text_gcn": "textgnn.loaders.textgcn_loader.TextGCNDataset",
+    "texting": "textgnn.loaders.texting_loader.TextINGDataset",
 }
 
 FILENAME_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_filename",
     "text_gcn": "textgnn.loaders.textgcn_loader.create_textgcn_filename",
+    "texting": "textgnn.loaders.texting_loader.create_texting_filename",
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
     "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_filename",
 }
 GET_DATASET_OBJECT_FUNCS = {
     "lstm": "textgnn.loaders.lstm_loader.get_lstm_dataset_object",
     "text_gcn": "textgnn.loaders.textgcn_loader.get_textgcn_dataset_object",
+    "texting": "textgnn.loaders.texting_loader.get_texting_dataset_object",
     "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
     "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",
 }

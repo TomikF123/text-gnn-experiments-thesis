@@ -14,11 +14,42 @@ def evaluate(model, data_loader, device=get_device(), return_preds=False):
     all_labels = []
 
     for batch in tqdm(data_loader, desc="Evaluating"):
-        inputs, labels = batch
-        inputs = inputs.to(device)
-        labels = labels.to(device)
+        # Handle different batch formats
+        if isinstance(batch, dict):
+            # Dictionary format (e.g., TextING with adj, features, mask)
+            # Move all tensors to device, handling special case of adj (list of sparse tensors)
+            batch_device = {}
+            for k, v in batch.items():
+                if k == 'adj' and isinstance(v, list):
+                    # adj is a list of sparse tensors - move each to device
+                    batch_device[k] = [sparse_tensor.to(device) for sparse_tensor in v]
+                elif isinstance(v, torch.Tensor):
+                    batch_device[k] = v.to(device)
+                else:
+                    batch_device[k] = v
 
-        outputs = model(inputs)
+            # Extract labels
+            labels = batch_device['labels']
+
+            # Forward pass - check if model returns tuple (logits, embeddings) or just logits
+            model_output = model(**{k: v for k, v in batch_device.items() if k != 'labels'})
+
+            if isinstance(model_output, tuple):
+                outputs = model_output[0]  # Get logits from (logits, embeddings)
+            else:
+                outputs = model_output
+        else:
+            # Tuple format (e.g., LSTM, FastText with inputs, labels)
+            inputs, labels = batch
+            inputs = inputs.to(device)
+            labels = labels.to(device)
+            outputs = model(inputs)
+
+        # Convert one-hot labels to class indices if needed
+        if labels.dim() > 1 and labels.size(1) > 1:
+            labels = torch.argmax(labels, dim=1)
+
+        # Get predictions
         if outputs.dim() > 1 and outputs.size(1) > 1:
             preds = torch.argmax(outputs, dim=1)
         else:

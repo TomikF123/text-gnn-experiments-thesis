@@ -2,7 +2,7 @@ text_gcn/
 Text-GCN/
 data/
 saved/
-#mlruns/
+mlruns/
 text-gnn/
 notebooks/
 mlruns
