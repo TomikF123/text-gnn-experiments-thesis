@@ -327,8 +327,8 @@ def create_texting_model(
         TextINGClassifier instance
     """
     import os
-    import pickle
-    from textgnn.load_data import create_dir_name_based_on_dataset_config, create_file_name
+    import pandas as pd
+    from textgnn.load_data import create_dir_name_based_on_dataset_config
     from textgnn.utils import get_saved_path
 
     # Extract config parameters
@@ -341,23 +341,20 @@ def create_texting_model(
     if dataset is not None:
         num_classes = dataset.num_classes
     else:
-        # Load metadata from saved artifacts
+        # Load train CSV to count unique labels (like TextINGDataset does)
         dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
         dataset_save_path = os.path.join(get_saved_path(), dataset_dir_name)
-        save_fn = create_file_name(dataset_config, model_config.model_type)
-        full_path = os.path.join(dataset_save_path, save_fn)
+        train_csv = os.path.join(dataset_save_path, "train.csv")
 
-        # Load any split to get num_classes
-        # train_data_path = os.path.join(full_path, "train_data.pkl")
-        # if not os.path.exists(train_data_path):
-        #     raise FileNotFoundError(
-        #         f"Artifacts not found at {train_data_path}. "
-        #         "Ensure artifacts are created by calling load_data() first."
-        #     )
+        if not os.path.exists(train_csv):
+            raise FileNotFoundError(
+                f"Train CSV not found at {train_csv}. "
+                "Ensure artifacts are created by calling load_data() first."
+            )
 
-        # with open(train_data_path, 'rb') as f:
-        #     data = pickle.load(f)
-        num_classes = 20#data['num_classes']
+        # Count unique labels from train CSV
+        df = pd.read_csv(train_csv)
+        num_classes = len(set(df['label'].tolist()))
 
     return TextINGClassifier(
         input_dim=input_dim,

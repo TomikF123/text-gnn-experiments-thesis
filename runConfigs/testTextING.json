@@ -19,7 +19,7 @@
       "model_type": "texting",
       "common_params": {
         "epochs": 15,
-        "batch_size": 1,
+        "batch_size": 64,
         "seed": 42,
         "device": "cuda"
       },

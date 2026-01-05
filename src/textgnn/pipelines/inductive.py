@@ -75,7 +75,8 @@ def run_inductive_pipeline(config: Config):
             train_dataset,
             batch_size=batch_size,
             collate_fn=train_dataset.collate_fn,
-            shuffle=True
+            shuffle=True,
+            num_workers=0  # Single process (GloVe can't be pickled for multiprocessing)
         )
 
         if has_validation:
@@ -83,14 +84,16 @@ def run_inductive_pipeline(config: Config):
                 val_dataset,
                 batch_size=batch_size,
                 collate_fn=val_dataset.collate_fn,
-                shuffle=False
+                shuffle=False,
+                num_workers=0
             )
 
         test_loader = DataLoader(
             test_dataset,
             batch_size=batch_size,
             collate_fn=test_dataset.collate_fn,
-            shuffle=False
+            shuffle=False,
+            num_workers=0
         )
 
         # Create model
