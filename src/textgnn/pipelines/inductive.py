@@ -71,12 +71,17 @@ def run_inductive_pipeline(config: Config):
         logger.info("Creating DataLoaders...")
         batch_size = config.model_conf.common_params["batch_size"]
 
+        # Try multiprocessing for data loading (now that we cache PyTorch sparse tensors)
+        # Falls back to 0 if sparse tensors can't be pickled
+        num_workers = 4 if torch.cuda.is_available() else 0  # Only if GPU available
+
         train_loader = DataLoader(
             train_dataset,
             batch_size=batch_size,
             collate_fn=train_dataset.collate_fn,
             shuffle=True,
-            num_workers=0  # Single process (GloVe can't be pickled for multiprocessing)
+            num_workers=num_workers,
+            persistent_workers=num_workers > 0  # Keep workers alive between epochs
         )
 
         if has_validation:
@@ -85,7 +90,8 @@ def run_inductive_pipeline(config: Config):
                 batch_size=batch_size,
                 collate_fn=val_dataset.collate_fn,
                 shuffle=False,
-                num_workers=0
+                num_workers=num_workers,
+                persistent_workers=num_workers > 0
             )
 
         test_loader = DataLoader(
@@ -93,7 +99,8 @@ def run_inductive_pipeline(config: Config):
             batch_size=batch_size,
             collate_fn=test_dataset.collate_fn,
             shuffle=False,
-            num_workers=0
+            num_workers=num_workers,
+            persistent_workers=num_workers > 0
         )
 
         # Create model

@@ -283,17 +283,25 @@ def create_texting_artifacts(
             # Convert words to IDs (INTEGERS - much smaller!)
             word_ids = [word_to_idx.get(word, 1) for word in words]  # 1 = <UNK>
 
-            # Build adjacency (sparse, very small!)
-            adj = build_adjacency_from_word_count(len(words), window_size)
+            # Build adjacency (sparse scipy matrix)
+            adj_scipy = build_adjacency_from_word_count(len(words), window_size)
+
+            # CACHE: Convert to PyTorch sparse COO once (not during training!)
+            # This moves expensive conversion from training time to artifact creation time
+            adj_coo = adj_scipy.tocoo()
+            indices = torch.LongTensor([adj_coo.row, adj_coo.col])
+            values = torch.FloatTensor(adj_coo.data)
+            shape = torch.Size(adj_coo.shape)
+            adj_torch_sparse = torch.sparse_coo_tensor(indices, values, shape)
 
             word_ids_list.append(word_ids)
-            adjacencies_list.append(adj)
+            adjacencies_list.append(adj_torch_sparse)  # Store PyTorch sparse (cached!)
             labels_list.append(label)
 
         # Save consolidated data (MUCH smaller now!)
         split_data = {
             'word_ids': word_ids_list,  # List of integers (tiny!)
-            'adjacencies': adjacencies_list,  # List of sparse matrices (tiny!)
+            'adjacencies': adjacencies_list,  # List of PyTorch sparse tensors (cached!)
             'labels': labels_list,
             'num_classes': len(set(labels_list))
         }
@@ -434,25 +442,22 @@ class TextINGDataset(Dataset):
         Get word IDs and adjacency from memory (INSTANT!).
 
         Returns dict with:
-            adj: adjacency matrix (dense)
+            adj: PyTorch sparse COO tensor (PRE-CACHED!)
             word_ids: word indices [num_words] - GPU will embed these!
             label: one-hot label
         """
-        # Get from memory (INSTANT - just integers!)
+        # Get from memory (INSTANT - just integers and pre-cached sparse tensors!)
         word_ids = self.word_ids[idx]  # List of integers
-        adj = self.adjacencies[idx]  # Sparse matrix
+        adj = self.adjacencies[idx]  # PyTorch sparse COO tensor (PRE-CACHED!)
 
         # Get label (one-hot encode)
         label_idx = self.label_to_idx[self.labels[idx]]
         label_one_hot = np.zeros(self.num_classes)
         label_one_hot[label_idx] = 1
 
-        # Convert sparse adjacency to dense
-        if sp.issparse(adj):
-            adj = adj.toarray()
-
+        # NO CONVERSION - adjacency is already PyTorch sparse COO!
         return {
-            'adj': adj.astype(np.float32),
+            'adj': adj,  # Already PyTorch sparse COO (cached!)
             'word_ids': np.array(word_ids, dtype=np.int64),  # Integers!
             'label': label_one_hot.astype(np.float32)
         }
@@ -464,6 +469,8 @@ def texting_collate_fn(batch):
 
     Pads graphs and word ID sequences to max size in batch.
     GPU will embed word_ids using nn.Embedding layer.
+
+    Now MUCH faster - just pads pre-cached sparse tensors (no conversion!)
     """
     # Find max nodes in this batch
     max_nodes = max([item['adj'].shape[0] for item in batch])
@@ -480,14 +487,27 @@ def texting_collate_fn(batch):
     for i, item in enumerate(batch):
         num_nodes = item['adj'].shape[0]
 
-        # Convert adjacency to sparse tensor with padding
-        adj_dense = item['adj']
-        adj_padded = np.zeros((max_nodes, max_nodes), dtype=np.float32)
-        adj_padded[:num_nodes, :num_nodes] = adj_dense
+        # Pad sparse tensor (FAST - no conversion, already cached!)
+        adj_sparse = item['adj']  # Already PyTorch sparse COO!
 
-        # Convert to sparse COO format
-        adj_sparse = torch.from_numpy(adj_padded).to_sparse_coo()
-        adj_list.append(adj_sparse)
+        if num_nodes < max_nodes:
+            # Need to pad: create new sparse tensor with larger size
+            # Get indices and values from cached sparse tensor
+            adj_sparse = adj_sparse.coalesce()  # Ensure coalesced
+            indices = adj_sparse.indices()
+            values = adj_sparse.values()
+
+            # Create padded sparse tensor (same non-zero values, larger size)
+            adj_padded = torch.sparse_coo_tensor(
+                indices,
+                values,
+                size=(max_nodes, max_nodes),
+                dtype=torch.float32
+            )
+            adj_list.append(adj_padded)
+        else:
+            # Already max size
+            adj_list.append(adj_sparse)
 
         # Copy word IDs (pad with 0 = <PAD>)
         word_ids_batch[i, :num_nodes] = torch.from_numpy(item['word_ids'])
@@ -499,7 +519,7 @@ def texting_collate_fn(batch):
         labels_batch[i] = torch.from_numpy(item['label'])
 
     return {
-        'adj': adj_list,  # List of sparse tensors
+        'adj': adj_list,  # List of sparse tensors (pre-cached, just padded!)
         'word_ids': word_ids_batch,  # [batch_size, max_nodes] - integers for embedding!
         'mask': mask_batch,
         'labels': labels_batch
