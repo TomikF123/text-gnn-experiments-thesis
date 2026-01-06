@@ -289,8 +289,10 @@ def create_texting_artifacts(
             # CACHE: Convert to PyTorch sparse COO once (not during training!)
             # This moves expensive conversion from training time to artifact creation time
             adj_coo = adj_scipy.tocoo()
-            indices = torch.LongTensor([adj_coo.row, adj_coo.col])
-            values = torch.FloatTensor(adj_coo.data)
+            # Convert to numpy first, then to tensor (much faster!)
+            indices = np.vstack([adj_coo.row, adj_coo.col])
+            indices = torch.from_numpy(indices).long()
+            values = torch.from_numpy(adj_coo.data).float()
             shape = torch.Size(adj_coo.shape)
             adj_torch_sparse = torch.sparse_coo_tensor(indices, values, shape)
 
