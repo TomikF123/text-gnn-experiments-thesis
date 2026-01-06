@@ -54,9 +54,10 @@ class ExperimentTracker:
         # Set experiment (creates if doesn't exist)
         mlflow.set_experiment(self.experiment_name)
 
-        # Start run
-        self.run = mlflow.start_run(run_name=self.run_name)
+        # Start run with system metrics logging enabled
+        self.run = mlflow.start_run(run_name=self.run_name, log_system_metrics=True)
         logger.info(f"Started MLflow run: {self.run.info.run_id}")
+        logger.info("System metrics logging enabled (CPU, RAM, GPU, VRAM)")
 
         # Log all hyperparameters
         self._log_config_params()
