@@ -173,10 +173,10 @@ def create_texting_artifacts(
     missing_parent: bool = False
 ) -> None:
     """
-    Create TextING artifacts with pre-computed embeddings.
+    Create TextING artifacts with vocabulary-based approach (like LSTM).
 
-    Pre-computes GloVe embeddings for all documents (eliminating CPU bottleneck),
-    but builds adjacency matrices on-the-fly during training.
+    Stores word IDs (integers) instead of embeddings to avoid duplication.
+    Creates embedding matrix once (like LSTM) for GPU to use.
 
     Args:
         dataset_config: Dataset configuration
@@ -185,6 +185,23 @@ def create_texting_artifacts(
         missing_parent: If True, create basic dataset first
     """
     os.makedirs(full_path, exist_ok=True)
+
+    # Get config parameters
+    window_size = dataset_config.gnn_encoding.window_size if dataset_config.gnn_encoding else 3
+    embedding_dim = dataset_config.gnn_encoding.embedding_dim if dataset_config.gnn_encoding else 300
+
+    # CACHING: Check if artifacts already exist
+    vocab_file = os.path.join(full_path, "vocab.pkl")
+    cache_valid = os.path.exists(vocab_file)
+    for split in ['train', 'val', 'test']:
+        split_file = os.path.join(full_path, f"{split}_data.pkl")
+        if not os.path.exists(split_file):
+            cache_valid = False
+            break
+
+    if cache_valid:
+        print(f"TextING artifacts already exist at {full_path} (using cache)")
+        return
 
     # Create basic dataset if needed (CSVs + vocab)
     if missing_parent:
@@ -196,11 +213,27 @@ def create_texting_artifacts(
 
     print(f"Creating TextING artifacts at {full_path}...")
 
-    # Get config parameters
-    window_size = dataset_config.gnn_encoding.window_size if dataset_config.gnn_encoding else 3
-    embedding_dim = dataset_config.gnn_encoding.embedding_dim if dataset_config.gnn_encoding else 300
+    # Build vocabulary from all splits (like LSTM does)
+    print("Building vocabulary from all splits...")
+    vocab = {'<PAD>': 0, '<UNK>': 1}  # Special tokens
+    word_to_idx = vocab.copy()
 
-    # Load GloVe embeddings once
+    for split in ['train', 'val', 'test']:
+        csv_path = os.path.join(dataset_save_path, f"{split}.csv")
+        if not os.path.exists(csv_path):
+            continue
+
+        df = pd.read_csv(csv_path)
+        for text in df['text']:
+            if isinstance(text, str):
+                words = eval(text) if text.startswith('[') else text.split()
+                for word in words:
+                    if word not in word_to_idx:
+                        word_to_idx[word] = len(word_to_idx)
+
+    print(f"  Vocabulary size: {len(word_to_idx):,} words")
+
+    # Load GloVe and create embedding matrix (like LSTM does!)
     print(f"Loading GloVe {embedding_dim}d embeddings...")
     glove_dir = get_data_path() / "glove"
     glove_file = glove_dir / f"glove.6B.{embedding_dim}d.txt"
@@ -212,54 +245,94 @@ def create_texting_artifacts(
         )
 
     word_embeddings = load_glove_embeddings(glove_file, embedding_dim)
-    print(f"  Loaded {len(word_embeddings):,} word embeddings")
 
-    # Pre-compute embeddings for each split
+    # Create embedding matrix (vocab_size × embedding_dim)
+    embedding_matrix = np.zeros((len(word_to_idx), embedding_dim), dtype=np.float32)
+    found = 0
+    for word, idx in word_to_idx.items():
+        if word in word_embeddings:
+            embedding_matrix[idx] = word_embeddings[word]
+            found += 1
+
+    print(f"  Found GloVe vectors for {found:,}/{len(word_to_idx):,} words ({100*found/len(word_to_idx):.1f}%)")
+
+    # Process each split: Save word IDs + adjacencies
     for split in ['train', 'val', 'test']:
         csv_path = os.path.join(dataset_save_path, f"{split}.csv")
         if not os.path.exists(csv_path):
             print(f"  Skipping {split} (CSV not found)")
             continue
 
-        print(f"  Pre-computing embeddings for {split}...")
+        print(f"  Processing {split}...")
         df = pd.read_csv(csv_path)
 
-        # Create split directory
-        split_dir = os.path.join(full_path, split)
-        os.makedirs(split_dir, exist_ok=True)
+        word_ids_list = []
+        adjacencies_list = []
+        labels_list = []
 
-        # Pre-compute embeddings for each document
+        # Process each document
         for idx, row in df.iterrows():
             text = row['text']
+            label = row['label']
+
             if isinstance(text, str):
                 words = eval(text) if text.startswith('[') else text.split()
             else:
                 words = []
 
-            # Convert words to embeddings
-            embeddings = np.zeros((len(words), embedding_dim), dtype=np.float32)
-            for i, word in enumerate(words):
-                if word in word_embeddings:
-                    embeddings[i] = word_embeddings[word]
+            # Convert words to IDs (INTEGERS - much smaller!)
+            word_ids = [word_to_idx.get(word, 1) for word in words]  # 1 = <UNK>
 
-            # Save embeddings
-            embed_path = os.path.join(split_dir, f"{idx}.npy")
-            np.save(embed_path, embeddings)
+            # Build adjacency (sparse, very small!)
+            adj = build_adjacency_from_word_count(len(words), window_size)
 
-        print(f"    Saved {len(df)} document embeddings")
+            word_ids_list.append(word_ids)
+            adjacencies_list.append(adj)
+            labels_list.append(label)
+
+        # Save consolidated data (MUCH smaller now!)
+        split_data = {
+            'word_ids': word_ids_list,  # List of integers (tiny!)
+            'adjacencies': adjacencies_list,  # List of sparse matrices (tiny!)
+            'labels': labels_list,
+            'num_classes': len(set(labels_list))
+        }
+
+        split_file = os.path.join(full_path, f"{split}_data.pkl")
+        with open(split_file, 'wb') as f:
+            pickle.dump(split_data, f)
+
+        # Calculate memory usage
+        ids_size = sum(len(ids) * 4 for ids in word_ids_list) / (1024**2)  # 4 bytes per int
+        print(f"    Saved {len(df)} documents to {split}_data.pkl (~{ids_size:.1f} MB word IDs)")
+
+    # Save vocabulary and embedding matrix
+    vocab_data = {
+        'word_to_idx': word_to_idx,
+        'embedding_matrix': embedding_matrix,
+        'vocab_size': len(word_to_idx),
+        'embedding_dim': embedding_dim
+    }
+    with open(vocab_file, 'wb') as f:
+        pickle.dump(vocab_data, f)
+
+    emb_matrix_size = embedding_matrix.nbytes / (1024**2)
+    print(f"  Saved vocabulary and embedding matrix ({emb_matrix_size:.1f} MB)")
 
     # Save config
     config_data = {
         'window_size': window_size,
         'embedding_dim': embedding_dim,
+        'vocab_size': len(word_to_idx)
     }
     config_path = os.path.join(full_path, 'config.json')
     with open(config_path, 'w') as f:
         json.dump(config_data, f, indent=2)
 
     print(f"TextING artifacts created successfully!")
-    print(f"  - Pre-computed embeddings (fast loading, no GloVe lookup at runtime)")
-    print(f"  - Adjacency built on-the-fly (minimal overhead)")
+    print(f"  - Vocabulary approach (like LSTM): word IDs instead of embeddings")
+    print(f"  - Embedding matrix: {emb_matrix_size:.1f} MB (loaded once on GPU)")
+    print(f"  - 500× smaller than storing duplicate embeddings!")
     print(f"Config saved to: {config_path}")
 
 
@@ -304,33 +377,38 @@ class TextINGDataset(Dataset):
     Dataset for TextING - each document is a separate graph.
     Uses inductive learning (documents have independent graphs).
 
-    Loads pre-computed embeddings (fast, no GloVe lookup),
-    builds adjacency on-the-fly (lightweight, just indices).
+    Loads word IDs (like LSTM) - embedding lookup happens on GPU!
     """
 
     def __init__(self, csv_path: str, artifact_path: str, split: str,
                  window_size: int = 3, embedding_dim: int = 300):
         """
-        Initialize TextING dataset with pre-computed embeddings.
+        Initialize TextING dataset with vocabulary-based approach (like LSTM).
 
         Args:
-            csv_path: Path to CSV file with labels
-            artifact_path: Path to artifact directory with pre-computed embeddings
+            csv_path: Path to CSV file (not used, for API compatibility)
+            artifact_path: Path to artifact directory
             split: "train", "val", or "test"
-            window_size: Sliding window size for co-occurrence
+            window_size: Sliding window size
             embedding_dim: GloVe embedding dimension
         """
-        # Load CSV for labels
-        self.df = pd.read_csv(csv_path)
-        self.labels = self.df["label"].tolist()
-
-        # Path to pre-computed embeddings
-        self.embeddings_dir = os.path.join(artifact_path, split)
-        if not os.path.exists(self.embeddings_dir):
+        # Load split data (word IDs + adjacencies)
+        split_file = os.path.join(artifact_path, f"{split}_data.pkl")
+        if not os.path.exists(split_file):
             raise FileNotFoundError(
-                f"Pre-computed embeddings not found at {self.embeddings_dir}. "
+                f"Artifacts not found at {split_file}. "
                 "Run load_data() to create artifacts first."
             )
+
+        print(f"Loading TextING dataset for {split}...")
+        with open(split_file, 'rb') as f:
+            data = pickle.load(f)
+
+        # Store in memory (TINY - just integers!)
+        self.word_ids = data['word_ids']  # List of lists of integers
+        self.adjacencies = data['adjacencies']  # List of sparse matrices (tiny!)
+        self.labels = data['labels']
+        self.num_classes = data['num_classes']
 
         # Config
         self.window_size = window_size
@@ -338,37 +416,31 @@ class TextINGDataset(Dataset):
         self.split = split
         self.collate_fn = texting_collate_fn
 
-        # Get label info
+        # Get label mapping
         unique_labels = sorted(set(self.labels))
         self.label_to_idx = {label: idx for idx, label in enumerate(unique_labels)}
         self.idx_to_label = {idx: label for label, idx in self.label_to_idx.items()}
-        self.num_classes = len(unique_labels)
 
-        print(f"Loaded TextING dataset for {split} split:")
-        print(f"  - Documents: {len(self.labels)}")
+        print(f"  - Documents: {len(self.word_ids)}")
         print(f"  - Classes: {self.num_classes}")
-        print(f"  - Mode: Pre-computed embeddings + on-the-fly adjacency")
+        print(f"  - Mode: Word IDs (like LSTM) - embedding on GPU!")
 
     def __len__(self):
         """Return number of documents."""
-        return len(self.labels)
+        return len(self.word_ids)
 
     def __getitem__(self, idx):
         """
-        Load pre-computed embeddings and build adjacency on-the-fly.
+        Get word IDs and adjacency from memory (INSTANT!).
 
         Returns dict with:
             adj: adjacency matrix (dense)
-            features: node features [num_nodes, embedding_dim]
+            word_ids: word indices [num_words] - GPU will embed these!
             label: one-hot label
         """
-        # Load pre-computed embeddings (FAST - just numpy load)
-        embed_path = os.path.join(self.embeddings_dir, f"{idx}.npy")
-        features = np.load(embed_path)  # [num_words, embedding_dim]
-
-        # Build adjacency from word count (FAST - no GloVe lookup!)
-        num_words = len(features)
-        adj = build_adjacency_from_word_count(num_words, self.window_size)
+        # Get from memory (INSTANT - just integers!)
+        word_ids = self.word_ids[idx]  # List of integers
+        adj = self.adjacencies[idx]  # Sparse matrix
 
         # Get label (one-hot encode)
         label_idx = self.label_to_idx[self.labels[idx]]
@@ -381,30 +453,26 @@ class TextINGDataset(Dataset):
 
         return {
             'adj': adj.astype(np.float32),
-            'features': features.astype(np.float32),
+            'word_ids': np.array(word_ids, dtype=np.int64),  # Integers!
             'label': label_one_hot.astype(np.float32)
         }
 
 
 def texting_collate_fn(batch):
     """
-    Collate function for TextING - pads graphs to max size in batch.
+    Collate function for TextING with word IDs (like LSTM).
 
-    This is memory-efficient as it only pads to the max in THIS batch,
-    not globally across all documents.
-
-    Uses sparse adjacency matrices to reduce memory usage (sliding window
-    graphs are very sparse, typically <5% density).
+    Pads graphs and word ID sequences to max size in batch.
+    GPU will embed word_ids using nn.Embedding layer.
     """
     # Find max nodes in this batch
     max_nodes = max([item['adj'].shape[0] for item in batch])
     batch_size = len(batch)
-    embedding_dim = batch[0]['features'].shape[1]
     num_classes = batch[0]['label'].shape[0]
 
     # Pre-allocate tensors
-    adj_list = []  # Store as list of sparse tensors instead of dense batch
-    features_batch = torch.zeros((batch_size, max_nodes, embedding_dim), dtype=torch.float32)
+    adj_list = []  # Store as list of sparse tensors
+    word_ids_batch = torch.zeros((batch_size, max_nodes), dtype=torch.long)  # Integers (PAD=0)
     mask_batch = torch.zeros((batch_size, max_nodes, 1), dtype=torch.float32)
     labels_batch = torch.zeros((batch_size, num_classes), dtype=torch.float32)
 
@@ -421,8 +489,8 @@ def texting_collate_fn(batch):
         adj_sparse = torch.from_numpy(adj_padded).to_sparse_coo()
         adj_list.append(adj_sparse)
 
-        # Copy features
-        features_batch[i, :num_nodes, :] = torch.from_numpy(item['features'])
+        # Copy word IDs (pad with 0 = <PAD>)
+        word_ids_batch[i, :num_nodes] = torch.from_numpy(item['word_ids'])
 
         # Create mask (1 for real nodes, 0 for padding)
         mask_batch[i, :num_nodes, :] = 1.0
@@ -432,7 +500,7 @@ def texting_collate_fn(batch):
 
     return {
         'adj': adj_list,  # List of sparse tensors
-        'features': features_batch,
+        'word_ids': word_ids_batch,  # [batch_size, max_nodes] - integers for embedding!
         'mask': mask_batch,
         'labels': labels_batch
     }

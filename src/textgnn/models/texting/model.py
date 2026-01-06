@@ -21,35 +21,46 @@ class TextINGClassifier(GraphTextClassifier):
 
     def __init__(
         self,
-        input_dim: int,
+        vocab_size: int,
+        embedding_dim: int,
         output_dim: int,
         hidden_dim: int = 96,
         gru_steps: int = 2,
         dropout: float = 0.5,
+        embedding_matrix=None,
         **kwargs
     ):
         """
-        Initialize TextING model.
+        Initialize TextING model with embedding layer (like LSTM).
 
         Args:
-            input_dim: Input feature dimension (GloVe embedding dim, e.g., 300)
+            vocab_size: Vocabulary size
+            embedding_dim: Embedding dimension (e.g., 300 for GloVe)
             output_dim: Number of output classes
             hidden_dim: Hidden dimension for GNN layers
             gru_steps: Number of GRU message passing steps
             dropout: Dropout rate
+            embedding_matrix: Pre-trained embedding matrix (e.g., GloVe weights)
         """
-        # Don't create embedding layer (TextING uses pre-trained GloVe)
-        super().__init__(vocab_size=None, embedding_dim=None, output_size=output_dim)
+        super().__init__(vocab_size=vocab_size, embedding_dim=embedding_dim, output_size=output_dim)
 
-        self.input_dim = input_dim
+        self.vocab_size = vocab_size
+        self.embedding_dim = embedding_dim
         self.output_dim = output_dim
         self.hidden_dim = hidden_dim
         self.gru_steps = gru_steps
         self.dropout_rate = dropout
 
+        # Embedding layer (like LSTM!) - GPU does the lookup
+        self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
+
+        # Load pre-trained GloVe weights if provided
+        if embedding_matrix is not None:
+            self.embedding.weight.data.copy_(torch.from_numpy(embedding_matrix))
+
         # Graph layer with GRU-based message passing
         self.graph_layer = GraphLayer(
-            input_dim=input_dim,
+            input_dim=embedding_dim,
             output_dim=hidden_dim,
             act=nn.Tanh(),
             dropout=dropout,
@@ -68,19 +79,22 @@ class TextINGClassifier(GraphTextClassifier):
         from textgnn.models.texting.train import train_texting
         self.train_func = train_texting
 
-    def forward(self, adj, features, mask):
+    def forward(self, adj, word_ids, mask):
         """
-        Forward pass through TextING.
+        Forward pass through TextING with word IDs (like LSTM).
 
         Args:
             adj: List of sparse adjacency matrices (one per document in batch)
-            features: Batch of node features [batch_size, max_nodes, input_dim]
+            word_ids: Batch of word indices [batch_size, max_nodes] - integers!
             mask: Batch of node masks [batch_size, max_nodes, 1]
 
         Returns:
             logits: Output logits [batch_size, num_classes]
             embeddings: Node embeddings [batch_size, max_nodes, hidden_dim]
         """
+        # Embed word IDs on GPU (like LSTM!)
+        features = self.embedding(word_ids)  # [batch_size, max_nodes, embedding_dim]
+
         # Graph convolution with GRU
         embeddings = self.graph_layer(features, adj, mask)
 
@@ -316,7 +330,9 @@ def create_texting_model(
     dataset=None
 ):
     """
-    Factory function to create TextING model.
+    Factory function to create TextING model with vocabulary (like LSTM).
+
+    Loads vocabulary and embedding matrix from artifacts.
 
     Args:
         model_config: Model configuration
@@ -327,26 +343,58 @@ def create_texting_model(
         TextINGClassifier instance
     """
     import os
-    from textgnn.load_data import create_dir_name_based_on_dataset_config
+    import pickle
+    from textgnn.load_data import create_dir_name_based_on_dataset_config, create_file_name
     from textgnn.utils import get_saved_path
 
     # Extract config parameters
     gnn_encoding = dataset_config.gnn_encoding
     model_params = model_config.model_specific_params
 
-    # Get input/output dimensions
-    input_dim = gnn_encoding.embedding_dim if gnn_encoding else 300
+    # Get embedding dimension
+    embedding_dim = gnn_encoding.embedding_dim if gnn_encoding else 300
 
+    # Load vocabulary and embedding matrix from artifacts
+    dataset_dir_name = create_dir_name_based_on_dataset_config(dataset_config)
+    dataset_save_path = os.path.join(get_saved_path(), dataset_dir_name)
+    save_fn = create_file_name(dataset_config, model_config.model_type)
+    full_path = os.path.join(dataset_save_path, save_fn)
+
+    vocab_file = os.path.join(full_path, "vocab.pkl")
+    if not os.path.exists(vocab_file):
+        raise FileNotFoundError(
+            f"Vocabulary not found at {vocab_file}. "
+            "Run load_data() to create artifacts first."
+        )
+
+    print(f"Loading vocabulary and embedding matrix from {vocab_file}...")
+    with open(vocab_file, 'rb') as f:
+        vocab_data = pickle.load(f)
+
+    vocab_size = vocab_data['vocab_size']
+    embedding_matrix = vocab_data['embedding_matrix']
+
+    # Get num_classes
     if dataset is not None:
         num_classes = dataset.num_classes
     else:
-        # Hardcoded for now (TODO: fix properly later)
-        num_classes = 20
+        # Load from first split pickle
+        train_file = os.path.join(full_path, "train_data.pkl")
+        if os.path.exists(train_file):
+            with open(train_file, 'rb') as f:
+                data = pickle.load(f)
+            num_classes = data['num_classes']
+        else:
+            num_classes = 20  # Fallback
+
+    print(f"  Vocab size: {vocab_size:,}, Embedding dim: {embedding_dim}, Classes: {num_classes}")
 
     return TextINGClassifier(
-        input_dim=input_dim,
+        vocab_size=vocab_size,
+        embedding_dim=embedding_dim,
         output_dim=num_classes,
         hidden_dim=model_params.get("hidden_dim", 96),
         gru_steps=model_params.get("gru_steps", 2),
         dropout=model_params.get("dropout", 0.5),
+        embedding_matrix=embedding_matrix
     )
