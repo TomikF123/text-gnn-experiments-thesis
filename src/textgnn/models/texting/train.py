@@ -70,8 +70,8 @@ def train_texting(model, dataloader, config):
         train_total = 0
 
         for batch in train_loader:
-            # Move batch to device (adj is list of sparse tensors)
-            adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
+            # Move batch to device (adj is dense tensor now!)
+            adj = batch['adj'].to(device)  # [batch_size, max_nodes, max_nodes] dense!
             word_ids = batch['word_ids'].to(device)  # Integers for embedding!
             mask = batch['mask'].to(device)
             labels = batch['labels'].to(device)
@@ -112,7 +112,7 @@ def train_texting(model, dataloader, config):
 
             with torch.no_grad():
                 for batch in val_loader:
-                    adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
+                    adj = batch['adj'].to(device)  # [batch_size, max_nodes, max_nodes] dense!
                     word_ids = batch['word_ids'].to(device)  # Integers for embedding!
                     mask = batch['mask'].to(device)
                     labels = batch['labels'].to(device)

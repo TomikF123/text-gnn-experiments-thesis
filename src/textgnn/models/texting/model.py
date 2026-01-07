@@ -84,7 +84,7 @@ class TextINGClassifier(GraphTextClassifier):
         Forward pass through TextING with word IDs (like LSTM).
 
         Args:
-            adj: List of sparse adjacency matrices (one per document in batch)
+            adj: Dense adjacency tensor [batch_size, max_nodes, max_nodes]
             word_ids: Batch of word indices [batch_size, max_nodes] - integers!
             mask: Batch of node masks [batch_size, max_nodes, 1]
 
@@ -149,7 +149,7 @@ class GRUUnit(nn.Module):
         GRU update step.
 
         Args:
-            adj: List of sparse adjacency matrices (one per document in batch)
+            adj: Dense adjacency matrix [batch_size, num_nodes, num_nodes]
             x: Node features [batch_size, num_nodes, hidden_dim]
             mask: Node mask [batch_size, num_nodes, 1]
 
@@ -157,21 +157,8 @@ class GRUUnit(nn.Module):
             Updated node features [batch_size, num_nodes, hidden_dim]
         """
         # Aggregate from neighbors: a = A @ x
-        # Process each graph in the batch separately (adj is a list of sparse tensors)
-        batch_size = x.size(0)
-        a_list = []
-
-        for i in range(batch_size):
-            # Get sparse adjacency for this document
-            adj_i = adj[i]  # Sparse tensor [num_nodes, num_nodes]
-            x_i = x[i]      # Dense tensor [num_nodes, hidden_dim]
-
-            # Sparse matrix multiplication: a_i = adj_i @ x_i
-            a_i = torch.sparse.mm(adj_i, x_i)  # [num_nodes, hidden_dim]
-            a_list.append(a_i)
-
-        # Stack results back into batch
-        a = torch.stack(a_list, dim=0)  # [batch_size, num_nodes, hidden_dim]
+        # FAST: Batch matrix multiplication with dense adjacency (no loop!)
+        a = torch.bmm(adj, x)  # [batch_size, num_nodes, hidden_dim]
 
         # Apply dropout to aggregated features (not adjacency)
         if self.training:
