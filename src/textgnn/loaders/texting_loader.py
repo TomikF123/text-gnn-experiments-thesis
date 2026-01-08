@@ -473,42 +473,50 @@ class TextINGDataset(Dataset):
 
 def texting_collate_fn(batch):
     """
-    Collate function for TextING with word IDs (like LSTM).
+    Collate function for TextING using PyG-style batching.
 
-    NO PADDING for adjacency - just pass list of sparse tensors!
-    Model handles variable-sized graphs natively.
+    Batches multiple graphs into one big graph with:
+    - edge_index: [2, total_edges] - concatenated edges with offset node indices
+    - word_ids: [total_nodes] - flattened word IDs (NO PADDING!)
+    - batch: [total_nodes] - which graph each node belongs to
+    - labels: [batch_size, num_classes]
 
-    SUPER FAST: No padding, no conversion, just collect into lists!
+    This enables fully vectorized GPU operations instead of Python loops!
     """
-    # Find max nodes for word_ids/mask padding only
-    max_nodes = max([item['adj'].shape[0] for item in batch])
-    batch_size = len(batch)
-    num_classes = batch[0]['label'].shape[0]
+    from torch_geometric.data import Data, Batch as PyGBatch
 
-    # Adjacency: Just collect sparse tensors in a list (NO PADDING!)
-    adj_list = [item['adj'] for item in batch]  # List of sparse tensors
+    # Convert each item to PyG Data object
+    data_list = []
+    labels_list = []
 
-    # Allocate tensors for word_ids, mask, labels (still need padding here)
-    word_ids_batch = torch.zeros((batch_size, max_nodes), dtype=torch.long)
-    mask_batch = torch.zeros((batch_size, max_nodes, 1), dtype=torch.float32)
-    labels_batch = torch.zeros((batch_size, num_classes), dtype=torch.float32)
+    for item in batch:
+        adj_sparse = item['adj']  # PyTorch sparse COO [num_nodes, num_nodes]
+        word_ids = torch.from_numpy(item['word_ids'])  # [num_nodes]
+        label = torch.from_numpy(item['label'])  # [num_classes]
 
-    # Fill word_ids, mask, labels
-    for i, item in enumerate(batch):
-        num_nodes = item['adj'].shape[0]
+        # Convert sparse adjacency to edge_index (COO format)
+        adj_coo = adj_sparse.coalesce()
+        edge_index = adj_coo.indices()  # [2, num_edges]
 
-        # Copy word IDs (pad with 0 = <PAD>)
-        word_ids_batch[i, :num_nodes] = torch.from_numpy(item['word_ids'])
+        # Create PyG Data object (no padding needed!)
+        data = Data(
+            x=word_ids,  # Node features = word IDs [num_nodes]
+            edge_index=edge_index,  # Edges [2, num_edges]
+        )
+        data_list.append(data)
+        labels_list.append(label)
 
-        # Create mask (1 for real nodes, 0 for padding)
-        mask_batch[i, :num_nodes, :] = 1.0
+    # Batch all graphs into one big graph (PyG does the heavy lifting!)
+    # This concatenates edge_index with proper node offsets + creates batch vector
+    batched_graph = PyGBatch.from_data_list(data_list)
 
-        # Copy label
-        labels_batch[i] = torch.from_numpy(item['label'])
+    # Stack labels
+    labels_batch = torch.stack(labels_list, dim=0)  # [batch_size, num_classes]
 
     return {
-        'adj': adj_list,  # List of sparse tensors (NO PADDING!)
-        'word_ids': word_ids_batch,  # [batch_size, max_nodes] integers for embedding!
-        'mask': mask_batch,
-        'labels': labels_batch
+        'edge_index': batched_graph.edge_index,  # [2, total_edges] - batched edges!
+        'word_ids': batched_graph.x,  # [total_nodes] - flattened, no padding!
+        'batch': batched_graph.batch,  # [total_nodes] - graph assignment
+        'labels': labels_batch,  # [batch_size, num_classes]
+        'num_graphs': len(batch),  # For convenience
     }

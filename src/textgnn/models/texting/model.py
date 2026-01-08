@@ -79,28 +79,27 @@ class TextINGClassifier(GraphTextClassifier):
         from textgnn.models.texting.train import train_texting
         self.train_func = train_texting
 
-    def forward(self, adj, word_ids, mask):
+    def forward(self, edge_index, word_ids, batch):
         """
-        Forward pass through TextING with word IDs (like LSTM).
+        Forward pass through TextING with PyG-style batching.
 
         Args:
-            adj: Dense adjacency tensor [batch_size, max_nodes, max_nodes]
-            word_ids: Batch of word indices [batch_size, max_nodes] - integers!
-            mask: Batch of node masks [batch_size, max_nodes, 1]
+            edge_index: Edge indices [2, total_edges] - batched edges
+            word_ids: Word indices [total_nodes] - flattened, no padding!
+            batch: Batch vector [total_nodes] - graph assignment
 
         Returns:
-            logits: Output logits [batch_size, num_classes]
-            embeddings: Node embeddings [batch_size, max_nodes, hidden_dim]
+            logits: Output logits [num_graphs, num_classes]
+            embeddings: Node embeddings [total_nodes, hidden_dim]
         """
-        # Embed word IDs on GPU (like LSTM!)
-        features = self.embedding(word_ids)  # [batch_size, max_nodes, embedding_dim]
+        # Embed word IDs on GPU (fully vectorized!)
+        features = self.embedding(word_ids)  # [total_nodes, embedding_dim]
 
-        # Graph convolution with GRU
-        embeddings = self.graph_layer(features, adj, mask)
+        # Graph convolution with GRU (batched operations!)
+        embeddings = self.graph_layer(features, edge_index, batch)
 
         # Readout (aggregate to graph-level representation)
-        # Note: readout doesn't use adj, so we pass None
-        logits = self.readout_layer(embeddings, None, mask)
+        logits = self.readout_layer(embeddings, edge_index, batch)
 
         return logits, embeddings
 
@@ -144,43 +143,26 @@ class GRUUnit(nn.Module):
                       self.r1_weight, self.h0_weight, self.h1_weight]:
             nn.init.xavier_uniform_(weight)
 
-    def forward(self, adj, x, mask):
+    def forward(self, edge_index, x, batch):
         """
-        GRU update step.
+        GRU update step with batched graph operations (PyG-style).
 
         Args:
-            adj: Dense adjacency matrix [batch_size, num_nodes, num_nodes]
-            x: Node features [batch_size, num_nodes, hidden_dim]
-            mask: Node mask [batch_size, num_nodes, 1]
+            edge_index: Edge indices [2, total_edges] - batched edges
+            x: Node features [total_nodes, hidden_dim] - no padding!
+            batch: Batch vector [total_nodes] - graph assignment
 
         Returns:
-            Updated node features [batch_size, num_nodes, hidden_dim]
+            Updated node features [total_nodes, hidden_dim]
         """
+        from torch_scatter import scatter_add
+
         # Aggregate from neighbors: a = A @ x
-        # Process each graph in the batch separately (adj is a list of sparse tensors)
-        batch_size = x.size(0)
-        max_nodes = x.size(1)
-        hidden_dim = x.size(2)
+        # Use edge_index for message passing (fully vectorized!)
+        row, col = edge_index
+        a = scatter_add(x[col], row, dim=0, dim_size=x.size(0))  # [total_nodes, hidden_dim]
 
-        # Allocate output tensor (will pad results back to max_nodes)
-        a = torch.zeros(batch_size, max_nodes, hidden_dim, device=x.device)
-
-        for i in range(batch_size):
-            # Get sparse adjacency for this document
-            adj_i = adj[i]  # Sparse tensor [num_nodes, num_nodes]
-            x_i = x[i]      # Dense tensor [max_nodes, hidden_dim] (PADDED!)
-
-            # Slice to actual number of nodes (remove padding)
-            num_nodes = adj_i.shape[0]
-            x_i = x_i[:num_nodes]  # [num_nodes, hidden_dim]
-
-            # Sparse matrix multiplication: a_i = adj_i @ x_i
-            a_i = torch.sparse.mm(adj_i, x_i)  # [num_nodes, hidden_dim]
-
-            # Pad back and store (padding with zeros)
-            a[i, :num_nodes] = a_i
-
-        # Apply dropout to aggregated features (not adjacency)
+        # Apply dropout to aggregated features
         if self.training:
             a = self.dropout(a)
 
@@ -197,7 +179,7 @@ class GRUUnit(nn.Module):
         # Candidate: h_tilde = tanh(W_h @ a + U_h @ (r * x))
         h0 = torch.matmul(a, self.h0_weight) + self.h0_bias
         h1 = torch.matmul(r * x, self.h1_weight) + self.h1_bias
-        h_tilde = self.act(mask * (h0 + h1))
+        h_tilde = self.act(h0 + h1)  # No mask needed - no padding!
 
         # Final update: h = z * h_tilde + (1-z) * x
         return z * h_tilde + (1 - z) * x
@@ -229,28 +211,28 @@ class GraphLayer(nn.Module):
         """Initialize parameters."""
         nn.init.xavier_uniform_(self.encode_weight)
 
-    def forward(self, features, adj, mask):
+    def forward(self, features, edge_index, batch):
         """
-        Forward pass through graph layer.
+        Forward pass through graph layer with batched operations.
 
         Args:
-            features: Node features [batch_size, num_nodes, input_dim]
-            adj: List of sparse adjacency matrices (one per document in batch)
-            mask: Node mask [batch_size, num_nodes, 1]
+            features: Node features [total_nodes, input_dim] - no padding!
+            edge_index: Edge indices [2, total_edges] - batched edges
+            batch: Batch vector [total_nodes] - graph assignment
 
         Returns:
-            Node embeddings [batch_size, num_nodes, output_dim]
+            Node embeddings [total_nodes, output_dim]
         """
         # Dropout on input features
         features = self.dropout(features)
 
         # Encode: project to hidden dimension
         output = torch.matmul(features, self.encode_weight) + self.encode_bias
-        output = mask * self.act(output)
+        output = self.act(output)  # No mask needed - no padding!
 
-        # GRU message passing steps
+        # GRU message passing steps (fully vectorized!)
         for _ in range(self.gru_steps):
-            output = self.gru_unit(adj, output, mask)
+            output = self.gru_unit(edge_index, output, batch)
 
         return output
 
@@ -292,35 +274,33 @@ class ReadoutLayer(nn.Module):
         nn.init.xavier_uniform_(self.emb_weight)
         nn.init.xavier_uniform_(self.mlp_weight)
 
-    def forward(self, x, adj, mask):
+    def forward(self, x, edge_index, batch):
         """
-        Forward pass through readout layer.
+        Forward pass through readout layer with batched operations.
 
         Args:
-            x: Node embeddings [batch_size, num_nodes, input_dim]
-            adj: Adjacency (not used here)
-            mask: Node mask [batch_size, num_nodes, 1]
+            x: Node embeddings [total_nodes, input_dim] - no padding!
+            edge_index: Edge indices (not used here)
+            batch: Batch vector [total_nodes] - graph assignment
 
         Returns:
-            Graph-level logits [batch_size, output_dim]
+            Graph-level logits [num_graphs, output_dim]
         """
+        from torch_geometric.nn import global_mean_pool, global_max_pool
+
         # Soft attention: att = sigmoid(x @ W_att + b_att)
         att = torch.sigmoid(torch.matmul(x, self.att_weight) + self.att_bias)
 
         # Transform embeddings: emb = act(x @ W_emb + b_emb)
         emb = self.act(torch.matmul(x, self.emb_weight) + self.emb_bias)
 
-        # Compute number of real nodes per graph (for mean pooling)
-        N = torch.sum(mask, dim=1)  # [batch_size, 1]
+        # Apply attention weights
+        g = att * emb  # [total_nodes, input_dim]
 
-        # Create large negative mask for max pooling (to ignore padding)
-        M = (mask - 1) * 1e9  # [batch_size, num_nodes, 1]
-
-        # Graph-level aggregation: weighted sum + max pooling
-        g = mask * att * emb  # Apply mask and attention
-        g_mean = torch.sum(g, dim=1) / N  # Mean pooling [batch_size, input_dim]
-        g_max = torch.max(g + M, dim=1)[0]  # Max pooling [batch_size, input_dim]
-        g = g_mean + g_max  # Combine [batch_size, input_dim]
+        # Graph-level aggregation using PyG global pooling (fully vectorized!)
+        g_mean = global_mean_pool(g, batch)  # [num_graphs, input_dim]
+        g_max = global_max_pool(g, batch)    # [num_graphs, input_dim]
+        g = g_mean + g_max  # Combine [num_graphs, input_dim]
 
         # Dropout
         g = self.dropout(g)

@@ -75,26 +75,27 @@ def train_texting(model, dataloader, config):
         train_correct = 0
         train_total = 0
 
-        for batch_idx, batch in enumerate(train_loader):
-            # Move batch to device (adj is list of sparse tensors!)
-            adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
-            word_ids = batch['word_ids'].to(device)  # Integers for embedding!
-            mask = batch['mask'].to(device)
-            labels = batch['labels'].to(device)
+        for batch_idx, batch_data in enumerate(train_loader):
+            # Move batch to device (PyG-style batching - no padding!)
+            edge_index = batch_data['edge_index'].to(device, non_blocking=True)
+            word_ids = batch_data['word_ids'].to(device, non_blocking=True)
+            batch_vector = batch_data['batch'].to(device, non_blocking=True)
+            labels = batch_data['labels'].to(device, non_blocking=True)
 
             # Periodic batch logging (batch 0 always logged + every N batches)
             if log_every_n and (batch_idx == 0 or batch_idx % log_every_n == 0):
                 batch_on_device = {
-                    'adj': adj,
+                    'edge_index': edge_index,
                     'word_ids': word_ids,
-                    'mask': mask,
-                    'labels': labels
+                    'batch': batch_vector,
+                    'labels': labels,
+                    'num_graphs': batch_data['num_graphs']
                 }
                 log_batch_info(batch_on_device, batch_idx=batch_idx, epoch=epoch+1, logger=logger, device=device)
 
-            # Forward pass (GPU embeds word_ids!)
+            # Forward pass (fully vectorized on GPU!)
             optimizer.zero_grad()
-            logits, embeddings = model(adj, word_ids, mask)
+            logits, embeddings = model(edge_index, word_ids, batch_vector)
 
             # Compute loss (convert one-hot to class indices)
             labels_idx = torch.argmax(labels, dim=1)
@@ -105,14 +106,14 @@ def train_texting(model, dataloader, config):
             optimizer.step()
 
             # Compute batch metrics
-            batch_size = word_ids.size(0)
+            batch_size = batch_data['num_graphs']
             train_loss += loss.item() * batch_size
             preds = torch.argmax(logits, dim=1)
             train_correct += (preds == labels_idx).sum().item()
             train_total += batch_size
 
             # Free tensors immediately to reduce memory
-            del adj, word_ids, mask, labels, logits, embeddings, preds, labels_idx, loss
+            del edge_index, word_ids, batch_vector, labels, logits, embeddings, preds, labels_idx, loss
             if device.type == "cuda":
                 torch.cuda.empty_cache()
 
@@ -127,21 +128,21 @@ def train_texting(model, dataloader, config):
             val_true_list = []
 
             with torch.no_grad():
-                for batch in val_loader:
-                    # Move batch to device (adj is list of sparse tensors!)
-                    adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
-                    word_ids = batch['word_ids'].to(device)  # Integers for embedding!
-                    mask = batch['mask'].to(device)
-                    labels = batch['labels'].to(device)
+                for batch_data in val_loader:
+                    # Move batch to device (PyG-style batching - no padding!)
+                    edge_index = batch_data['edge_index'].to(device, non_blocking=True)
+                    word_ids = batch_data['word_ids'].to(device, non_blocking=True)
+                    batch_vector = batch_data['batch'].to(device, non_blocking=True)
+                    labels = batch_data['labels'].to(device, non_blocking=True)
 
-                    # Forward pass (GPU embeds word_ids!)
-                    logits, embeddings = model(adj, word_ids, mask)
+                    # Forward pass (fully vectorized on GPU!)
+                    logits, embeddings = model(edge_index, word_ids, batch_vector)
 
                     # Compute loss
                     labels_idx = torch.argmax(labels, dim=1)
                     loss = criterion(logits, labels_idx)
 
-                    batch_size = word_ids.size(0)
+                    batch_size = batch_data['num_graphs']
                     val_loss += loss.item() * batch_size
 
                     # Store predictions
@@ -150,7 +151,7 @@ def train_texting(model, dataloader, config):
                     val_true_list.append(labels_idx.cpu().numpy())
 
                     # Free tensors immediately to reduce memory
-                    del adj, word_ids, mask, labels, logits, embeddings, preds, labels_idx, loss
+                    del edge_index, word_ids, batch_vector, labels, logits, embeddings, preds, labels_idx, loss
                     if device.type == "cuda":
                         torch.cuda.empty_cache()
 
