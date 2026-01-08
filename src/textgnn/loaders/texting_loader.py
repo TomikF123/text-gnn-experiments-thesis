@@ -26,8 +26,9 @@ def create_texting_filename(dataset_config: DatasetConfig, model_type: str) -> s
 
     window_size = encoding.window_size if encoding else 3
     embedding_dim = encoding.embedding_dim if encoding else 300
+    max_len = dataset_config.max_len if dataset_config.max_len else "none"
 
-    parts = [f"{name}_window-{window_size}_dim-{embedding_dim}"]
+    parts = [f"{name}_window-{window_size}_dim-{embedding_dim}_maxlen-{max_len}"]
 
     return slugify("_".join(parts))
 
@@ -189,6 +190,7 @@ def create_texting_artifacts(
     # Get config parameters
     window_size = dataset_config.gnn_encoding.window_size if dataset_config.gnn_encoding else 3
     embedding_dim = dataset_config.gnn_encoding.embedding_dim if dataset_config.gnn_encoding else 300
+    max_len = dataset_config.max_len if dataset_config.max_len else None
 
     # CACHING: Check if artifacts already exist
     vocab_file = os.path.join(full_path, "vocab.pkl")
@@ -279,6 +281,10 @@ def create_texting_artifacts(
                 words = eval(text) if text.startswith('[') else text.split()
             else:
                 words = []
+
+            # Cap document length (max_len = max_nodes for TextING)
+            if max_len is not None and len(words) > max_len:
+                words = words[:max_len]
 
             # Convert words to IDs (INTEGERS - much smaller!)
             word_ids = [word_to_idx.get(word, 1) for word in words]  # 1 = <UNK>

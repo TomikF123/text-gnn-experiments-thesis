@@ -3,6 +3,7 @@
   "run_name": "texting_mr_test",
   "dataset": {
       "name": "20ng",
+      "max_len":2,
       "tvt_split": [0.8, 0.1, 0.1],
       "shuffle": true,
       "random_seed": 42,

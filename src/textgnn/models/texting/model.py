@@ -159,19 +159,26 @@ class GRUUnit(nn.Module):
         # Aggregate from neighbors: a = A @ x
         # Process each graph in the batch separately (adj is a list of sparse tensors)
         batch_size = x.size(0)
-        a_list = []
+        max_nodes = x.size(1)
+        hidden_dim = x.size(2)
+
+        # Allocate output tensor (will pad results back to max_nodes)
+        a = torch.zeros(batch_size, max_nodes, hidden_dim, device=x.device)
 
         for i in range(batch_size):
             # Get sparse adjacency for this document
             adj_i = adj[i]  # Sparse tensor [num_nodes, num_nodes]
-            x_i = x[i]      # Dense tensor [num_nodes, hidden_dim]
+            x_i = x[i]      # Dense tensor [max_nodes, hidden_dim] (PADDED!)
+
+            # Slice to actual number of nodes (remove padding)
+            num_nodes = adj_i.shape[0]
+            x_i = x_i[:num_nodes]  # [num_nodes, hidden_dim]
 
             # Sparse matrix multiplication: a_i = adj_i @ x_i
             a_i = torch.sparse.mm(adj_i, x_i)  # [num_nodes, hidden_dim]
-            a_list.append(a_i)
 
-        # Stack results back into batch
-        a = torch.stack(a_list, dim=0)  # [batch_size, num_nodes, hidden_dim]
+            # Pad back and store (padding with zeros)
+            a[i, :num_nodes] = a_i
 
         # Apply dropout to aggregated features (not adjacency)
         if self.training:

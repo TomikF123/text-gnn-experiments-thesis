@@ -128,7 +128,8 @@ def train_texting(model, dataloader, config):
 
             with torch.no_grad():
                 for batch in val_loader:
-                    adj = batch['adj'].to(device)  # [batch_size, max_nodes, max_nodes] dense!
+                    # Move batch to device (adj is list of sparse tensors!)
+                    adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
                     word_ids = batch['word_ids'].to(device)  # Integers for embedding!
                     mask = batch['mask'].to(device)
                     labels = batch['labels'].to(device)
