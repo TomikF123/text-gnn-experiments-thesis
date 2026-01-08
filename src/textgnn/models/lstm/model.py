@@ -24,7 +24,8 @@ def create_lstm_model(
     common_params = model_config.common_params
     model_specific_params = model_config.model_specific_params
 
-    vocab_size = dataset_config.vocab_size
+    # Get vocab_size from dataset's vocab (not config, which may be None)
+    vocab_size = len(dataset.vocab) if dataset and dataset.vocab else None
     embedding_dim = model_specific_params.get("embedding_dim", 50)
     hidden_dim = model_specific_params.get("hidden_size", 128)
     output_dim = model_specific_params.get("output_size", 20)
@@ -33,7 +34,6 @@ def create_lstm_model(
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
     freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
-    encoding_type = dataset_config.rnn_encoding.encode_token_type if dataset_config.rnn_encoding.encode_token_type is not None else "glove"
 
     return LSTMClassifier(
         vocab_size=vocab_size,
@@ -45,7 +45,6 @@ def create_lstm_model(
         dropout=dropout,
         embedding_matrix=embedding_matrix,
         freeze_embeddings=freeze_embeddings,
-        encoding_type=encoding_type,
     )
 
 
@@ -57,13 +56,12 @@ class LSTMClassifier(BaseTextClassifier):
         hidden_dim: int = None,
         output_dim: int = None,
         num_layers: int = 1,
-        bidirectional: bool = False,
+        bidirectional: bool = True,
         dropout: float = 0.5,
         embedding_matrix: torch.Tensor = None,
         freeze_embeddings: bool = False,
-        encoding_type: str = "index",
-        use_attention: bool = True,
-        use_mlp_as_head: bool = True,
+        use_attention: bool = False,
+        use_mlp_as_head: bool = False,
     ):
         super().__init__(
             vocab_size=vocab_size,
@@ -73,18 +71,13 @@ class LSTMClassifier(BaseTextClassifier):
             freeze_embeddings=freeze_embeddings,
         )
         self.freeze_embeddings = freeze_embeddings
-        self.encoding_type = encoding_type
         self.use_attention = use_attention
 
-        if encoding_type == "index":
-            self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
-            if embedding_matrix is not None:
-                self.embedding.weight = nn.Parameter(embedding_matrix)
-                self.embedding.weight.requires_grad = not self.freeze_embeddings
-        elif encoding_type == "glove":
-            self.embedding = None  # Already embedded in dataset
-        else:
-            raise ValueError(f"Unsupported encoding_type: {encoding_type}")
+        # Always use nn.Embedding (dataset returns indices, model embeds on GPU)
+        self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
+        if embedding_matrix is not None:
+            self.embedding.weight = nn.Parameter(embedding_matrix)
+            self.embedding.weight.requires_grad = not self.freeze_embeddings
 
         self.direction_factor = 2 if bidirectional else 1
 
@@ -116,8 +109,8 @@ class LSTMClassifier(BaseTextClassifier):
         self.train_func = train_lstm
 
     def forward(self, x):
-        if self.encoding_type == "index":
-            x = self.embedding(x)
+        # Always embed (dataset returns indices)
+        x = self.embedding(x)
 
         lstm_out, (h_n, c_n) = self.lstm(x)
 

@@ -7,6 +7,9 @@ import torch
 import torch.nn as nn
 import mlflow
 from textgnn.models.textgcn.eval import eval as evaluate_model
+from textgnn.logger import setup_logger, log_batch_info
+
+logger = setup_logger(__name__)
 
 
 def train_textgcn(model, dataloader, config):
@@ -57,6 +60,10 @@ def train_textgcn(model, dataloader, config):
 
     train_data = next(iter(train_loader))
     train_data = train_data.to(device)
+
+    # Log graph structure info (transductive: single graph, no batch iteration)
+    # Note: log_batch_every_n doesn't apply here - we always log the full graph once
+    log_batch_info(train_data, logger=logger, device=device)
 
     if val_loader is not None:
         val_data = next(iter(val_loader))

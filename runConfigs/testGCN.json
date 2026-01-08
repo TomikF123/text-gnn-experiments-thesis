@@ -2,17 +2,17 @@
   "experiment_name": "text_gcn_experiment",
   "run_name": "textgcn_mr_test",
   "dataset": {
-      "name": "20ng",
-      "tvt_split": [0.7, 0.2, 0.1],
+      "name": "mr",
+      "tvt_split": [1, 0.5, 0.5],
       "shuffle": true,
       "random_seed": 42,
       "preprocess": {
         "remove_stopwords": true,
-        "remove_rare_words": 10
+        "remove_rare_words": 0
       },
       "gnn_encoding": {
           "x_type": "identity",
-          "window_size": 15
+          "window_size": 20
       }
   },
   "model_config": {
@@ -21,7 +21,9 @@
         "epochs": 100,
         "batch_size": 1,
         "seed": 42,
-        "device": "cuda"
+        "device": "cuda",
+        "log_batch_every_n": 1
+
       },
       "model_specific_params": {
         "hidden_dims": [200],
@@ -31,7 +33,7 @@
         "pred_type": "softmax",
         "use_bn": true,
         "use_edge_weights": true,
-        "patience": 10
+        "patience": 20
       }
     }
   }

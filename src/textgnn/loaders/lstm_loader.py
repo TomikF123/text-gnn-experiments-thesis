@@ -61,7 +61,9 @@ def create_lstm_artifacts(
 
     vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
     encoding = get_active_encoding(dataset_config)
-    if encoding.encode_token_type == "glove":
+    # Create GloVe embedding matrix if tokens_trained_on is specified
+    # Model will load these into nn.Embedding weights (if None, uses random init)
+    if hasattr(encoding, 'tokens_trained_on') and encoding.tokens_trained_on is not None:
         embedding_dim = encoding.embedding_dim
         tokens_trained_on = encoding.tokens_trained_on if encoding.tokens_trained_on is not None else 6
         embedding_matrix = load_glove_embeddings(
@@ -162,32 +164,11 @@ class LSTMDataset(TextDataset):
     def encode_tokens(self, tokens: list[str]) -> torch.Tensor:  # TODO: add lru chache
         if self.max_len is not None:
             tokens = tokens[: self.max_len]
-        if self.encode_token_type == "index":
-            return torch.tensor(
-                [self.vocab.get(token, self.vocab["<UNK>"]) for token in tokens],
-                dtype=torch.long,
-            )
-        elif self.encode_token_type == "glove":
-            assert (
-                self.embedding_matrix is not None
-            ), "Embedding matrix must be provided for GloVe encoding."
-            vectors = []
-            for token in tokens:
-                idx = self.vocab.get(token, self.vocab["<UNK>"])
-                vectors.append(self.embedding_matrix[idx])
-            return (
-                torch.stack(vectors).float()
-                if vectors
-                else torch.zeros((1, self.embedding_matrix.shape[1]))
-            )
-        elif self.encode_token_type == "tf-idf":
-            raise NotImplementedError("TF-IDF encoding is not implemented yet.")
-        elif self.encode_token_type == "word2vec":
-            raise NotImplementedError("Word2Vec encoding is not implemented yet.")
-        elif self.encode_token_type == "weighted_bow":
-            raise NotImplementedError("Weighted BoW encoding is not implemented yet.")
-        else:
-            raise ValueError(f"Unknown encoding type: {self.encode_token_type}")
+        # Always return integer indices (fast GPU embedding in model)
+        return torch.tensor(
+            [self.vocab.get(token, self.vocab["<UNK>"]) for token in tokens],
+            dtype=torch.long,
+        )
 
     def __getitem__(self, idx):
         tokens = self.texts[idx].split()

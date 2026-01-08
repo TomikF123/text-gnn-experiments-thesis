@@ -107,7 +107,8 @@ def run_inductive_pipeline(config: Config):
         logger.info("Creating model...")
         model = create_model(
             model_config=config.model_conf,
-            dataset_config=config.dataset
+            dataset_config=config.dataset,
+            dataset=train_dataset
         )
 
         # Log model architecture summary

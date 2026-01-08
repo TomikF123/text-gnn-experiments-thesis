@@ -2,8 +2,8 @@
 "experiment_name": "test",
 "run_name": "test_run",
 "dataset": {
-    "name": "20ng",
-    "tvt_split": [0.7, 0.2, 0.1],
+    "name": "mr",
+    "tvt_split": [0.8, 0.1, 0.1],
     "shuffle": true,
     "random_seed": 123,
     
@@ -14,8 +14,9 @@
     "rnn_encoding": {
       "encode_token_type": "glove",
       "tokens_trained_on": 6,
-      "embedding_dim": 100
-    }
+      "embedding_dim": 300
+    },
+    "max_len": 100
     
 },
 
@@ -23,15 +24,16 @@
     "model_type":"lstm",
     "common_params": {
       "epochs": 15,
-      "batch_size": 32,
-      "seed": 123
+      "batch_size": 64,
+      "seed": 123,
+      "log_batch_every_n": 64
     },
     "model_specific_params": {
       "hidden_dim": 128,
       "dropout": 0.5,
       "num_layers": 2,
       "bidirectional": true,
-      "embedding_dim": 100,
+      "embedding_dim": 300,
       "lr": 0.001
     }
 

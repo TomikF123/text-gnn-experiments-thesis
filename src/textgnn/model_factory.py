@@ -9,13 +9,14 @@ MODEL_CREATORS = {
 }
 
 
-def create_model(model_config: ModelConfig, dataset_config: DatasetConfig):
+def create_model(model_config: ModelConfig, dataset_config: DatasetConfig, dataset=None):
     """
     Create model based on configuration.
 
     Args:
         model_config: Pydantic ModelConfig model
         dataset_config: Pydantic DatasetConfig model
+        dataset: Optional dataset instance (for embedding matrix, etc.)
 
     Returns:
         Model instance
@@ -25,4 +26,4 @@ def create_model(model_config: ModelConfig, dataset_config: DatasetConfig):
         raise ValueError(f"Unsupported model type: {model_type}")
 
     create_fn = get_function_from_path(MODEL_CREATORS[model_type])
-    return create_fn(model_config=model_config, dataset_config=dataset_config)
+    return create_fn(model_config=model_config, dataset_config=dataset_config, dataset=dataset)

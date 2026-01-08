@@ -3,6 +3,9 @@ import torch
 from torch import nn
 from textgnn.config_class import ModelConfig
 from textgnn.models.base_text_classifier import BaseTextClassifier
+from textgnn.logger import setup_logger, log_batch_info
+
+logger = setup_logger(__name__)
 
 
 def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
@@ -48,6 +51,9 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
     else:
         print("Training without validation")
 
+    # Get batch logging config
+    log_every_n = config.common_params.get("log_batch_every_n", None)
+
     for epoch in range(num_epochs):
         # Training phase
         model.train()
@@ -55,8 +61,16 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
         correct = 0
         total = 0
 
-        for inputs, labels in train_loader:
+        for batch_idx, (inputs, labels) in enumerate(train_loader):
             inputs, labels = inputs.to(device), labels.to(device)
+
+            # Periodic batch logging (batch 0 always logged + every N batches)
+            if log_every_n and (batch_idx == 0 or batch_idx % log_every_n == 0):
+                batch_on_device = {
+                    'inputs': inputs,
+                    'labels': labels
+                }
+                log_batch_info(batch_on_device, batch_idx=batch_idx, epoch=epoch+1, logger=logger, device=device)
 
             optimizer.zero_grad()
             outputs = model(inputs)

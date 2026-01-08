@@ -7,6 +7,9 @@ import torch
 import torch.nn as nn
 import numpy as np
 from textgnn.models.texting.eval import eval as evaluate_model
+from textgnn.logger import setup_logger, log_batch_info
+
+logger = setup_logger(__name__)
 
 
 def train_texting(model, dataloader, config):
@@ -61,6 +64,9 @@ def train_texting(model, dataloader, config):
     epochs_without_improvement = 0
     best_model_state = None
 
+    # Get batch logging config
+    log_every_n = common_params.get("log_batch_every_n", None)
+
     # Training loop
     for epoch in range(epochs):
         # ===== Training =====
@@ -69,12 +75,22 @@ def train_texting(model, dataloader, config):
         train_correct = 0
         train_total = 0
 
-        for batch in train_loader:
-            # Move batch to device (adj is dense tensor now!)
-            adj = batch['adj'].to(device)  # [batch_size, max_nodes, max_nodes] dense!
+        for batch_idx, batch in enumerate(train_loader):
+            # Move batch to device (adj is list of sparse tensors!)
+            adj = [sparse_tensor.to(device) for sparse_tensor in batch['adj']]
             word_ids = batch['word_ids'].to(device)  # Integers for embedding!
             mask = batch['mask'].to(device)
             labels = batch['labels'].to(device)
+
+            # Periodic batch logging (batch 0 always logged + every N batches)
+            if log_every_n and (batch_idx == 0 or batch_idx % log_every_n == 0):
+                batch_on_device = {
+                    'adj': adj,
+                    'word_ids': word_ids,
+                    'mask': mask,
+                    'labels': labels
+                }
+                log_batch_info(batch_on_device, batch_idx=batch_idx, epoch=epoch+1, logger=logger, device=device)
 
             # Forward pass (GPU embeds word_ids!)
             optimizer.zero_grad()
