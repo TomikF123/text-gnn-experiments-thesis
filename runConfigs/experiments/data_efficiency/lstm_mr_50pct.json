@@ -1,0 +1,40 @@
+{
+  "experiment_name": "data_efficiency",
+  "run_name": "lstm_mr_50pct",
+  "dataset": {
+    "name": "mr",
+    "tvt_split": [
+      0.5,
+      0.1,
+      0.4
+    ],
+    "shuffle": true,
+    "random_seed": 42,
+    "preprocess": {
+      "remove_stopwords": true,
+      "remove_rare_words": 5
+    },
+    "rnn_encoding": {
+      "tokens_trained_on": 6,
+      "embedding_dim": 300
+    },
+    "max_len": 600
+  },
+  "model_config": {
+    "model_type": "lstm",
+    "common_params": {
+      "epochs": 50,
+      "batch_size": 128,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "model_specific_params": {
+      "hidden_dim": 128,
+      "num_layers": 2,
+      "dropout": 0.5,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "embedding_dim": 300
+    }
+  }
+}

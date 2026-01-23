@@ -102,7 +102,7 @@ def get_lstm_dataset_object(
 
     encoding = get_active_encoding(dataset_config)
     return LSTMDataset(
-        encode_token_type=encoding.encode_token_type if encoding.encode_token_type is not None else "index",
+        # encode_token_type=encoding.encode_token_type if encoding.encode_token_type is not None else "index",
         embedding_matrix_path=embedding_matrix_path,
         csv_path=csv_path,
         vocab_path=vocab_path,
@@ -125,16 +125,16 @@ def create_lstm_filename(dataset_config: DatasetConfig, model_type: str) -> str:
     name = dataset_config.name
     tokens_trained_on = encoding.tokens_trained_on
     embed_dim = encoding.embedding_dim if hasattr(encoding, 'embedding_dim') else None
-    encode_token_type = (
-        encoding.encode_token_type + str(tokens_trained_on) + "B"
-        if tokens_trained_on is not None
-        else ""
-    )
-    encode_token_type += f"_{embed_dim}d" if embed_dim else ""
+    # encode_token_type = (
+    #     encoding.encode_token_type + str(tokens_trained_on) + "B"
+    #     if tokens_trained_on is not None
+    #     else ""
+    # )
+    # encode_token_type += f"_{embed_dim}d" if embed_dim else ""
 
     parts = [
         f"{name}_seed_{dataset_config.random_seed}",
-        f"text_encoded_{encode_token_type}",
+        # f"text_encoded_{encode_token_type}",
     ]
     return slugify("_".join(parts))
 

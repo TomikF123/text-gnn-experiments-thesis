@@ -5,15 +5,16 @@ from textgnn.utils import get_device
 
 
 
-@torch.no_grad()
 def evaluate(model, data_loader, device=get_device(), return_preds=False):
     model.eval()
     model.to(device)
 
     all_preds = []
     all_labels = []
+    all_probs = []
 
-    for batch in tqdm(data_loader, desc="Evaluating"):
+    with torch.no_grad():
+      for batch in tqdm(data_loader, desc="Evaluating"):
         # Handle different batch formats
         if isinstance(batch, dict):
             # Dictionary format (e.g., TextING with adj, features, mask)
@@ -32,7 +33,8 @@ def evaluate(model, data_loader, device=get_device(), return_preds=False):
             labels = batch_device['labels']
 
             # Forward pass - check if model returns tuple (logits, embeddings) or just logits
-            model_output = model(**{k: v for k, v in batch_device.items() if k != 'labels'})
+            model_args = {k: v for k, v in batch_device.items() if k not in ['labels', 'num_graphs']}
+            model_output = model(**model_args)
 
             if isinstance(model_output, tuple):
                 outputs = model_output[0]  # Get logits from (logits, embeddings)
@@ -58,8 +60,14 @@ def evaluate(model, data_loader, device=get_device(), return_preds=False):
         all_preds.append(preds.cpu())
         all_labels.append(labels.cpu())
 
+        # Collect probabilities for ROC/PR curves
+        probs = torch.softmax(outputs, dim=1)
+        all_probs.append(probs.cpu())
+
     y_pred = torch.cat(all_preds).numpy()
     y_true = torch.cat(all_labels).numpy()
+    y_probs = torch.cat(all_probs).detach().numpy()
+
 
     metrics = {
         "accuracy": accuracy_score(y_true, y_pred),
@@ -71,5 +79,5 @@ def evaluate(model, data_loader, device=get_device(), return_preds=False):
     print(classification_report(y_true, y_pred))
 
     if return_preds:
-        return metrics, y_true, y_pred
-    return metrics
+        return metrics, y_true, y_pred, y_probs
+    return metrics, y_probs

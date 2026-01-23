@@ -18,9 +18,11 @@ dependencies = [
     "mlflow==3.1.1",
     "nltk>=3.9.1",
     "psutil>=7.0.0",
+    "pynvml>=13.0.1",
     "seaborn>=0.13.2",
     "torch==2.3.0",
     "torch-geometric>=2.7.0",
+    "torch-scatter>=2.1.2",
 ]
 
 [dependency-groups]
@@ -34,3 +36,6 @@ dev = [
 packages = ["src/textgnn"]
 [tool.uv.extra-build-dependencies]
 torch-scatter = ["torch"]
+[[tool.uv.index]]
+url = "https://data.pyg.org/whl/torch-2.3.0+cu121.html"
+format = "flat"

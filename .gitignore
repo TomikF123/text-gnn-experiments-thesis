@@ -6,6 +6,8 @@ mlruns/
 text-gnn/
 notebooks/
 mlruns
+.clankers
+log/
 *_external
 *.md
 !README.MD

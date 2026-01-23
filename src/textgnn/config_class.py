@@ -32,13 +32,12 @@ class BaseEncodingConfig(BaseModel):
 
 
 class ExternalEncodingConfig(BaseEncodingConfig):
-    encode_token_type: Literal["glove", "bert"]
     tokens_trained_on: int
     embedding_dim: int
 
 
-class InternalEncodingConfig(BaseEncodingConfig):
-    encode_token_type: Literal["index", "onehot"]
+# class InternalEncodingConfig(BaseEncodingConfig):
+#     encode_token_type: Literal["index", "onehot"]
 
 
 class DatasetConfig(BaseModel):
@@ -48,7 +47,7 @@ class DatasetConfig(BaseModel):
     random_seed: int = 42
     max_len:Optional[int] = None
     preprocess: Optional[PreprocessingConfig] = None
-    rnn_encoding: Optional[Union[InternalEncodingConfig, ExternalEncodingConfig]] = None
+    rnn_encoding: Optional[ ExternalEncodingConfig] = None
     gnn_encoding: Optional[GNNencodingConfig] = None
 
     @model_validator(mode="after")

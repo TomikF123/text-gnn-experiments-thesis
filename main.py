@@ -20,7 +20,7 @@ parser.add_argument(
     "--config",
     type=str,
     required=True,
-    help="Name of the JSON config file inside ./saved (e.g. runConfigTextGCN.json)",
+    help="Path to JSON config file (relative to project root, e.g., runConfigs/experiments/baseline/lstm_20ng_baseline.json)",
 )
 args = parser.parse_args()
 config = args.config
@@ -37,10 +37,17 @@ def parse_json(config_path):
     return data
 
 
-from textgnn.utils import get_configs_path
+# Resolve config path - support both relative to project root and absolute paths
+if os.path.isabs(config):
+    config_path = config
+elif os.path.exists(os.path.join(get_project_root(), config)):
+    # Path relative to project root (e.g., runConfigs/experiments/baseline/...)
+    config_path = os.path.join(get_project_root(), config)
+else:
+    # Legacy: path relative to runConfigs/ folder
+    from textgnn.utils import get_configs_path
+    config_path = os.path.join(get_configs_path(), config)
 
-configs_path = get_configs_path()
-config_path = os.path.join(configs_path, config)
 parsed_config = parse_json(config_path)
 
 dataset_config = DatasetConfig(**parsed_config["dataset"])

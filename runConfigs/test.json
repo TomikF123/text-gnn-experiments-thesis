@@ -12,11 +12,10 @@
       "remove_rare_words": 5
     },
     "rnn_encoding": {
-      "encode_token_type": "glove",
       "tokens_trained_on": 6,
       "embedding_dim": 300
     },
-    "max_len": 100
+    "max_len": 600
     
 },
 
