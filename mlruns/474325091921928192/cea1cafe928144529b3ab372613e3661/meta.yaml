@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/474325091921928192/cea1cafe928144529b3ab372613e3661/artifacts
+end_time: 1768604097070
+entry_point_name: ''
+experiment_id: '474325091921928192'
+lifecycle_stage: active
+run_id: cea1cafe928144529b3ab372613e3661
+run_name: texting_20ng_baseline_ref
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1768603953368
+status: 3
+tags: []
+user_id: tomas

@@ -1,0 +1,45 @@
+{
+  "experiment_name": "ablation_texting",
+  "run_name": "texting_mr_win1_minimal",
+  "dataset": {
+    "name": "mr",
+    "tvt_split": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "shuffle": true,
+    "random_seed": 42,
+    "max_len": 600,
+    "preprocess": {
+      "remove_stopwords": true,
+      "remove_rare_words": 5,
+      "vocab_size": null
+    },
+    "rnn_encoding": null,
+    "gnn_encoding": {
+      "x_type": "identity",
+      "window_size": 1,
+      "embedding_dim": 300,
+      "preset": null
+    },
+    "vocab_size": null
+  },
+  "model_config": {
+    "model_type": "texting",
+    "common_params": {
+      "epochs": 100,
+      "batch_size": 256,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "model_specific_params": {
+      "hidden_dim": 256,
+      "gru_steps": 3,
+      "dropout": 0.5,
+      "lr": 0.005,
+      "weight_decay": 0,
+      "patience": 15
+    }
+  }
+}

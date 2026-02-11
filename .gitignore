@@ -2,10 +2,14 @@ text_gcn/
 Text-GCN/
 data/
 saved/
-mlruns/
 text-gnn/
 notebooks/
-mlruns
+
+# MLflow - keep results but exclude large files
+mlruns/**/artifacts/*.pt
+mlruns/**/artifacts/*.pth
+mlruns/**/artifacts/*.pkl
+mlruns/**/artifacts/*.onnx
 .clankers
 log/
 *_external
