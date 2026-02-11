@@ -14,7 +14,6 @@ from textgnn.utils import (
     load_glove_embeddings,
 )
 import pickle
-from .utils import create_dir_name_based_on_dataset_config
 from .create_basic_dataset import create_basic_dataset
 
 
@@ -161,7 +160,7 @@ class LSTMDataset(TextDataset):
         self.collate_fn = lstm_collate_fn
         assert self.vocab is not None, "Vocabulary must be provided."
 
-    def encode_tokens(self, tokens: list[str]) -> torch.Tensor:  # TODO: add lru chache
+    def encode_tokens(self, tokens: list[str]) -> torch.Tensor:
         if self.max_len is not None:
             tokens = tokens[: self.max_len]
         # Always return integer indices (fast GPU embedding in model)

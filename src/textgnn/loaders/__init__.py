@@ -10,4 +10,4 @@ In each loader module, the following functions are expected to be implemented:
 To extend this framework with a model type that is not compatibile with the 
 """
 
-__all__ = ["tempLoader", "lstmLoader", "text_gcn_loader","fastTextLoader"]
+__all__ = ["lstmLoader", "fastTextLoader"]

@@ -8,7 +8,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Parameter
-# Use PyTorch Geometric's optimized GCNConv instead of custom implementation
 from torch_geometric.nn import GCNConv as PyG_GCNConv
 from torch_geometric.utils import remove_self_loops, add_self_loops
 from torch_geometric.nn.inits import glorot, zeros
@@ -16,6 +15,7 @@ from torch_geometric.nn.inits import glorot, zeros
 from textgnn.models.base_text_classifier import GraphTextClassifier
 from textgnn.config_class import ModelConfig, DatasetConfig
 from textgnn.loaders.textgcn_loader import TextGCNDataset
+from textgnn.utils import create_act
 
 class TextGCNClassifier(GraphTextClassifier):
     """
@@ -53,8 +53,6 @@ class TextGCNClassifier(GraphTextClassifier):
             dropout: Dropout rate (0 to disable)
             use_edge_weights: Whether to use edge weights (PMI/TF-IDF)
         """
-        # TextGCN uses sparse identity features, not learned embeddings
-        # Pass None to prevent base class from creating huge embedding layer
         super().__init__(vocab_size=None, embedding_dim=None, output_size=num_classes)
 
         self.num_nodes = num_nodes
@@ -142,10 +140,6 @@ class TextGCNClassifier(GraphTextClassifier):
         x = data.x
         edge_index = data.edge_index
         edge_attr = data.edge_attr if self.use_edge_weights else None
-
-        # FEATURELESS MODE (TensorFlow-style):
-        # Pass None to let layers use A @ W directly instead of A @ I @ W
-        # This avoids creating identity matrix or any dense intermediates!
 
         # Forward through GCN layers
         for layer in self.layers:
@@ -256,11 +250,6 @@ class NodeEmbedding(nn.Module):
         return output
 
 
-# NOTE: Custom GCNConv class removed - now using PyTorch Geometric's optimized implementation
-# The custom implementation caused massive memory spikes (~24GB) due to inefficient message passing
-# PyG's GCNConv is highly optimized and uses sparse operations efficiently
-
-
 class MLP(nn.Module):
     """
     Multi-Layer Perceptron with configurable hidden layers.
@@ -313,34 +302,6 @@ class MLP(nn.Module):
             x = self.bn(x)
 
         return x
-
-
-def create_act(act, num_parameters=None):
-    """
-    Create activation function module.
-
-    Args:
-        act: Activation type ("relu", "prelu", "sigmoid", "tanh", "identity")
-        num_parameters: Number of parameters for PReLU
-
-    Returns:
-        nn.Module: Activation function
-    """
-    if act == "relu":
-        return nn.ReLU()
-    elif act == "prelu":
-        return nn.PReLU(num_parameters)
-    elif act == "sigmoid":
-        return nn.Sigmoid()
-    elif act == "tanh":
-        return nn.Tanh()
-    elif act == "identity":
-        class Identity(nn.Module):
-            def forward(self, x):
-                return x
-        return Identity()
-    else:
-        raise ValueError(f"Unknown activation function: {act}")
 
 
 def create_textgcn_model(

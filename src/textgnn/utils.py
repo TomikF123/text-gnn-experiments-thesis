@@ -1,10 +1,6 @@
-from collections import OrderedDict
-import datetime
-from os.path import dirname, abspath, join, expanduser, isfile, exists
-from os import environ, makedirs
-import pytz
+from os.path import join
+from os import makedirs
 import re
-from socket import gethostname
 from sklearn.model_selection import train_test_split
 import torch
 import torch.nn as nn
@@ -13,7 +9,6 @@ from contextlib import contextmanager
 import importlib
 import inspect
 import pandas as pd
-from torch.utils.data import random_split
 from pathlib import Path
 import logging
 from typing import TYPE_CHECKING
@@ -263,11 +258,6 @@ def filter_kwargs_for_class(cls, config_dict) -> dict:
     return {k: v for k, v in flattened.items() if k in valid_keys}
 
 
-def create_file_name(**kwargs):  # unused
-    flat = flatten_and_filter(kwargs)
-    print("Flattened kwargs:", flat)
-
-
 def slugify(text):
     import re
 
@@ -289,6 +279,10 @@ def create_act(act, num_parameters=None):
         return nn.Softmax(dim=1)
     elif act == "softplus":
         return nn.Softplus()
+    elif act == "prelu":
+        return nn.PReLU(num_parameters)
+    elif act == "identity":
+        return nn.Identity()
     else:
         raise ValueError(f"Unsupported activation function: {act}")
 

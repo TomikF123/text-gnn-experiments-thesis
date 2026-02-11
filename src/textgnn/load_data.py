@@ -7,7 +7,6 @@ import torch
 import os
 from typing import Callable
 from .utils import get_function_from_path, filter_kwargs_for_class
-from torch_geometric.nn import GCNConv, GATConv
 from .logger import setup_logger
 
 logger = setup_logger(__name__)
@@ -30,14 +29,12 @@ FILENAME_CREATORS = {
     "lstm": "textgnn.loaders.lstm_loader.create_lstm_filename",
     "text_gcn": "textgnn.loaders.textgcn_loader.create_textgcn_filename",
     "texting": "textgnn.loaders.texting_loader.create_texting_filename",
-    "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.create_textlevelgnn_filename",  # future
     "fastText": "textgnn.loaders.fasttext_loader.create_fasttext_filename",
 }
 GET_DATASET_OBJECT_FUNCS = {
     "lstm": "textgnn.loaders.lstm_loader.get_lstm_dataset_object",
     "text_gcn": "textgnn.loaders.textgcn_loader.get_textgcn_dataset_object",
     "texting": "textgnn.loaders.texting_loader.get_texting_dataset_object",
-    "text_level_gnn": "textgnn.loaders.textLevelGNNLoader.get_textlevelgnn_dataset_object",  # future
     "fastText": "textgnn.loaders.fasttext_loader.get_fasttext_dataset_object",
 }
 

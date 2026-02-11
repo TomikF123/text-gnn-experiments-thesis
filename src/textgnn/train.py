@@ -21,12 +21,6 @@ MODEL_PIPELINE_TYPES = {
 from .utils import get_function_from_path
 from .config_class import ModelConfig
 
-def basic_inductive_training_loop(dataloader, model, config): #TODO?
-    ...
-
-def basic_transductive_training_loop(dataloader, model, config): #TODO?
-    ...
-
 def train_model(model, dataloaders, config: ModelConfig):
     """
     Train model using model-specific training loop.

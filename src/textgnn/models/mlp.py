@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import textgnn.utils
 from textgnn.utils import create_act
 
 
@@ -34,9 +33,6 @@ class MLP(nn.Module):
         x = self.layers[-1](x)
         return x
 
-    # TODO
-    def reset_parameters(self, act="relu"):
-        pass
 
 
 if __name__ == "__main__":
