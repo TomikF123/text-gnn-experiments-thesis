@@ -1,0 +1,49 @@
+{
+  "experiment_name": "text_gcn_experiment",
+  "run_name": "textgcn_20ng_low_memory",
+  "dataset": {
+    "name": "20ng",
+    "tvt_split": [
+      0.8,
+      1.0,
+      0.1
+    ],
+    "shuffle": true,
+    "random_seed": 42,
+    "max_len": null,
+    "preprocess": {
+      "remove_stopwords": true,
+      "remove_rare_words": 100,
+      "vocab_size": null
+    },
+    "rnn_encoding": null,
+    "gnn_encoding": {
+      "x_type": "identity",
+      "window_size": 15,
+      "embedding_dim": null,
+      "preset": null
+    },
+    "vocab_size": 8000
+  },
+  "model_config": {
+    "model_type": "text_gcn",
+    "common_params": {
+      "epochs": 100,
+      "batch_size": 1,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "model_specific_params": {
+      "hidden_dims": [
+        200
+      ],
+      "dropout": 0.5,
+      "lr": 0.02,
+      "act": "relu",
+      "pred_type": "softmax",
+      "use_bn": true,
+      "use_edge_weights": true,
+      "patience": 10
+    }
+  }
+}

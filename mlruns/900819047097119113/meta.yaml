@@ -1,0 +1,6 @@
+artifact_location: /home/tomas/text-gnn-experiments-thesis/mlruns/900819047097119113
+creation_time: 1767460950510
+experiment_id: '900819047097119113'
+last_update_time: 1767460950510
+lifecycle_stage: active
+name: text_gcn_experiment

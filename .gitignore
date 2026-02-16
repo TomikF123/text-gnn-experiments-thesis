@@ -4,7 +4,7 @@ data/
 saved/
 text-gnn/
 notebooks/
-
+.vscode
 # MLflow - keep results but exclude large files
 mlruns/**/artifacts/*.pt
 mlruns/**/artifacts/*.pth

@@ -1,0 +1,22 @@
+Model Architecture
+================================================================================
+
+TextINGClassifier(
+  (graph_layer): GraphLayer(
+    (act): Tanh()
+    (dropout): Dropout(p=0.5, inplace=False)
+    (gru_unit): GRUUnit(
+      (dropout): Dropout(p=0.5, inplace=False)
+      (act): Tanh()
+    )
+  )
+  (readout_layer): ReadoutLayer(
+    (act): Tanh()
+    (dropout): Dropout(p=0.5, inplace=False)
+  )
+)
+Output size: 2, Embedding dim: None
+
+Total parameters: 342,203
+Trainable parameters: 342,203
+Non-trainable parameters: 0

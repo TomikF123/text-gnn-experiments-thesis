@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/0/3b63510fe398465a8caf24e1fb1be585/artifacts
+end_time: 1767049759424
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 3b63510fe398465a8caf24e1fb1be585
+run_name: adaptable-boar-78
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767049643585
+status: 3
+tags: []
+user_id: tomas

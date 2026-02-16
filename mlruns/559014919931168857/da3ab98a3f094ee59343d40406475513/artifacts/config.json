@@ -1,0 +1,45 @@
+{
+  "experiment_name": "texting_experiment",
+  "run_name": "texting_mr_test",
+  "dataset": {
+    "name": "mr",
+    "tvt_split": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "shuffle": true,
+    "random_seed": 42,
+    "max_len": null,
+    "preprocess": {
+      "remove_stopwords": false,
+      "remove_rare_words": 5,
+      "vocab_size": null
+    },
+    "rnn_encoding": null,
+    "gnn_encoding": {
+      "x_type": "identity",
+      "window_size": 3,
+      "embedding_dim": 300,
+      "preset": null
+    },
+    "vocab_size": null
+  },
+  "model_config": {
+    "model_type": "texting",
+    "common_params": {
+      "epochs": 15,
+      "batch_size": 32,
+      "seed": 42,
+      "device": "cuda"
+    },
+    "model_specific_params": {
+      "hidden_dim": 96,
+      "gru_steps": 2,
+      "dropout": 0.5,
+      "lr": 0.005,
+      "weight_decay": 0,
+      "patience": 10
+    }
+  }
+}

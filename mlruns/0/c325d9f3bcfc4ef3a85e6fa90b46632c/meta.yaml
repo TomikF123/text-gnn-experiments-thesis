@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/0/c325d9f3bcfc4ef3a85e6fa90b46632c/artifacts
+end_time: 1767048055325
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c325d9f3bcfc4ef3a85e6fa90b46632c
+run_name: debonair-crane-656
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767047945810
+status: 3
+tags: []
+user_id: tomas

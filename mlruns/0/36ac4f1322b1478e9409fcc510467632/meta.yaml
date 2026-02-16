@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/0/36ac4f1322b1478e9409fcc510467632/artifacts
+end_time: 1767045960920
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 36ac4f1322b1478e9409fcc510467632
+run_name: wise-fawn-389
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767045825901
+status: 3
+tags: []
+user_id: tomas

@@ -1,0 +1,45 @@
+{
+  "experiment_name": "test",
+  "run_name": "test_run",
+  "dataset": {
+    "name": "mr",
+    "tvt_split": [
+      0.7,
+      0.2,
+      0.1
+    ],
+    "shuffle": true,
+    "random_seed": 123,
+    "max_len": null,
+    "preprocess": {
+      "remove_stopwords": false,
+      "remove_rare_words": 5,
+      "vocab_size": null
+    },
+    "rnn_encoding": {
+      "embedding_dim": 300,
+      "hidden_dim": null,
+      "encode_token_type": "glove",
+      "tokens_trained_on": 6
+    },
+    "gnn_encoding": null,
+    "vocab_size": null
+  },
+  "model_config": {
+    "model_type": "lstm",
+    "common_params": {
+      "epochs": 15,
+      "batch_size": 64,
+      "seed": 123,
+      "log_batch_every_n": 64
+    },
+    "model_specific_params": {
+      "hidden_dim": 128,
+      "dropout": 0.5,
+      "num_layers": 2,
+      "bidirectional": true,
+      "embedding_dim": 100,
+      "lr": 0.001
+    }
+  }
+}

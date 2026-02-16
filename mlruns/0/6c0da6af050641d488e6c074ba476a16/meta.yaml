@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/0/6c0da6af050641d488e6c074ba476a16/artifacts
+end_time: 1766965410976
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6c0da6af050641d488e6c074ba476a16
+run_name: useful-goose-808
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766964863735
+status: 3
+tags: []
+user_id: tomas

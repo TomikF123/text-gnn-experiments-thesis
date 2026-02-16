@@ -1,0 +1,24 @@
+Model Architecture
+================================================================================
+
+TextGCNClassifier(
+  (embedding): Embedding(24764, 24764)
+  (layers): ModuleList(
+    (0): NodeEmbedding(
+      (conv): GCNConv(24764, 200)
+      (act): ReLU()
+      (bn): BatchNorm1d(200, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    )
+    (1): NodeEmbedding(
+      (conv): GCNConv(200, 2)
+      (act): Identity()
+      (bn): BatchNorm1d(2, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (dropout): Dropout(p=0.5, inplace=False)
+    )
+  )
+)
+Output size: 2, Embedding dim: 24764
+
+Total parameters: 618,209,502
+Trainable parameters: 618,209,502
+Non-trainable parameters: 0

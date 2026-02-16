@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/0/c25708dc729c4cd787907424957a22f6/artifacts
+end_time: 1767049236931
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c25708dc729c4cd787907424957a22f6
+run_name: sedate-seal-185
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1767049133098
+status: 3
+tags: []
+user_id: tomas
