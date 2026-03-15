@@ -374,6 +374,11 @@ def create_texting_model(
         else:
             num_classes = 20  # Fallback
 
+    use_pretrained = model_params.get("use_pretrained_embeddings", True)
+    if not use_pretrained:
+        print("  Using RANDOM embedding initialization (no GloVe)")
+        embedding_matrix = None
+
     print(f"  Vocab size: {vocab_size:,}, Embedding dim: {embedding_dim}, Classes: {num_classes}")
 
     return TextINGClassifier(
