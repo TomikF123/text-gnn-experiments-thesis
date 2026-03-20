@@ -1,0 +1,6 @@
+artifact_location: /home/tomas/text-gnn-experiments-thesis/mlruns/700492106270158640
+creation_time: 1773963767918
+experiment_id: '700492106270158640'
+last_update_time: 1773963767918
+lifecycle_stage: active
+name: hyperparams_lstm

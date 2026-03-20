@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/375910855683833853/8e71f86eb233403fab7cec5fd178adfb/artifacts
+end_time: 1773972269372
+entry_point_name: ''
+experiment_id: '375910855683833853'
+lifecycle_stage: active
+run_id: 8e71f86eb233403fab7cec5fd178adfb
+run_name: textgcn_mr_stopwords_rare10
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773972265934
+status: 3
+tags: []
+user_id: tomas
