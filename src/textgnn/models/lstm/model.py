@@ -27,8 +27,9 @@ def create_lstm_model(
     # Get vocab_size from dataset's vocab (not config, which may be None)
     vocab_size = len(dataset.vocab) if dataset and dataset.vocab else None
     embedding_dim = model_specific_params.get("embedding_dim", 50)
-    hidden_dim = model_specific_params.get("hidden_size", 128)
-    output_dim = model_specific_params.get("output_size", 20)
+    hidden_dim = model_specific_params.get("hidden_dim", 128)
+    num_classes = len(dataset.df["label"].unique()) if dataset is not None else 2
+    output_dim = model_specific_params.get("output_size", num_classes)
     num_layers = model_specific_params.get("num_layers", 2)
     bidirectional = model_specific_params.get("bidirectional", True)
     dropout = model_specific_params.get("dropout", 0.5)

@@ -1,6 +1,6 @@
 {
-  "experiment_name": "hyperparams_texting",
-  "run_name": "texting_20ng_gru3",
+  "experiment_name": "preprocessing_impact",
+  "run_name": "lstm_20ng_nolimit",
   "dataset": {
     "name": "20ng",
     "tvt_split": [
@@ -14,28 +14,26 @@
       "remove_stopwords": true,
       "remove_rare_words": 5
     },
-    "gnn_encoding": {
-      "window_size": 3,
+    "rnn_encoding": {
+      "tokens_trained_on": 6,
       "embedding_dim": 300
-    },
-    "max_len": 600
+    }
   },
   "model_config": {
-    "model_type": "texting",
+    "model_type": "lstm",
     "common_params": {
-      "epochs": 200,
-      "batch_size": 4096,
+      "epochs": 50,
+      "batch_size": 128,
       "seed": 42,
-      "device": "cuda",
-      "log_batch_every_n": 50
+      "device": "cuda"
     },
     "model_specific_params": {
-      "hidden_dim": 96,
-      "gru_steps": 3,
+      "hidden_dim": 128,
+      "num_layers": 2,
       "dropout": 0.5,
-      "lr": 0.01,
-      "weight_decay": 0,
-      "patience": 15
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "embedding_dim": 300
     }
   }
 }

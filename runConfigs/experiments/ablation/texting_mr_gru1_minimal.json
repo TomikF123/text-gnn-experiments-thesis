@@ -15,24 +15,24 @@
       "remove_rare_words": 5
     },
     "gnn_encoding": {
-      "window_size": 2,
+      "window_size": 3,
       "embedding_dim": 300
-    },
-    "max_len": 600
+    }
   },
   "model_config": {
     "model_type": "texting",
     "common_params": {
-      "epochs": 100,
-      "batch_size": 256,
+      "epochs": 200,
+      "batch_size": 4096,
       "seed": 42,
-      "device": "cuda"
+      "device": "cuda",
+      "log_batch_every_n": 50
     },
     "model_specific_params": {
-      "hidden_dim": 256,
+      "hidden_dim": 96,
       "gru_steps": 1,
       "dropout": 0.5,
-      "lr": 0.005,
+      "lr": 0.01,
       "weight_decay": 0,
       "patience": 15
     }
