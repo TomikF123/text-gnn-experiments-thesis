@@ -85,26 +85,31 @@ def main():
             f.write(f"\n{log_line}\n")
 
             try:
-                result = subprocess.run(
-                    [sys.executable, "main.py", "--config", str(relative_path)],
+                proc = subprocess.Popen(
+                    [sys.executable, "-u", "main.py", "--config", str(relative_path)],
                     cwd=project_root,
-                    capture_output=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.STDOUT,
                     text=True,
-                    timeout=args.timeout
                 )
-                if result.returncode != 0:
+                for line in proc.stdout:
+                    print(f"  {line}", end="")
+                    f.write(f"  {line}")
+                    f.flush()
+                proc.wait(timeout=args.timeout)
+                if proc.returncode != 0:
                     results["failed"] += 1
                     status = "FAILED"
-                    error_info = result.stderr[-2000:]
                     print(f"  -> {status}")
                     f.write(f"  -> {status}\n")
-                    f.write(f"  ERROR:\n{'-'*20}\n{error_info}\n{'-'*20}\n")
                 else:
                     results["success"] += 1
                     status = "SUCCESS"
                     print(f"  -> {status}")
                     f.write(f"  -> {status}\n")
             except subprocess.TimeoutExpired:
+                proc.kill()
+                proc.wait()
                 results["timeout"] += 1
                 status = f"TIMEOUT ({args.timeout}s)"
                 print(f"  -> {status}")
