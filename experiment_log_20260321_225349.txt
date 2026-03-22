@@ -1,0 +1,8 @@
+Experiment Run Log - 2026-03-21 22:53:49.206037
+==================================================
+
+
+[1/127] RUNNING: runConfigs/experiments/ablation/textgcn_20ng_noweights.json...
+  -> SUCCESS
+
+[2/127] RUNNING: runConfigs/experiments/ablation/textgcn_20ng_win20_dense.json...
