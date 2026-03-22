@@ -1,0 +1,19 @@
+Experiment Run Log - 2026-03-22 12:57:35.007613
+==================================================
+
+
+[1/28] RUNNING: runConfigs/experiments/ablation/lstm_20ng_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 53, in <module>
+      dataset_config = DatasetConfig(**parsed_config["dataset"])
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/pydantic/main.py", line 253, in __init__
+      validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  pydantic_core._pydantic_core.ValidationError: 1 validation error for DatasetConfig
+  rnn_encoding.tokens_trained_on
+    Input should be a valid integer [type=int_type, input_value=None, input_type=NoneType]
+      For further information visit https://errors.pydantic.dev/2.11/v/int_type
+  -> FAILED
+
+[2/28] RUNNING: runConfigs/experiments/ablation/lstm_mr_randinit.json...

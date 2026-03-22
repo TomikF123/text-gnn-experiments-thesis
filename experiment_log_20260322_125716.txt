@@ -1,0 +1,70 @@
+Experiment Run Log - 2026-03-22 12:57:16.638939
+==================================================
+
+
+[1/28] RUNNING: runConfigs/experiments/ablation/lstm_20ng_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 53, in <module>
+      dataset_config = DatasetConfig(**parsed_config["dataset"])
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/pydantic/main.py", line 253, in __init__
+      validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  pydantic_core._pydantic_core.ValidationError: 1 validation error for DatasetConfig
+  rnn_encoding.tokens_trained_on
+    Input should be a valid integer [type=int_type, input_value=None, input_type=NoneType]
+      For further information visit https://errors.pydantic.dev/2.11/v/int_type
+  -> FAILED
+
+[2/28] RUNNING: runConfigs/experiments/ablation/lstm_mr_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 53, in <module>
+      dataset_config = DatasetConfig(**parsed_config["dataset"])
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/pydantic/main.py", line 253, in __init__
+      validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+  pydantic_core._pydantic_core.ValidationError: 1 validation error for DatasetConfig
+  rnn_encoding.tokens_trained_on
+    Input should be a valid integer [type=int_type, input_value=None, input_type=NoneType]
+      For further information visit https://errors.pydantic.dev/2.11/v/int_type
+  -> FAILED
+
+[3/28] RUNNING: runConfigs/experiments/baseline/lstm_20ng_baseline.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f1ca05a7850 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f1ca05a73a0 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f1c9c815570 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 12:57:22 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 40dc0e47a9a3423d9916c3ca3e6fc70f
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=10
