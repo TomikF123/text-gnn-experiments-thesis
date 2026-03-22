@@ -1,0 +1,16 @@
+Model Architecture
+================================================================================
+
+LSTMClassifier(
+  (embedding): Embedding(3736, 300, padding_idx=0)
+  (lstm): LSTM(300, 128, batch_first=True, bidirectional=True)
+  (head): Linear(in_features=256, out_features=2, bias=True)
+  (dropout): Dropout(p=0.5, inplace=False)
+)
+Output size: 2, Embedding dim: 300
+freezing embeddings: True
+trainable parameters: 440834
+
+Total parameters: 1,561,634
+Trainable parameters: 440,834
+Non-trainable parameters: 1,120,800

@@ -1,0 +1,1780 @@
+Experiment Run Log - 2026-03-22 23:52:28.784297
+==================================================
+
+[1/145] SKIP (completed): runConfigs/experiments/ablation/lstm_20ng_randinit.json
+[2/145] SKIP (completed): runConfigs/experiments/ablation/lstm_mr_randinit.json
+[3/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_noweights.json
+[4/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win20_dense.json
+[5/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win50_very_dense.json
+[6/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win5_sparse.json
+[7/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_noweights.json
+[8/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win20_dense.json
+[9/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win50_very_dense.json
+[10/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win5_sparse.json
+[11/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_randinit.json
+[12/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_ref.json
+[13/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_randinit.json
+[14/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win1.json
+[15/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win2.json
+[16/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_minimal.json
+[17/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_win1.json
+[18/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_win1_minimal.json
+[19/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_randinit.json
+[20/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_ref.json
+[21/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_randinit.json
+[22/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win1.json
+[23/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win2.json
+[24/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_minimal.json
+[25/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_win1.json
+[26/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_paper_match.json
+[27/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_win1_minimal.json
+[28/145] SKIP (completed): runConfigs/experiments/baseline/lstm_20ng_baseline.json
+[29/145] SKIP (completed): runConfigs/experiments/baseline/lstm_mr_baseline.json
+[30/145] SKIP (completed): runConfigs/experiments/baseline/textgcn_20ng_baseline.json
+[31/145] SKIP (completed): runConfigs/experiments/baseline/textgcn_mr_baseline.json
+[32/145] SKIP (completed): runConfigs/experiments/baseline/texting_20ng_baseline.json
+[33/145] SKIP (completed): runConfigs/experiments/baseline/texting_mr_baseline.json
+[34/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_10pct.json
+[35/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_30pct.json
+[36/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_50pct.json
+[37/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_70pct.json
+[38/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_80pct.json
+[39/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_10pct.json
+[40/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_30pct.json
+[41/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_50pct.json
+[42/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_70pct.json
+[43/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_80pct.json
+[44/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_10pct.json
+[45/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_30pct.json
+[46/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_50pct.json
+[47/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_70pct.json
+[48/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_80pct.json
+[49/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_10pct.json
+[50/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_30pct.json
+[51/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_50pct.json
+[52/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_70pct.json
+[53/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_80pct.json
+[54/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_10pct.json
+[55/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_30pct.json
+[56/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_50pct.json
+[57/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_70pct.json
+[58/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_80pct.json
+[59/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_10pct.json
+[60/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_30pct.json
+[61/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_50pct.json
+[62/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_70pct.json
+[63/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_80pct.json
+[64/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim128.json
+[65/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim256.json
+[66/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim64.json
+[67/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers1.json
+[68/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers2.json
+[69/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers3.json
+[70/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_lr0001.json
+
+[71/145] RUNNING: runConfigs/experiments/hyperparams/lstm_20ng_lr01.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe0509af850 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe0509af3a0 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe04ccb1600 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:52:31 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 0c544981167841ca9ad58fe6980e5dd1
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 216.0800 | Train Acc: 0.3654 | Val Loss: 21.3376 | Val Acc: 0.5178
+    → New best validation accuracy: 0.5178
+  Epoch 2/200 | Train Loss: 149.2521 | Train Acc: 0.5706 | Val Loss: 18.0175 | Val Acc: 0.6268
+    → New best validation accuracy: 0.6268
+  Epoch 3/200 | Train Loss: 125.5118 | Train Acc: 0.6527 | Val Loss: 16.6625 | Val Acc: 0.6756
+    → New best validation accuracy: 0.6756
+  Epoch 4/200 | Train Loss: 105.1624 | Train Acc: 0.7151 | Val Loss: 16.2379 | Val Acc: 0.6778
+    → New best validation accuracy: 0.6778
+  Epoch 5/200 | Train Loss: 93.6694 | Train Acc: 0.7471 | Val Loss: 15.8259 | Val Acc: 0.7025
+    → New best validation accuracy: 0.7025
+  Epoch 6/200 | Train Loss: 85.9914 | Train Acc: 0.7694 | Val Loss: 14.8213 | Val Acc: 0.7205
+    → New best validation accuracy: 0.7205
+  Epoch 7/200 | Train Loss: 77.9743 | Train Acc: 0.7903 | Val Loss: 15.5432 | Val Acc: 0.7123
+  Epoch 8/200 | Train Loss: 71.4782 | Train Acc: 0.8065 | Val Loss: 15.5486 | Val Acc: 0.6921
+  Epoch 9/200 | Train Loss: 68.5635 | Train Acc: 0.8162 | Val Loss: 15.5331 | Val Acc: 0.7167
+  Epoch 10/200 | Train Loss: 62.5902 | Train Acc: 0.8277 | Val Loss: 15.7964 | Val Acc: 0.7079
+  Epoch 11/200 | Train Loss: 60.2620 | Train Acc: 0.8391 | Val Loss: 17.0148 | Val Acc: 0.6942
+  Epoch 12/200 | Train Loss: 60.1823 | Train Acc: 0.8390 | Val Loss: 15.4737 | Val Acc: 0.7162
+  Epoch 13/200 | Train Loss: 59.3996 | Train Acc: 0.8401 | Val Loss: 16.6668 | Val Acc: 0.7123
+  Epoch 14/200 | Train Loss: 56.0640 | Train Acc: 0.8466 | Val Loss: 16.3489 | Val Acc: 0.7030
+  Epoch 15/200 | Train Loss: 52.5423 | Train Acc: 0.8578 | Val Loss: 16.6340 | Val Acc: 0.7063
+  Epoch 16/200 | Train Loss: 49.9176 | Train Acc: 0.8650 | Val Loss: 17.2712 | Val Acc: 0.6942
+  Epoch 17/200 | Train Loss: 49.5450 | Train Acc: 0.8654 | Val Loss: 17.3810 | Val Acc: 0.7079
+  Epoch 18/200 | Train Loss: 47.1370 | Train Acc: 0.8725 | Val Loss: 18.1467 | Val Acc: 0.7184
+  Epoch 19/200 | Train Loss: 47.5695 | Train Acc: 0.8720 | Val Loss: 18.5190 | Val Acc: 0.6981
+  Epoch 20/200 | Train Loss: 46.8740 | Train Acc: 0.8744 | Val Loss: 16.7310 | Val Acc: 0.7200
+  Epoch 21/200 | Train Loss: 44.6121 | Train Acc: 0.8806 | Val Loss: 17.0616 | Val Acc: 0.7167
+  
+  Early stopping triggered after 21 epochs
+  Best validation accuracy: 0.7205
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/15 [00:00<?, ?it/s]
+  Evaluating:   7%|▋         | 1/15 [00:00<00:01,  8.81it/s]
+  Evaluating:  33%|███▎      | 5/15 [00:00<00:00, 23.31it/s]
+  Evaluating:  53%|█████▎    | 8/15 [00:00<00:00, 25.83it/s]
+  Evaluating:  73%|███████▎  | 11/15 [00:00<00:00, 26.93it/s]
+  Evaluating:  93%|█████████▎| 14/15 [00:00<00:00, 27.86it/s]
+  Evaluating: 100%|██████████| 15/15 [00:00<00:00, 26.34it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.52      0.45      0.48        76
+             1       0.73      0.68      0.71        95
+             2       0.63      0.61      0.62        96
+             3       0.67      0.74      0.70        95
+             4       0.68      0.70      0.69        91
+             5       0.76      0.86      0.81        99
+             6       0.79      0.75      0.77        97
+             7       0.66      0.71      0.68        96
+             8       0.74      0.82      0.78        96
+             9       0.79      0.90      0.84        94
+            10       0.95      0.82      0.88        97
+            11       0.85      0.75      0.80        97
+            12       0.78      0.55      0.64        97
+            13       0.90      0.78      0.84        97
+            14       0.80      0.82      0.81        97
+            15       0.71      0.67      0.69        97
+            16       0.64      0.78      0.70        91
+            17       0.85      0.80      0.82        94
+            18       0.55      0.67      0.60        75
+            19       0.40      0.44      0.42        62
+  
+      accuracy                           0.72      1839
+     macro avg       0.72      0.72      0.71      1839
+  weighted avg       0.73      0.72      0.72      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7243066884176182, 'f1_macro': 0.714946144669142, 'f1_micro': 0.7243066884176182}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/22 23:55:32 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/22 23:55:32 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 0c544981167841ca9ad58fe6980e5dd1
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[72/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_hdim128.json
+[73/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_hdim256.json
+[74/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_hdim64.json
+[75/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_layers1.json
+[76/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_layers2.json
+[77/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_mr_layers3.json
+
+[78/145] RUNNING: runConfigs/experiments/hyperparams/lstm_mr_lr0001.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f6479db7850 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=8506>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f6479db73a0 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1065>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f647616d630 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1063>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:55:35 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: d18b33a2ed304adfbd29e055bf295102
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 46.0662 | Train Acc: 0.5658 | Val Loss: 6.0969 | Val Acc: 0.6685
+    → New best validation accuracy: 0.6685
+  Epoch 2/200 | Train Loss: 43.2893 | Train Acc: 0.6782 | Val Loss: 5.2620 | Val Acc: 0.7202
+    → New best validation accuracy: 0.7202
+  Epoch 3/200 | Train Loss: 37.2042 | Train Acc: 0.7204 | Val Loss: 5.0111 | Val Acc: 0.7221
+    → New best validation accuracy: 0.7221
+  Epoch 4/200 | Train Loss: 35.3021 | Train Acc: 0.7350 | Val Loss: 4.8880 | Val Acc: 0.7324
+    → New best validation accuracy: 0.7324
+  Epoch 5/200 | Train Loss: 34.4338 | Train Acc: 0.7488 | Val Loss: 4.8478 | Val Acc: 0.7333
+    → New best validation accuracy: 0.7333
+  Epoch 6/200 | Train Loss: 33.6632 | Train Acc: 0.7566 | Val Loss: 4.8115 | Val Acc: 0.7380
+    → New best validation accuracy: 0.7380
+  Epoch 7/200 | Train Loss: 33.0894 | Train Acc: 0.7628 | Val Loss: 4.8199 | Val Acc: 0.7324
+  Epoch 8/200 | Train Loss: 32.6523 | Train Acc: 0.7672 | Val Loss: 4.8898 | Val Acc: 0.7305
+  Epoch 9/200 | Train Loss: 32.1264 | Train Acc: 0.7705 | Val Loss: 4.7775 | Val Acc: 0.7418
+    → New best validation accuracy: 0.7418
+  Epoch 10/200 | Train Loss: 31.7432 | Train Acc: 0.7716 | Val Loss: 4.7890 | Val Acc: 0.7380
+  Epoch 11/200 | Train Loss: 31.4633 | Train Acc: 0.7791 | Val Loss: 4.7548 | Val Acc: 0.7446
+    → New best validation accuracy: 0.7446
+  Epoch 12/200 | Train Loss: 30.8955 | Train Acc: 0.7798 | Val Loss: 4.7773 | Val Acc: 0.7390
+  Epoch 13/200 | Train Loss: 30.4354 | Train Acc: 0.7849 | Val Loss: 4.8007 | Val Acc: 0.7408
+  Epoch 14/200 | Train Loss: 30.3410 | Train Acc: 0.7886 | Val Loss: 4.8295 | Val Acc: 0.7380
+  Epoch 15/200 | Train Loss: 29.6854 | Train Acc: 0.7938 | Val Loss: 4.8800 | Val Acc: 0.7390
+  Epoch 16/200 | Train Loss: 28.8999 | Train Acc: 0.8003 | Val Loss: 4.8489 | Val Acc: 0.7380
+  Epoch 17/200 | Train Loss: 28.2749 | Train Acc: 0.8071 | Val Loss: 5.0024 | Val Acc: 0.7399
+  Epoch 18/200 | Train Loss: 27.6387 | Train Acc: 0.8155 | Val Loss: 4.9229 | Val Acc: 0.7408
+  Epoch 19/200 | Train Loss: 27.1729 | Train Acc: 0.8166 | Val Loss: 5.0144 | Val Acc: 0.7418
+  Epoch 20/200 | Train Loss: 26.3217 | Train Acc: 0.8275 | Val Loss: 5.1211 | Val Acc: 0.7333
+  Epoch 21/200 | Train Loss: 25.7457 | Train Acc: 0.8316 | Val Loss: 5.1868 | Val Acc: 0.7371
+  Epoch 22/200 | Train Loss: 24.6418 | Train Acc: 0.8400 | Val Loss: 5.2784 | Val Acc: 0.7380
+  Epoch 23/200 | Train Loss: 23.8666 | Train Acc: 0.8461 | Val Loss: 5.4957 | Val Acc: 0.7230
+  Epoch 24/200 | Train Loss: 23.4944 | Train Acc: 0.8469 | Val Loss: 5.2512 | Val Acc: 0.7343
+  Epoch 25/200 | Train Loss: 21.8543 | Train Acc: 0.8613 | Val Loss: 5.8578 | Val Acc: 0.7258
+  Epoch 26/200 | Train Loss: 21.7039 | Train Acc: 0.8627 | Val Loss: 5.6317 | Val Acc: 0.7427
+  
+  Early stopping triggered after 26 epochs
+  Best validation accuracy: 0.7446
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/9 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 9/9 [00:00<00:00, 96.97it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.78      0.70      0.74       531
+             1       0.73      0.80      0.77       532
+  
+      accuracy                           0.75      1063
+     macro avg       0.76      0.75      0.75      1063
+  weighted avg       0.76      0.75      0.75      1063
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.753527751646284, 'f1_macro': 0.7529135171581673, 'f1_micro': 0.753527751646284}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/22 23:55:50 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/22 23:55:50 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: d18b33a2ed304adfbd29e055bf295102
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[79/145] RUNNING: runConfigs/experiments/hyperparams/lstm_mr_lr01.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f7b7ebab850 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=8506>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f7b7ebab3a0 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1065>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f7b7add1630 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1063>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:55:53 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: df76c79ecf8344d38d8d12db967dccbf
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 37.9814 | Train Acc: 0.7062 | Val Loss: 4.6180 | Val Acc: 0.7390
+    → New best validation accuracy: 0.7390
+  Epoch 2/200 | Train Loss: 32.3000 | Train Acc: 0.7655 | Val Loss: 4.5515 | Val Acc: 0.7390
+  Epoch 3/200 | Train Loss: 30.5733 | Train Acc: 0.7903 | Val Loss: 4.8838 | Val Acc: 0.7277
+  Epoch 4/200 | Train Loss: 28.0784 | Train Acc: 0.8083 | Val Loss: 4.8179 | Val Acc: 0.7446
+    → New best validation accuracy: 0.7446
+  Epoch 5/200 | Train Loss: 25.3109 | Train Acc: 0.8292 | Val Loss: 5.3919 | Val Acc: 0.7362
+  Epoch 6/200 | Train Loss: 23.4650 | Train Acc: 0.8461 | Val Loss: 5.1690 | Val Acc: 0.7437
+  Epoch 7/200 | Train Loss: 21.4454 | Train Acc: 0.8617 | Val Loss: 5.6334 | Val Acc: 0.7277
+  Epoch 8/200 | Train Loss: 19.1671 | Train Acc: 0.8786 | Val Loss: 5.4028 | Val Acc: 0.7221
+  Epoch 9/200 | Train Loss: 17.8320 | Train Acc: 0.8882 | Val Loss: 5.5209 | Val Acc: 0.7362
+  Epoch 10/200 | Train Loss: 16.2133 | Train Acc: 0.8994 | Val Loss: 6.7670 | Val Acc: 0.7286
+  Epoch 11/200 | Train Loss: 14.8488 | Train Acc: 0.9125 | Val Loss: 7.2576 | Val Acc: 0.7258
+  Epoch 12/200 | Train Loss: 14.0490 | Train Acc: 0.9123 | Val Loss: 6.8400 | Val Acc: 0.7437
+  Epoch 13/200 | Train Loss: 12.5748 | Train Acc: 0.9239 | Val Loss: 8.2624 | Val Acc: 0.7230
+  Epoch 14/200 | Train Loss: 12.1968 | Train Acc: 0.9278 | Val Loss: 7.7548 | Val Acc: 0.7371
+  Epoch 15/200 | Train Loss: 10.6724 | Train Acc: 0.9382 | Val Loss: 7.5133 | Val Acc: 0.7174
+  Epoch 16/200 | Train Loss: 11.1814 | Train Acc: 0.9319 | Val Loss: 7.1038 | Val Acc: 0.7202
+  Epoch 17/200 | Train Loss: 10.8872 | Train Acc: 0.9360 | Val Loss: 8.7950 | Val Acc: 0.7362
+  Epoch 18/200 | Train Loss: 10.0765 | Train Acc: 0.9420 | Val Loss: 8.6372 | Val Acc: 0.7080
+  Epoch 19/200 | Train Loss: 9.3349 | Train Acc: 0.9433 | Val Loss: 9.9782 | Val Acc: 0.7333
+  
+  Early stopping triggered after 19 epochs
+  Best validation accuracy: 0.7446
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/9 [00:00<?, ?it/s]
+  Evaluating:  44%|████▍     | 4/9 [00:00<00:00, 39.31it/s]
+  Evaluating: 100%|██████████| 9/9 [00:00<00:00, 79.75it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.74      0.74      0.74       531
+             1       0.74      0.74      0.74       532
+  
+      accuracy                           0.74      1063
+     macro avg       0.74      0.74      0.74      1063
+  weighted avg       0.74      0.74      0.74      1063
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7412982126058325, 'f1_macro': 0.7412945494193122, 'f1_micro': 0.7412982126058325}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/22 23:56:04 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/22 23:56:04 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: df76c79ecf8344d38d8d12db967dccbf
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[80/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_hdim100.json
+[81/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_hdim200.json
+[82/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_hdim400.json
+[83/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_lr0005.json
+[84/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_lr001.json
+[85/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_lr002.json
+[86/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_20ng_lr005.json
+[87/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_hdim100.json
+[88/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_hdim200.json
+[89/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_hdim400.json
+[90/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_lr0005.json
+[91/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_lr001.json
+[92/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_lr002.json
+[93/145] SKIP (completed): runConfigs/experiments/hyperparams/textgcn_mr_lr005.json
+[94/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_gru1.json
+[95/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_gru2.json
+[96/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_gru3.json
+[97/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_gru4.json
+
+[98/145] RUNNING: runConfigs/experiments/hyperparams/texting_20ng_hdim192.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: texting
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  Loading TextING dataset for train...
+    - Documents: 14618
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7efb083a7850>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  Loading TextING dataset for val...
+    - Documents: 1825
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7efb05d4a4a0>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  Loading TextING dataset for test...
+    - Documents: 1839
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7efaf4e3c4f0>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:56:11 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 980d219decb94b758b40b27a7e7fba15
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  Loading vocabulary and embedding matrix from /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/texting-window-3-dim-300-maxlen-600/vocab.pkl...
+    Vocab size: 24,174, Embedding dim: 300, Classes: 20
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training TextING on cuda
+  Parameters: epochs=200, batch_size=4096, lr=0.01, patience=15
+  Total parameters: 7,573,437
+  Trainable parameters: 7,573,437
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 1] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1216610) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (310288,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (310288,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   1/200 | Train Loss: 3.1032 | Train Acc: 0.0796 | Val Loss: 2.9710 | Val Acc: 0.0805
+    → New best validation accuracy: 0.0805
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 2] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1295002) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329886,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329886,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   2/200 | Train Loss: 2.9730 | Train Acc: 0.0828 | Val Loss: 2.8797 | Val Acc: 0.1079
+    → New best validation accuracy: 0.1079
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 3] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1299416) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330992,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330992,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   3/200 | Train Loss: 2.8583 | Train Acc: 0.0885 | Val Loss: 2.6900 | Val Acc: 0.1649
+    → New best validation accuracy: 0.1649
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 4] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1300618) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331291,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331291,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   4/200 | Train Loss: 2.6624 | Train Acc: 0.1694 | Val Loss: 2.4109 | Val Acc: 0.3025
+    → New best validation accuracy: 0.3025
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 5] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1260840) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (321347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (321347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   5/200 | Train Loss: 2.3665 | Train Acc: 0.2816 | Val Loss: 1.9817 | Val Acc: 0.4137
+    → New best validation accuracy: 0.4137
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 6] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1278156) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325673,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325673,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   6/200 | Train Loss: 1.9241 | Train Acc: 0.3948 | Val Loss: 1.5466 | Val Acc: 0.5211
+    → New best validation accuracy: 0.5211
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 7] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1289902) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328611,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328611,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   7/200 | Train Loss: 1.5349 | Train Acc: 0.4973 | Val Loss: 1.2840 | Val Acc: 0.6208
+    → New best validation accuracy: 0.6208
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 8] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1264982) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (322383,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (322383,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   8/200 | Train Loss: 1.2672 | Train Acc: 0.5884 | Val Loss: 1.1370 | Val Acc: 0.6504
+    → New best validation accuracy: 0.6504
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 9] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1278042) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325646,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325646,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   9/200 | Train Loss: 1.0791 | Train Acc: 0.6595 | Val Loss: 1.0453 | Val Acc: 0.7085
+    → New best validation accuracy: 0.7085
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 10] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1265396) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (322483,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (322483,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  10/200 | Train Loss: 0.9394 | Train Acc: 0.7015 | Val Loss: 0.9913 | Val Acc: 0.7123
+    → New best validation accuracy: 0.7123
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 11] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1300862) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331350,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331350,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  11/200 | Train Loss: 0.8170 | Train Acc: 0.7402 | Val Loss: 0.9535 | Val Acc: 0.7332
+    → New best validation accuracy: 0.7332
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 12] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1317802) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (335590,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (335590,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  12/200 | Train Loss: 0.7197 | Train Acc: 0.7734 | Val Loss: 0.9350 | Val Acc: 0.7397
+    → New best validation accuracy: 0.7397
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 13] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1223686) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (312058,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (312058,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  13/200 | Train Loss: 0.6422 | Train Acc: 0.7953 | Val Loss: 0.9371 | Val Acc: 0.7468
+    → New best validation accuracy: 0.7468
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 14] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1244544) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (317271,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (317271,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  14/200 | Train Loss: 0.5678 | Train Acc: 0.8196 | Val Loss: 0.9407 | Val Acc: 0.7485
+    → New best validation accuracy: 0.7485
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 15] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1270894) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (323859,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (323859,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  15/200 | Train Loss: 0.5014 | Train Acc: 0.8382 | Val Loss: 0.9319 | Val Acc: 0.7529
+    → New best validation accuracy: 0.7529
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 16] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1290626) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328794,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328794,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  16/200 | Train Loss: 0.4464 | Train Acc: 0.8596 | Val Loss: 0.9399 | Val Acc: 0.7616
+    → New best validation accuracy: 0.7616
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 17] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1249288) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (318457,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (318457,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  17/200 | Train Loss: 0.4025 | Train Acc: 0.8715 | Val Loss: 0.9540 | Val Acc: 0.7633
+    → New best validation accuracy: 0.7633
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 18] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1295516) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330014,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330014,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  18/200 | Train Loss: 0.3547 | Train Acc: 0.8876 | Val Loss: 0.9767 | Val Acc: 0.7671
+    → New best validation accuracy: 0.7671
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 19] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1298298) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330709,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330709,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  19/200 | Train Loss: 0.3105 | Train Acc: 0.9028 | Val Loss: 1.0171 | Val Acc: 0.7666
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 20] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1263552) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (322023,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (322023,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  20/200 | Train Loss: 0.2770 | Train Acc: 0.9135 | Val Loss: 1.0191 | Val Acc: 0.7671
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 21] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1301558) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331526,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331526,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  21/200 | Train Loss: 0.2517 | Train Acc: 0.9230 | Val Loss: 1.0575 | Val Acc: 0.7666
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 22] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1282818) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326839,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326839,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  22/200 | Train Loss: 0.2214 | Train Acc: 0.9334 | Val Loss: 1.1230 | Val Acc: 0.7605
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 23] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1296042) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330143,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330143,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  23/200 | Train Loss: 0.1993 | Train Acc: 0.9401 | Val Loss: 1.1002 | Val Acc: 0.7715
+    → New best validation accuracy: 0.7715
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 24] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1264320) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (322217,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (322217,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  24/200 | Train Loss: 0.1815 | Train Acc: 0.9458 | Val Loss: 1.1376 | Val Acc: 0.7644
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 25] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1336118) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (340168,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (340168,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  25/200 | Train Loss: 0.1641 | Train Acc: 0.9516 | Val Loss: 1.1908 | Val Acc: 0.7666
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 26] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1289908) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328611,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328611,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  26/200 | Train Loss: 0.1492 | Train Acc: 0.9557 | Val Loss: 1.2493 | Val Acc: 0.7627
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 27] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1274826) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (324842,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (324842,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  27/200 | Train Loss: 0.1397 | Train Acc: 0.9605 | Val Loss: 1.2494 | Val Acc: 0.7688
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 28] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1315776) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (335084,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (335084,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  28/200 | Train Loss: 0.1327 | Train Acc: 0.9622 | Val Loss: 1.2125 | Val Acc: 0.7660
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 29] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1286530) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327769,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327769,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  29/200 | Train Loss: 0.1182 | Train Acc: 0.9659 | Val Loss: 1.2517 | Val Acc: 0.7622
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 30] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1251722) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (319063,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (319063,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  30/200 | Train Loss: 0.1050 | Train Acc: 0.9716 | Val Loss: 1.3080 | Val Acc: 0.7737
+    → New best validation accuracy: 0.7737
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 31] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1308168) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (333179,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (333179,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  31/200 | Train Loss: 0.0962 | Train Acc: 0.9715 | Val Loss: 1.3070 | Val Acc: 0.7710
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 32] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1299072) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330906,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330906,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  32/200 | Train Loss: 0.0945 | Train Acc: 0.9749 | Val Loss: 1.3644 | Val Acc: 0.7737
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 33] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1270728) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (323816,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (323816,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  33/200 | Train Loss: 0.0840 | Train Acc: 0.9787 | Val Loss: 1.3800 | Val Acc: 0.7781
+    → New best validation accuracy: 0.7781
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 34] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1285074) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327406,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327406,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  34/200 | Train Loss: 0.0783 | Train Acc: 0.9778 | Val Loss: 1.4304 | Val Acc: 0.7715
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 35] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1299616) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331042,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331042,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  35/200 | Train Loss: 0.0756 | Train Acc: 0.9790 | Val Loss: 1.4911 | Val Acc: 0.7710
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 36] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1296570) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330276,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330276,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  36/200 | Train Loss: 0.0730 | Train Acc: 0.9801 | Val Loss: 1.4543 | Val Acc: 0.7699
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 37] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1249844) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (318595,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (318595,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  37/200 | Train Loss: 0.0706 | Train Acc: 0.9819 | Val Loss: 1.4365 | Val Acc: 0.7737
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 38] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1245580) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (317530,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (317530,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  38/200 | Train Loss: 0.0669 | Train Acc: 0.9823 | Val Loss: 1.4725 | Val Acc: 0.7781
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 39] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1281558) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326528,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326528,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  39/200 | Train Loss: 0.0573 | Train Acc: 0.9863 | Val Loss: 1.5434 | Val Acc: 0.7814
+    → New best validation accuracy: 0.7814
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 40] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1287512) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328017,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328017,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  40/200 | Train Loss: 0.0591 | Train Acc: 0.9852 | Val Loss: 1.4992 | Val Acc: 0.7775
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 41] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1283780) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327077,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327077,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  41/200 | Train Loss: 0.0565 | Train Acc: 0.9845 | Val Loss: 1.4527 | Val Acc: 0.7742
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 42] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1259706) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (321061,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (321061,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  42/200 | Train Loss: 0.0498 | Train Acc: 0.9875 | Val Loss: 1.5257 | Val Acc: 0.7753
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 43] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1301248) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331448,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331448,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  43/200 | Train Loss: 0.0520 | Train Acc: 0.9869 | Val Loss: 1.6136 | Val Acc: 0.7693
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 44] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1270000) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (323638,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (323638,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  44/200 | Train Loss: 0.0459 | Train Acc: 0.9886 | Val Loss: 1.6053 | Val Acc: 0.7803
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 45] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1318648) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (335798,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (335798,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  45/200 | Train Loss: 0.0463 | Train Acc: 0.9884 | Val Loss: 1.5681 | Val Acc: 0.7737
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 46] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1281534) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326521,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326521,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  46/200 | Train Loss: 0.0487 | Train Acc: 0.9869 | Val Loss: 1.5538 | Val Acc: 0.7721
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 47] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1277328) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325469,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325469,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  47/200 | Train Loss: 0.0453 | Train Acc: 0.9888 | Val Loss: 1.6158 | Val Acc: 0.7699
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 48] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1297736) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330567,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330567,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  48/200 | Train Loss: 0.0424 | Train Acc: 0.9899 | Val Loss: 1.7061 | Val Acc: 0.7633
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 49] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1287552) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328024,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328024,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  49/200 | Train Loss: 0.0375 | Train Acc: 0.9909 | Val Loss: 1.6929 | Val Acc: 0.7688
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 50] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1274240) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (324696,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (324696,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  50/200 | Train Loss: 0.0368 | Train Acc: 0.9914 | Val Loss: 1.6743 | Val Acc: 0.7638
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 51] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1283118) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326917,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326917,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  51/200 | Train Loss: 0.0401 | Train Acc: 0.9891 | Val Loss: 1.6293 | Val Acc: 0.7721
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 52] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1236682) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (315309,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (315309,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  52/200 | Train Loss: 0.0381 | Train Acc: 0.9905 | Val Loss: 1.6700 | Val Acc: 0.7677
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 53] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1279212) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325940,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325940,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  53/200 | Train Loss: 0.0362 | Train Acc: 0.9895 | Val Loss: 1.7275 | Val Acc: 0.7732
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 54] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1278932) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325871,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325871,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  54/200 | Train Loss: 0.0384 | Train Acc: 0.9898 | Val Loss: 1.7034 | Val Acc: 0.7655
+  
+  Early stopping triggered after 54 epochs
+  Best validation accuracy: 0.7814 at epoch 39
+  
+  Loading best model from epoch 39
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  3.53it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.71      0.67      0.69        76
+             1       0.72      0.71      0.71        95
+             2       0.68      0.68      0.68        96
+             3       0.63      0.79      0.70        95
+             4       0.81      0.71      0.76        91
+             5       0.84      0.90      0.87        99
+             6       0.81      0.69      0.74        97
+             7       0.72      0.81      0.76        96
+             8       0.79      0.80      0.79        96
+             9       0.90      0.91      0.91        94
+            10       0.98      0.92      0.95        97
+            11       0.88      0.79      0.83        97
+            12       0.73      0.68      0.70        97
+            13       0.90      0.88      0.89        97
+            14       0.79      0.87      0.83        97
+            15       0.73      0.74      0.73        97
+            16       0.70      0.81      0.75        91
+            17       0.94      0.88      0.91        94
+            18       0.73      0.57      0.64        75
+            19       0.41      0.44      0.42        62
+  
+      accuracy                           0.77      1839
+     macro avg       0.77      0.76      0.76      1839
+  weighted avg       0.78      0.77      0.77      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7721587819467102, 'f1_macro': 0.7638633139988876, 'f1_micro': 0.7721587819467102}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/22 23:59:28 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/22 23:59:28 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 980d219decb94b758b40b27a7e7fba15
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[99/145] RUNNING: runConfigs/experiments/hyperparams/texting_20ng_hdim48.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: texting
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  Loading TextING dataset for train...
+    - Documents: 14618
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f51edb9b850>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  Loading TextING dataset for val...
+    - Documents: 1825
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f51eb73e4a0>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  Loading TextING dataset for test...
+    - Documents: 1839
+    - Classes: 20
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f51ce7544f0>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:59:35 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 2054df6133de4c9c9c13c95ccf7e5511
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  Loading vocabulary and embedding matrix from /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/texting-window-3-dim-300-maxlen-600/vocab.pkl...
+    Vocab size: 24,174, Embedding dim: 300, Classes: 20
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training TextING on cuda
+  Parameters: epochs=200, batch_size=4096, lr=0.01, patience=15
+  Total parameters: 7,284,141
+  Trainable parameters: 7,284,141
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 1] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1283710) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327064,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327064,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   1/200 | Train Loss: 3.1035 | Train Acc: 0.0586 | Val Loss: 2.9440 | Val Acc: 0.1375
+    → New best validation accuracy: 0.1375
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 2] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1261156) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (321427,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (321427,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   2/200 | Train Loss: 2.9061 | Train Acc: 0.1151 | Val Loss: 2.6190 | Val Acc: 0.2000
+    → New best validation accuracy: 0.2000
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 3] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1293158) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329424,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329424,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   3/200 | Train Loss: 2.6666 | Train Acc: 0.1674 | Val Loss: 2.3170 | Val Acc: 0.2356
+    → New best validation accuracy: 0.2356
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 4] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1292820) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329339,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329339,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   4/200 | Train Loss: 2.3855 | Train Acc: 0.2292 | Val Loss: 2.0346 | Val Acc: 0.3342
+    → New best validation accuracy: 0.3342
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 5] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1312066) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (334154,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (334154,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   5/200 | Train Loss: 2.1374 | Train Acc: 0.2988 | Val Loss: 1.7983 | Val Acc: 0.4378
+    → New best validation accuracy: 0.4378
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 6] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1247220) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (317940,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (317940,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   6/200 | Train Loss: 1.9182 | Train Acc: 0.3795 | Val Loss: 1.6021 | Val Acc: 0.4986
+    → New best validation accuracy: 0.4986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 7] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1269160) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (323426,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (323426,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   7/200 | Train Loss: 1.6982 | Train Acc: 0.4583 | Val Loss: 1.4870 | Val Acc: 0.5403
+    → New best validation accuracy: 0.5403
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 8] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1283560) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327025,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327025,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   8/200 | Train Loss: 1.5236 | Train Acc: 0.5157 | Val Loss: 1.3787 | Val Acc: 0.5677
+    → New best validation accuracy: 0.5677
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 9] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1300424) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331241,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331241,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch   9/200 | Train Loss: 1.3539 | Train Acc: 0.5719 | Val Loss: 1.2935 | Val Acc: 0.5929
+    → New best validation accuracy: 0.5929
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 10] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1304860) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (332348,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (332348,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  10/200 | Train Loss: 1.2314 | Train Acc: 0.6046 | Val Loss: 1.2453 | Val Acc: 0.6170
+    → New best validation accuracy: 0.6170
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 11] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1313898) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (334613,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (334613,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  11/200 | Train Loss: 1.1004 | Train Acc: 0.6508 | Val Loss: 1.1938 | Val Acc: 0.6351
+    → New best validation accuracy: 0.6351
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 12] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1248250) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (318197,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (318197,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  12/200 | Train Loss: 1.0102 | Train Acc: 0.6821 | Val Loss: 1.1742 | Val Acc: 0.6548
+    → New best validation accuracy: 0.6548
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 13] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1339578) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (341032,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (341032,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  13/200 | Train Loss: 0.9164 | Train Acc: 0.7120 | Val Loss: 1.1503 | Val Acc: 0.6608
+    → New best validation accuracy: 0.6608
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 14] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1282668) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326801,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326801,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  14/200 | Train Loss: 0.8476 | Train Acc: 0.7332 | Val Loss: 1.1152 | Val Acc: 0.6866
+    → New best validation accuracy: 0.6866
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 15] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1241564) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (316527,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (316527,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  15/200 | Train Loss: 0.7752 | Train Acc: 0.7549 | Val Loss: 1.1009 | Val Acc: 0.7014
+    → New best validation accuracy: 0.7014
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 16] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1255462) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (320003,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (320003,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  16/200 | Train Loss: 0.7124 | Train Acc: 0.7819 | Val Loss: 1.1370 | Val Acc: 0.7025
+    → New best validation accuracy: 0.7025
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 17] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1331680) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (339056,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (339056,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  17/200 | Train Loss: 0.6618 | Train Acc: 0.7981 | Val Loss: 1.1155 | Val Acc: 0.7173
+    → New best validation accuracy: 0.7173
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 18] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1311608) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (334039,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (334039,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  18/200 | Train Loss: 0.6089 | Train Acc: 0.8186 | Val Loss: 1.1078 | Val Acc: 0.7249
+    → New best validation accuracy: 0.7249
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 19] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1318834) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (335842,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (335842,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  19/200 | Train Loss: 0.5685 | Train Acc: 0.8336 | Val Loss: 1.1134 | Val Acc: 0.7288
+    → New best validation accuracy: 0.7288
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 20] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1283378) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326982,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326982,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  20/200 | Train Loss: 0.5252 | Train Acc: 0.8449 | Val Loss: 1.1354 | Val Acc: 0.7321
+    → New best validation accuracy: 0.7321
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 21] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1292838) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  21/200 | Train Loss: 0.4932 | Train Acc: 0.8598 | Val Loss: 1.1097 | Val Acc: 0.7425
+    → New best validation accuracy: 0.7425
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 22] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1274840) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (324846,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (324846,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  22/200 | Train Loss: 0.4561 | Train Acc: 0.8665 | Val Loss: 1.1092 | Val Acc: 0.7397
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 23] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1261186) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (321432,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (321432,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  23/200 | Train Loss: 0.4357 | Train Acc: 0.8745 | Val Loss: 1.1778 | Val Acc: 0.7315
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 24] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1271772) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (324079,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (324079,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  24/200 | Train Loss: 0.4075 | Train Acc: 0.8853 | Val Loss: 1.1647 | Val Acc: 0.7326
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 25] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1336036) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (340145,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (340145,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  25/200 | Train Loss: 0.3780 | Train Acc: 0.8947 | Val Loss: 1.1401 | Val Acc: 0.7364
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 26] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1274718) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (324813,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (324813,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  26/200 | Train Loss: 0.3596 | Train Acc: 0.8992 | Val Loss: 1.1769 | Val Acc: 0.7348
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 27] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1276546) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325274,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325274,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  27/200 | Train Loss: 0.3398 | Train Acc: 0.9023 | Val Loss: 1.2260 | Val Acc: 0.7375
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 28] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1303208) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331939,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331939,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  28/200 | Train Loss: 0.3220 | Train Acc: 0.9130 | Val Loss: 1.2359 | Val Acc: 0.7370
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 29] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1317128) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (335418,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (335418,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  29/200 | Train Loss: 0.3085 | Train Acc: 0.9154 | Val Loss: 1.1998 | Val Acc: 0.7447
+    → New best validation accuracy: 0.7447
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 30] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1324990) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (337383,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (337383,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  30/200 | Train Loss: 0.2889 | Train Acc: 0.9226 | Val Loss: 1.2690 | Val Acc: 0.7375
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 31] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1286166) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327675,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327675,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  31/200 | Train Loss: 0.2674 | Train Acc: 0.9299 | Val Loss: 1.2308 | Val Acc: 0.7447
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 32] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1302474) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331755,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331755,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  32/200 | Train Loss: 0.2581 | Train Acc: 0.9317 | Val Loss: 1.2723 | Val Acc: 0.7425
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 33] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1304080) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (332158,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (332158,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  33/200 | Train Loss: 0.2469 | Train Acc: 0.9358 | Val Loss: 1.2751 | Val Acc: 0.7447
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 34] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1292652) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329299,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329299,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  34/200 | Train Loss: 0.2312 | Train Acc: 0.9392 | Val Loss: 1.3079 | Val Acc: 0.7425
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 35] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1248846) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (318347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (318347,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  35/200 | Train Loss: 0.2253 | Train Acc: 0.9430 | Val Loss: 1.3004 | Val Acc: 0.7490
+    → New best validation accuracy: 0.7490
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 36] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1292520) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329267,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329267,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  36/200 | Train Loss: 0.2191 | Train Acc: 0.9440 | Val Loss: 1.3337 | Val Acc: 0.7436
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 37] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1293196) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (329435,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (329435,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  37/200 | Train Loss: 0.2106 | Train Acc: 0.9471 | Val Loss: 1.3432 | Val Acc: 0.7463
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 38] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1327106) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (337912,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (337912,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  38/200 | Train Loss: 0.2025 | Train Acc: 0.9481 | Val Loss: 1.3667 | Val Acc: 0.7403
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 39] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1287312) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (327965,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (327965,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  39/200 | Train Loss: 0.1908 | Train Acc: 0.9524 | Val Loss: 1.3600 | Val Acc: 0.7452
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 40] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1297394) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330485,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330485,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  40/200 | Train Loss: 0.1843 | Train Acc: 0.9555 | Val Loss: 1.3775 | Val Acc: 0.7436
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 41] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1297918) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330616,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330616,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  41/200 | Train Loss: 0.1739 | Train Acc: 0.9560 | Val Loss: 1.4064 | Val Acc: 0.7452
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 42] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1307818) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (333089,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (333089,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  42/200 | Train Loss: 0.1680 | Train Acc: 0.9570 | Val Loss: 1.4055 | Val Acc: 0.7414
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 43] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1297884) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (330606,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (330606,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  43/200 | Train Loss: 0.1682 | Train Acc: 0.9568 | Val Loss: 1.5012 | Val Acc: 0.7419
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 44] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1309790) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (333585,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (333585,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  44/200 | Train Loss: 0.1540 | Train Acc: 0.9614 | Val Loss: 1.4732 | Val Acc: 0.7386
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 45] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1301836) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (331593,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (331593,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  45/200 | Train Loss: 0.1531 | Train Acc: 0.9609 | Val Loss: 1.4792 | Val Acc: 0.7381
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 46] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1326838) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (337845,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (337845,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  46/200 | Train Loss: 0.1425 | Train Acc: 0.9646 | Val Loss: 1.4924 | Val Acc: 0.7425
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 47] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1278636) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (325796,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (325796,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  47/200 | Train Loss: 0.1478 | Train Acc: 0.9652 | Val Loss: 1.5588 | Val Acc: 0.7386
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 48] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1270538) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (323771,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (323771,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  48/200 | Train Loss: 0.1404 | Train Acc: 0.9661 | Val Loss: 1.5272 | Val Acc: 0.7441
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 49] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1290906) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (328862,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (328862,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  49/200 | Train Loss: 0.1356 | Train Acc: 0.9661 | Val Loss: 1.5318 | Val Acc: 0.7414
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 50] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 1279950) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (326125,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (326125,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 20) torch.float32 on cuda:0
+  Epoch  50/200 | Train Loss: 0.1308 | Train Acc: 0.9672 | Val Loss: 1.5759 | Val Acc: 0.7397
+  
+  Early stopping triggered after 50 epochs
+  Best validation accuracy: 0.7490 at epoch 35
+  
+  Loading best model from epoch 35
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.72it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  4.71it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.54      0.61      0.57        76
+             1       0.77      0.67      0.72        95
+             2       0.60      0.69      0.64        96
+             3       0.64      0.73      0.68        95
+             4       0.79      0.67      0.73        91
+             5       0.84      0.83      0.83        99
+             6       0.78      0.71      0.74        97
+             7       0.67      0.75      0.71        96
+             8       0.70      0.79      0.75        96
+             9       0.88      0.90      0.89        94
+            10       0.96      0.91      0.93        97
+            11       0.85      0.78      0.82        97
+            12       0.55      0.59      0.57        97
+            13       0.90      0.89      0.89        97
+            14       0.87      0.80      0.83        97
+            15       0.70      0.69      0.69        97
+            16       0.69      0.75      0.72        91
+            17       0.91      0.86      0.89        94
+            18       0.69      0.56      0.62        75
+            19       0.35      0.35      0.35        62
+  
+      accuracy                           0.74      1839
+     macro avg       0.73      0.73      0.73      1839
+  weighted avg       0.74      0.74      0.74      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7368134855899946, 'f1_macro': 0.7284420179906925, 'f1_micro': 0.7368134855899946}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/23 00:00:52 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 00:00:52 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 2054df6133de4c9c9c13c95ccf7e5511
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[100/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_win2.json
+[101/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_win3.json
+[102/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_win4.json
+[103/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_20ng_win5.json
+[104/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_gru1.json
+[105/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_gru2.json
+[106/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_gru3.json
+[107/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_gru4.json
+
+[108/145] RUNNING: runConfigs/experiments/hyperparams/texting_mr_hdim192.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: texting
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  Loading TextING dataset for train...
+    - Documents: 8506
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7ff8d05b3850>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  Loading TextING dataset for val...
+    - Documents: 1065
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7ff8cdf564a0>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  Loading TextING dataset for test...
+    - Documents: 1063
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7ff8c5aa04c0>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 00:00:57 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 9a8767a49d9b4817baba8152518d0220
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  Loading vocabulary and embedding matrix from /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/texting-window-3-dim-300-maxlen-none/vocab.pkl...
+    Vocab size: 3,736, Embedding dim: 300, Classes: 2
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training TextING on cuda
+  Parameters: epochs=200, batch_size=4096, lr=0.01, patience=15
+  Total parameters: 1,438,563
+  Trainable parameters: 1,438,563
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 1] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111920) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34102,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34102,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   1/200 | Train Loss: 0.7386 | Train Acc: 0.5121 | Val Loss: 5.0938 | Val Acc: 0.5192
+    → New best validation accuracy: 0.5192
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 2] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111822) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34078,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34078,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   2/200 | Train Loss: 1.9204 | Train Acc: 0.5448 | Val Loss: 0.6913 | Val Acc: 0.4986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 3] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112124) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34152,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34152,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   3/200 | Train Loss: 0.6915 | Train Acc: 0.4998 | Val Loss: 0.6907 | Val Acc: 0.4995
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 4] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112086) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34141,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34141,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   4/200 | Train Loss: 0.6914 | Train Acc: 0.4988 | Val Loss: 0.6884 | Val Acc: 0.4995
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 5] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111778) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34067,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34067,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   5/200 | Train Loss: 0.6851 | Train Acc: 0.4982 | Val Loss: 0.6823 | Val Acc: 0.4986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 6] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111354) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33955,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33955,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   6/200 | Train Loss: 0.6717 | Train Acc: 0.4996 | Val Loss: 0.6718 | Val Acc: 0.4986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 7] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111500) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33996,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33996,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   7/200 | Train Loss: 0.6548 | Train Acc: 0.4998 | Val Loss: 0.6486 | Val Acc: 0.4986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 8] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111896) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34093,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34093,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   8/200 | Train Loss: 0.6351 | Train Acc: 0.5000 | Val Loss: 0.6469 | Val Acc: 0.6770
+    → New best validation accuracy: 0.6770
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 9] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111352) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33961,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33961,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   9/200 | Train Loss: 0.6180 | Train Acc: 0.6397 | Val Loss: 0.6382 | Val Acc: 0.7108
+    → New best validation accuracy: 0.7108
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 10] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112778) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34315,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34315,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  10/200 | Train Loss: 0.5966 | Train Acc: 0.7256 | Val Loss: 0.6200 | Val Acc: 0.7249
+    → New best validation accuracy: 0.7249
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 11] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111736) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34054,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34054,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  11/200 | Train Loss: 0.5779 | Train Acc: 0.7332 | Val Loss: 0.6072 | Val Acc: 0.7192
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 12] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111862) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34088,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34088,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  12/200 | Train Loss: 0.5579 | Train Acc: 0.7605 | Val Loss: 0.6046 | Val Acc: 0.7070
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 13] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112650) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34286,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34286,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  13/200 | Train Loss: 0.5416 | Train Acc: 0.7744 | Val Loss: 0.7263 | Val Acc: 0.7127
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 14] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112484) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34243,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34243,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  14/200 | Train Loss: 0.5427 | Train Acc: 0.7793 | Val Loss: 0.6066 | Val Acc: 0.6892
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 15] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111716) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34053,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34053,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  15/200 | Train Loss: 0.5113 | Train Acc: 0.7818 | Val Loss: 0.6537 | Val Acc: 0.7089
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 16] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112056) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34130,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34130,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  16/200 | Train Loss: 0.4831 | Train Acc: 0.8072 | Val Loss: 0.6044 | Val Acc: 0.7014
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 17] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111974) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34117,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34117,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  17/200 | Train Loss: 0.4719 | Train Acc: 0.8131 | Val Loss: 0.7677 | Val Acc: 0.7033
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 18] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111554) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34005,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34005,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  18/200 | Train Loss: 0.4828 | Train Acc: 0.8124 | Val Loss: 0.6088 | Val Acc: 0.7014
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 19] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112374) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34213,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34213,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  19/200 | Train Loss: 0.4487 | Train Acc: 0.8224 | Val Loss: 0.7236 | Val Acc: 0.6986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 20] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112660) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34286,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34286,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  20/200 | Train Loss: 0.4342 | Train Acc: 0.8355 | Val Loss: 0.6512 | Val Acc: 0.7014
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 21] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111990) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34115,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34115,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  21/200 | Train Loss: 0.4155 | Train Acc: 0.8422 | Val Loss: 0.6636 | Val Acc: 0.6977
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 22] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111534) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34003,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34003,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  22/200 | Train Loss: 0.4096 | Train Acc: 0.8422 | Val Loss: 0.6899 | Val Acc: 0.6948
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 23] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112270) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34184,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34184,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  23/200 | Train Loss: 0.3965 | Train Acc: 0.8520 | Val Loss: 0.6506 | Val Acc: 0.7014
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 24] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 113202) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34418,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34418,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  24/200 | Train Loss: 0.3923 | Train Acc: 0.8513 | Val Loss: 0.7150 | Val Acc: 0.6986
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 25] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112674) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34293,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34293,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  25/200 | Train Loss: 0.3810 | Train Acc: 0.8577 | Val Loss: 0.7133 | Val Acc: 0.6967
+  
+  Early stopping triggered after 25 epochs
+  Best validation accuracy: 0.7249 at epoch 10
+  
+  Loading best model from epoch 10
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  9.34it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  9.31it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.70      0.74      0.72       531
+             1       0.72      0.68      0.70       532
+  
+      accuracy                           0.71      1063
+     macro avg       0.71      0.71      0.71      1063
+  weighted avg       0.71      0.71      0.71      1063
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7111947318908749, 'f1_macro': 0.7109942126400899, 'f1_micro': 0.7111947318908749}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/23 00:01:13 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 00:01:13 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 9a8767a49d9b4817baba8152518d0220
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[109/145] RUNNING: runConfigs/experiments/hyperparams/texting_mr_hdim48.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: texting
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  Loading TextING dataset for train...
+    - Documents: 8506
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f6e3e3af850>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  Loading TextING dataset for val...
+    - Documents: 1065
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f6e3bd524a0>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  Loading TextING dataset for test...
+    - Documents: 1063
+    - Classes: 2
+    - Mode: Word IDs (like LSTM) - embedding on GPU!
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.texting_loader.TextINGDataset object at 0x7f6e30e604c0>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 00:01:18 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: e5db7b8c7aad49ffbcef0d993faa36fd
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  Loading vocabulary and embedding matrix from /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/texting-window-3-dim-300-maxlen-none/vocab.pkl...
+    Vocab size: 3,736, Embedding dim: 300, Classes: 2
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training TextING on cuda
+  Parameters: epochs=200, batch_size=4096, lr=0.01, patience=15
+  Total parameters: 1,151,859
+  Trainable parameters: 1,151,859
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 1] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111640) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34031,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34031,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   1/200 | Train Loss: 0.7495 | Train Acc: 0.5055 | Val Loss: 0.6871 | Val Acc: 0.5146
+    → New best validation accuracy: 0.5146
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 2] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111442) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33983,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33983,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   2/200 | Train Loss: 0.6788 | Train Acc: 0.5614 | Val Loss: 0.6404 | Val Acc: 0.6723
+    → New best validation accuracy: 0.6723
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 3] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111746) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34059,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34059,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   3/200 | Train Loss: 0.6267 | Train Acc: 0.6593 | Val Loss: 0.6468 | Val Acc: 0.6836
+    → New best validation accuracy: 0.6836
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 4] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111440) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33978,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33978,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   4/200 | Train Loss: 0.5716 | Train Acc: 0.7133 | Val Loss: 0.5378 | Val Acc: 0.7390
+    → New best validation accuracy: 0.7390
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 5] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112016) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34123,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34123,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   5/200 | Train Loss: 0.5265 | Train Acc: 0.7496 | Val Loss: 0.5398 | Val Acc: 0.7474
+    → New best validation accuracy: 0.7474
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 6] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111548) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34007,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34007,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   6/200 | Train Loss: 0.4835 | Train Acc: 0.7755 | Val Loss: 0.5690 | Val Acc: 0.7484
+    → New best validation accuracy: 0.7484
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 7] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112086) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34142,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34142,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   7/200 | Train Loss: 0.4334 | Train Acc: 0.8016 | Val Loss: 0.5938 | Val Acc: 0.7512
+    → New best validation accuracy: 0.7512
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 8] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111560) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34010,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34010,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   8/200 | Train Loss: 0.4107 | Train Acc: 0.8113 | Val Loss: 0.5379 | Val Acc: 0.7549
+    → New best validation accuracy: 0.7549
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 9] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 110630) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33773,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33773,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch   9/200 | Train Loss: 0.3825 | Train Acc: 0.8272 | Val Loss: 0.5600 | Val Acc: 0.7512
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 10] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111982) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34115,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34115,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  10/200 | Train Loss: 0.3613 | Train Acc: 0.8439 | Val Loss: 0.5782 | Val Acc: 0.7474
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 11] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111900) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34093,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34093,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  11/200 | Train Loss: 0.3519 | Train Acc: 0.8409 | Val Loss: 0.5989 | Val Acc: 0.7455
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 12] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111746) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34052,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34052,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  12/200 | Train Loss: 0.3291 | Train Acc: 0.8600 | Val Loss: 0.6102 | Val Acc: 0.7343
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 13] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112852) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34331,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34331,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  13/200 | Train Loss: 0.3093 | Train Acc: 0.8673 | Val Loss: 0.6295 | Val Acc: 0.7333
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 14] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112152) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34159,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34159,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  14/200 | Train Loss: 0.3004 | Train Acc: 0.8700 | Val Loss: 0.6681 | Val Acc: 0.7296
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 15] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111636) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34029,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34029,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  15/200 | Train Loss: 0.2859 | Train Acc: 0.8742 | Val Loss: 0.6661 | Val Acc: 0.7211
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 16] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112316) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34199,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34199,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  16/200 | Train Loss: 0.2822 | Train Acc: 0.8782 | Val Loss: 0.6775 | Val Acc: 0.7202
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 17] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112890) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34345,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34345,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  17/200 | Train Loss: 0.2744 | Train Acc: 0.8835 | Val Loss: 0.7031 | Val Acc: 0.7221
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 18] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 111398) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33972,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33972,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  18/200 | Train Loss: 0.2608 | Train Acc: 0.8903 | Val Loss: 0.7858 | Val Acc: 0.7136
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 19] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 110842) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (33830,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (33830,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  19/200 | Train Loss: 0.2578 | Train Acc: 0.8897 | Val Loss: 0.8213 | Val Acc: 0.7183
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 20] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112432) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34224,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34224,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  20/200 | Train Loss: 0.2597 | Train Acc: 0.8883 | Val Loss: 0.7979 | Val Acc: 0.7108
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 21] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112276) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34185,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34185,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  21/200 | Train Loss: 0.2418 | Train Acc: 0.8977 | Val Loss: 0.7661 | Val Acc: 0.7164
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 22] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 113006) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34374,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34374,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  22/200 | Train Loss: 0.2386 | Train Acc: 0.9020 | Val Loss: 0.8091 | Val Acc: 0.7174
+  [INFO] textgnn.models.texting.train: [BATCH 0 Epoch 23] | Device: cuda | Dict[5]
+  [INFO] textgnn.models.texting.train:   edge_index: (2, 112972) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   word_ids: (34362,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   batch: (34362,) torch.int64 on cuda:0
+  [INFO] textgnn.models.texting.train:   labels: (4096, 2) torch.float32 on cuda:0
+  Epoch  23/200 | Train Loss: 0.2336 | Train Acc: 0.8995 | Val Loss: 0.9138 | Val Acc: 0.7099
+  
+  Early stopping triggered after 23 epochs
+  Best validation accuracy: 0.7549 at epoch 8
+  
+  Loading best model from epoch 8
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/1 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  8.99it/s]
+  Evaluating: 100%|██████████| 1/1 [00:00<00:00,  8.96it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.76      0.75      0.76       531
+             1       0.75      0.77      0.76       532
+  
+      accuracy                           0.76      1063
+     macro avg       0.76      0.76      0.76      1063
+  weighted avg       0.76      0.76      0.76      1063
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7582314205079962, 'f1_macro': 0.7582006062885844, 'f1_micro': 0.7582314205079962}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/23 00:01:30 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 00:01:30 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: e5db7b8c7aad49ffbcef0d993faa36fd
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[110/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_win2.json
+[111/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_win3.json
+[112/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_win4.json
+[113/145] SKIP (completed): runConfigs/experiments/hyperparams/texting_mr_win5.json
+[114/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_20ng_nolimit.json
+[115/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_20ng_nostop_rare0.json
+[116/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_20ng_nostop_rare5.json
+[117/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_20ng_stopwords_rare0.json
+[118/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_20ng_stopwords_rare10.json
+[119/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_mr_nolimit.json
+[120/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_mr_nostop_rare0.json
+[121/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_mr_nostop_rare5.json
+[122/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_mr_stopwords_rare0.json
+[123/145] SKIP (completed): runConfigs/experiments/preprocessing/lstm_mr_stopwords_rare10.json
+[124/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_20ng_nostop_rare0.json
+[125/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_20ng_nostop_rare5.json
+[126/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_20ng_stopwords_rare0.json
+[127/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_20ng_stopwords_rare10.json
+[128/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_20ng_stopwords_rare5.json
+[129/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_mr_nostop_rare0.json
+[130/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_mr_nostop_rare5.json
+[131/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_mr_stopwords_rare0.json
+[132/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_mr_stopwords_rare10.json
+[133/145] SKIP (completed): runConfigs/experiments/preprocessing/textgcn_mr_stopwords_rare5.json
+[134/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_nolimit.json
+[135/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_nostop_rare0.json
+[136/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_nostop_rare5.json
+[137/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_stopwords_rare0.json
+[138/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_stopwords_rare10.json
+[139/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_20ng_stopwords_rare5.json
+[140/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_nolimit.json
+[141/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_nostop_rare0.json
+[142/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_nostop_rare5.json
+[143/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_stopwords_rare0.json
+[144/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_stopwords_rare10.json
+[145/145] SKIP (completed): runConfigs/experiments/preprocessing/texting_mr_stopwords_rare5.json

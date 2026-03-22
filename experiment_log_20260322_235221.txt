@@ -1,0 +1,110 @@
+Experiment Run Log - 2026-03-22 23:52:22.267564
+==================================================
+
+[1/145] SKIP (completed): runConfigs/experiments/ablation/lstm_20ng_randinit.json
+[2/145] SKIP (completed): runConfigs/experiments/ablation/lstm_mr_randinit.json
+[3/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_noweights.json
+[4/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win20_dense.json
+[5/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win50_very_dense.json
+[6/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win5_sparse.json
+[7/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_noweights.json
+[8/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win20_dense.json
+[9/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win50_very_dense.json
+[10/145] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win5_sparse.json
+[11/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_randinit.json
+[12/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_ref.json
+[13/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_randinit.json
+[14/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win1.json
+[15/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win2.json
+[16/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_minimal.json
+[17/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_win1.json
+[18/145] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_win1_minimal.json
+[19/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_randinit.json
+[20/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_ref.json
+[21/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_randinit.json
+[22/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win1.json
+[23/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win2.json
+[24/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_minimal.json
+[25/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_win1.json
+[26/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_paper_match.json
+[27/145] SKIP (completed): runConfigs/experiments/ablation/texting_mr_win1_minimal.json
+[28/145] SKIP (completed): runConfigs/experiments/baseline/lstm_20ng_baseline.json
+[29/145] SKIP (completed): runConfigs/experiments/baseline/lstm_mr_baseline.json
+[30/145] SKIP (completed): runConfigs/experiments/baseline/textgcn_20ng_baseline.json
+[31/145] SKIP (completed): runConfigs/experiments/baseline/textgcn_mr_baseline.json
+[32/145] SKIP (completed): runConfigs/experiments/baseline/texting_20ng_baseline.json
+[33/145] SKIP (completed): runConfigs/experiments/baseline/texting_mr_baseline.json
+[34/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_10pct.json
+[35/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_30pct.json
+[36/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_50pct.json
+[37/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_70pct.json
+[38/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_20ng_80pct.json
+[39/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_10pct.json
+[40/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_30pct.json
+[41/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_50pct.json
+[42/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_70pct.json
+[43/145] SKIP (completed): runConfigs/experiments/data_efficiency/lstm_mr_80pct.json
+[44/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_10pct.json
+[45/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_30pct.json
+[46/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_50pct.json
+[47/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_70pct.json
+[48/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_20ng_80pct.json
+[49/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_10pct.json
+[50/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_30pct.json
+[51/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_50pct.json
+[52/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_70pct.json
+[53/145] SKIP (completed): runConfigs/experiments/data_efficiency/textgcn_mr_80pct.json
+[54/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_10pct.json
+[55/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_30pct.json
+[56/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_50pct.json
+[57/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_70pct.json
+[58/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_20ng_80pct.json
+[59/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_10pct.json
+[60/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_30pct.json
+[61/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_50pct.json
+[62/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_70pct.json
+[63/145] SKIP (completed): runConfigs/experiments/data_efficiency/texting_mr_80pct.json
+[64/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim128.json
+[65/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim256.json
+[66/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_hdim64.json
+[67/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers1.json
+[68/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers2.json
+[69/145] SKIP (completed): runConfigs/experiments/hyperparams/lstm_20ng_layers3.json
+
+[70/145] RUNNING: runConfigs/experiments/hyperparams/lstm_20ng_lr0001.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe4c3fa3850 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe4c3fa33a0 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fe4c02d1600 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/22 23:52:24 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 24c55779dede4262bf658d9a3faf109e
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
