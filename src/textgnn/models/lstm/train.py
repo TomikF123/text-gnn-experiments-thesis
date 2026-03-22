@@ -26,7 +26,8 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
 
     optimizer = torch.optim.Adam(
         model.parameters(),
-        lr=config.model_specific_params.get("lr", 1e-3)
+        lr=config.model_specific_params.get("lr", 1e-3),
+        weight_decay=config.model_specific_params.get("weight_decay", 0),
     )
     criterion = nn.CrossEntropyLoss()
     num_epochs = config.common_params.get("epochs", 10)

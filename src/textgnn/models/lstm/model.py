@@ -34,7 +34,7 @@ def create_lstm_model(
     bidirectional = model_specific_params.get("bidirectional", True)
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
-    freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
+    freeze_embeddings = model_specific_params.get("freeze_embeddings", False)
 
     return LSTMClassifier(
         vocab_size=vocab_size,
