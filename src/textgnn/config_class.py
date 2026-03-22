@@ -32,7 +32,7 @@ class BaseEncodingConfig(BaseModel):
 
 
 class ExternalEncodingConfig(BaseEncodingConfig):
-    tokens_trained_on: int
+    tokens_trained_on: Optional[int] = None
     embedding_dim: int
 
 
