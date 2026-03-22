@@ -28,7 +28,7 @@ class TextINGClassifier(GraphTextClassifier):
         gru_steps: int = 2,
         dropout: float = 0.5,
         embedding_matrix=None,
-        freeze_embeddings=True,
+        freeze_embeddings=False,
         **kwargs
     ):
         """
@@ -384,7 +384,7 @@ def create_texting_model(
 
     print(f"  Vocab size: {vocab_size:,}, Embedding dim: {embedding_dim}, Classes: {num_classes}")
 
-    freeze_embeddings = model_params.get("freeze_embeddings", True)
+    freeze_embeddings = model_params.get("freeze_embeddings", False)
 
     return TextINGClassifier(
         vocab_size=vocab_size,
