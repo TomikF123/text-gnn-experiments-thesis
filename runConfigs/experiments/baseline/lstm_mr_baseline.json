@@ -18,7 +18,7 @@
       "tokens_trained_on": 6,
       "embedding_dim": 300
     },
-     "max_len": 600
+    "max_len": 600
   },
   "model_config": {
     "model_type": "lstm",
@@ -34,7 +34,8 @@
       "num_layers": 2,
       "dropout": 0.5,
       "lr": 0.001,
-      "weight_decay": 0.0001
+      "weight_decay": 0.0001,
+      "patience": 15
     }
   }
 }

@@ -28,6 +28,7 @@ class TextINGClassifier(GraphTextClassifier):
         gru_steps: int = 2,
         dropout: float = 0.5,
         embedding_matrix=None,
+        freeze_embeddings=True,
         **kwargs
     ):
         """
@@ -57,6 +58,8 @@ class TextINGClassifier(GraphTextClassifier):
         # Load pre-trained GloVe weights if provided
         if embedding_matrix is not None:
             self.embedding.weight.data.copy_(torch.from_numpy(embedding_matrix))
+            if freeze_embeddings:
+                self.embedding.weight.requires_grad = False
 
         # Graph layer with GRU-based message passing
         self.graph_layer = GraphLayer(
@@ -381,6 +384,8 @@ def create_texting_model(
 
     print(f"  Vocab size: {vocab_size:,}, Embedding dim: {embedding_dim}, Classes: {num_classes}")
 
+    freeze_embeddings = model_params.get("freeze_embeddings", True)
+
     return TextINGClassifier(
         vocab_size=vocab_size,
         embedding_dim=embedding_dim,
@@ -388,5 +393,6 @@ def create_texting_model(
         hidden_dim=model_params.get("hidden_dim", 96),
         gru_steps=model_params.get("gru_steps", 2),
         dropout=model_params.get("dropout", 0.5),
-        embedding_matrix=embedding_matrix
+        embedding_matrix=embedding_matrix,
+        freeze_embeddings=freeze_embeddings,
     )
