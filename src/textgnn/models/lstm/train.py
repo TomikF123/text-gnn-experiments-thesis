@@ -62,7 +62,7 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
         correct = 0
         total = 0
 
-        for batch_idx, (inputs, labels) in enumerate(train_loader):
+        for batch_idx, (inputs, labels, lengths) in enumerate(train_loader):
             inputs, labels = inputs.to(device), labels.to(device)
 
             # Periodic batch logging (batch 0 always logged + every N batches)
@@ -74,7 +74,7 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
                 log_batch_info(batch_on_device, batch_idx=batch_idx, epoch=epoch+1, logger=logger, device=device)
 
             optimizer.zero_grad()
-            outputs = model(inputs)
+            outputs = model(inputs, lengths=lengths)
             loss = criterion(outputs, labels)
             loss.backward()
             optimizer.step()
@@ -95,9 +95,9 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
             val_total = 0
 
             with torch.no_grad():
-                for inputs, labels in val_loader:
+                for inputs, labels, lengths in val_loader:
                     inputs, labels = inputs.to(device), labels.to(device)
-                    outputs = model(inputs)
+                    outputs = model(inputs, lengths=lengths)
                     loss = criterion(outputs, labels)
 
                     val_loss += loss.item()

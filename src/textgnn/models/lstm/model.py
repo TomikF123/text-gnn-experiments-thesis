@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 from textgnn.loaders.lstm_loader import LSTMDataset
 from textgnn.models.base_text_classifier import BaseTextClassifier
 from textgnn.models.lstm.train import train as train_lstm
@@ -34,7 +35,7 @@ def create_lstm_model(
     bidirectional = model_specific_params.get("bidirectional", True)
     dropout = model_specific_params.get("dropout", 0.5)
     embedding_matrix = dataset.embedding_matrix if dataset else None
-    freeze_embeddings = model_specific_params.get("freeze_embeddings", False)
+    freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
 
     return LSTMClassifier(
         vocab_size=vocab_size,
@@ -109,11 +110,16 @@ class LSTMClassifier(BaseTextClassifier):
         self.dropout = nn.Dropout(dropout)
         self.train_func = train_lstm
 
-    def forward(self, x):
-        # Always embed (dataset returns indices)
+    def forward(self, x, lengths=None):
         x = self.embedding(x)
 
-        lstm_out, (h_n, c_n) = self.lstm(x)
+        if lengths is not None:
+            lengths = lengths.clamp(min=1).cpu()
+            packed = pack_padded_sequence(x, lengths, batch_first=True, enforce_sorted=False)
+            lstm_out_packed, (h_n, c_n) = self.lstm(packed)
+            lstm_out, _ = pad_packed_sequence(lstm_out_packed, batch_first=True)
+        else:
+            lstm_out, (h_n, c_n) = self.lstm(x)
 
         if self.use_attention:
             attn_scores = self.attention(lstm_out)  # [B, T, 1]

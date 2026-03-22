@@ -41,11 +41,15 @@ def evaluate(model, data_loader, device=get_device(), return_preds=False):
             else:
                 outputs = model_output
         else:
-            # Tuple format (e.g., LSTM, FastText with inputs, labels)
-            inputs, labels = batch
+            # Tuple format (e.g., LSTM with inputs, labels, lengths)
+            if len(batch) == 3:
+                inputs, labels, lengths = batch
+            else:
+                inputs, labels = batch
+                lengths = None
             inputs = inputs.to(device)
             labels = labels.to(device)
-            outputs = model(inputs)
+            outputs = model(inputs, lengths=lengths) if lengths is not None else model(inputs)
 
         # Convert one-hot labels to class indices if needed
         if labels.dim() > 1 and labels.size(1) > 1:

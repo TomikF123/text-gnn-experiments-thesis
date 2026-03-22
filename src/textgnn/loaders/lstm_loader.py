@@ -17,8 +17,10 @@ import pickle
 from .create_basic_dataset import create_basic_dataset
 
 
-def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
+def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
     inputs, labels = zip(*batch)
+
+    lengths = torch.tensor([len(x) for x in inputs], dtype=torch.long)
 
     # Determine if inputs are 1D (index) or 2D (glove vectors)
     if inputs[0].dim() == 1:
@@ -35,7 +37,7 @@ def lstm_collate_fn(batch) -> tuple[torch.Tensor, torch.Tensor]:
         raise ValueError("Unsupported tensor shape")
 
     labels = torch.stack(labels)
-    return padded_inputs, labels
+    return padded_inputs, labels, lengths
 
 
 def create_lstm_artifacts(
