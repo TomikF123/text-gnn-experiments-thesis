@@ -37,6 +37,8 @@ def create_lstm_model(
     embedding_matrix = dataset.embedding_matrix if dataset else None
     freeze_embeddings = model_specific_params.get("freeze_embeddings", True)
 
+    pooling = model_specific_params.get("pooling", "last_hidden")
+
     return LSTMClassifier(
         vocab_size=vocab_size,
         embedding_dim=embedding_dim,
@@ -47,6 +49,7 @@ def create_lstm_model(
         dropout=dropout,
         embedding_matrix=embedding_matrix,
         freeze_embeddings=freeze_embeddings,
+        pooling=pooling,
     )
 
 
@@ -74,6 +77,7 @@ class LSTMClassifier(BaseTextClassifier):
         )
         self.freeze_embeddings = freeze_embeddings
         self.use_attention = use_attention
+        self.pooling = kwargs.get('pooling', 'last_hidden')
 
         # Always use nn.Embedding (dataset returns indices, model embeds on GPU)
         self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
@@ -121,7 +125,14 @@ class LSTMClassifier(BaseTextClassifier):
         else:
             lstm_out, (h_n, c_n) = self.lstm(x)
 
-        if self.use_attention:
+        if self.pooling == 'max':
+            # Mask padding positions to -inf before max pooling
+            if lengths is not None:
+                mask = torch.arange(lstm_out.size(1), device=lstm_out.device)[None, :] >= lengths[:, None].to(lstm_out.device)
+                lstm_out = lstm_out.masked_fill(mask.unsqueeze(-1), float('-inf'))
+            pooled = lstm_out.max(dim=1).values  # [B, hidden*2]
+            out = self.dropout(pooled)
+        elif self.use_attention:
             attn_scores = self.attention(lstm_out)  # [B, T, 1]
             attn_weights = torch.softmax(attn_scores, dim=1)  # [B, T, 1]
             context = torch.sum(attn_weights * lstm_out, dim=1)  # [B, H]
