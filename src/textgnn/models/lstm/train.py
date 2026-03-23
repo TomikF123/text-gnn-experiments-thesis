@@ -24,11 +24,20 @@ def train(model: BaseTextClassifier, dataloader, config: ModelConfig):
     print(f"Training on device: {device}")
     model = model.to(device)
 
-    optimizer = torch.optim.Adam(
-        model.parameters(),
-        lr=config.model_specific_params.get("lr", 1e-3),
-        weight_decay=config.model_specific_params.get("weight_decay", 0),
-    )
+    lr = config.model_specific_params.get("lr", 1e-3)
+    weight_decay = config.model_specific_params.get("weight_decay", 0)
+    embedding_lr = config.model_specific_params.get("embedding_lr", None)
+
+    if embedding_lr is not None and hasattr(model, 'embedding'):
+        optimizer = torch.optim.Adam([
+            {'params': model.embedding.parameters(), 'lr': embedding_lr},
+            {'params': [p for n, p in model.named_parameters() if 'embedding' not in n], 'lr': lr},
+        ], weight_decay=weight_decay)
+        print(f"Differential LR: embedding={embedding_lr}, rest={lr}")
+    else:
+        optimizer = torch.optim.Adam(
+            model.parameters(), lr=lr, weight_decay=weight_decay,
+        )
     criterion = nn.CrossEntropyLoss()
     num_epochs = config.common_params.get("epochs", 10)
 
