@@ -65,6 +65,7 @@ class LSTMClassifier(BaseTextClassifier):
         dropout: float = 0.5,
         embedding_matrix: torch.Tensor = None,
         freeze_embeddings: bool = False,
+        pooling: str = 'last_hidden',
         use_attention: bool = False,
         use_mlp_as_head: bool = False,
     ):
@@ -77,7 +78,7 @@ class LSTMClassifier(BaseTextClassifier):
         )
         self.freeze_embeddings = freeze_embeddings
         self.use_attention = use_attention
-        self.pooling = kwargs.get('pooling', 'last_hidden')
+        self.pooling = pooling
 
         # Always use nn.Embedding (dataset returns indices, model embeds on GPU)
         self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
