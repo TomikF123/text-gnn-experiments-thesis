@@ -1,6 +1,6 @@
 {
   "experiment_name": "ablation_texting",
-  "run_name": "texting_mr_baseline_ref",
+  "run_name": "lstm_mr_maxpool_1l_nostop_rare0",
   "dataset": {
     "name": "mr",
     "tvt_split": [
@@ -14,27 +14,29 @@
       "remove_stopwords": false,
       "remove_rare_words": 0
     },
-    "gnn_encoding": {
-      "window_size": 3,
+    "rnn_encoding": {
+      "tokens_trained_on": 6,
       "embedding_dim": 300
-    }
+    },
+    "max_len": 600
   },
   "model_config": {
-    "model_type": "texting",
+    "model_type": "lstm",
     "common_params": {
       "epochs": 200,
-      "batch_size": 4096,
+      "batch_size": 128,
       "seed": 42,
-      "device": "cuda",
-      "log_batch_every_n": 50
+      "device": "cuda"
     },
     "model_specific_params": {
-      "hidden_dim": 96,
-      "gru_steps": 2,
+      "hidden_dim": 128,
+      "embedding_dim": 300,
+      "num_layers": 1,
       "dropout": 0.5,
-      "lr": 0.01,
-      "weight_decay": 0,
-      "patience": 15
+      "lr": 0.001,
+      "weight_decay": 0.0001,
+      "patience": 15,
+      "pooling": "max"
     }
   }
 }

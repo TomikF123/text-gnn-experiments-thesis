@@ -11,8 +11,8 @@
     "shuffle": true,
     "random_seed": 42,
     "preprocess": {
-      "remove_stopwords": true,
-      "remove_rare_words": 5
+      "remove_stopwords": false,
+      "remove_rare_words": 0
     },
     "rnn_encoding": {
       "tokens_trained_on": 6,
@@ -30,12 +30,13 @@
     },
     "model_specific_params": {
       "hidden_dim": 128,
-      "num_layers": 2,
+      "num_layers": 1,
       "dropout": 0.5,
       "lr": 0.001,
       "weight_decay": 0.0001,
       "embedding_dim": 300,
-      "patience": 15
+      "patience": 15,
+      "pooling": "max"
     }
   }
 }

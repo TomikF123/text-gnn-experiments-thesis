@@ -3,12 +3,16 @@
   "run_name": "textgcn_mr_noweights",
   "dataset": {
     "name": "mr",
-    "tvt_split": [0.8, 0.1, 0.1],
+    "tvt_split": [
+      0.8,
+      0.1,
+      0.1
+    ],
     "shuffle": true,
     "random_seed": 42,
     "preprocess": {
-      "remove_stopwords": true,
-      "remove_rare_words": 5
+      "remove_stopwords": false,
+      "remove_rare_words": 0
     },
     "gnn_encoding": {
       "x_type": "identity",

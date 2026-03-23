@@ -11,8 +11,8 @@
     "shuffle": true,
     "random_seed": 42,
     "preprocess": {
-      "remove_stopwords": true,
-      "remove_rare_words": 5
+      "remove_stopwords": false,
+      "remove_rare_words": 0
     },
     "gnn_encoding": {
       "x_type": "identity",
