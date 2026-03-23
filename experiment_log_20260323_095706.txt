@@ -1,0 +1,7 @@
+Experiment Run Log - 2026-03-23 09:57:06.389848
+==================================================
+
+[1/4] SKIP (completed): runConfigs/experiments/ablation/lstm_20ng_maxpool_1layer.json
+[2/4] SKIP (completed): runConfigs/experiments/ablation/lstm_20ng_maxpool_test.json
+[3/4] SKIP (completed): runConfigs/experiments/ablation/lstm_mr_maxpool_1layer.json
+[4/4] SKIP (completed): runConfigs/experiments/ablation/lstm_mr_maxpool_test.json

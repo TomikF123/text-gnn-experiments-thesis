@@ -1,0 +1,199 @@
+Experiment Run Log - 2026-03-23 09:55:49.735798
+==================================================
+
+
+[1/4] RUNNING: runConfigs/experiments/ablation/lstm_20ng_maxpool_1layer.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7efe95fb3730 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7efe95fb3280 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7efe92365420 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 09:55:52 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 784db5513fec4a7fbc0986d67824f691
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  2026/03/23 09:55:52 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 09:55:52 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 784db5513fec4a7fbc0986d67824f691
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 115, in run_inductive_pipeline
+      model = create_model(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/model_factory.py", line 29, in create_model
+      return create_fn(model_config=model_config, dataset_config=dataset_config, dataset=dataset)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/models/lstm/model.py", line 42, in create_lstm_model
+      return LSTMClassifier(
+  TypeError: LSTMClassifier.__init__() got an unexpected keyword argument 'pooling'
+  -> FAILED
+
+[2/4] RUNNING: runConfigs/experiments/ablation/lstm_20ng_maxpool_test.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f9fb33bf730 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f9fb33bf280 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f9faf5cd420 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 09:55:54 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: c317d2e50d194a93a2cd5ea8666788ac
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  2026/03/23 09:55:54 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 09:55:54 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: c317d2e50d194a93a2cd5ea8666788ac
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 115, in run_inductive_pipeline
+      model = create_model(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/model_factory.py", line 29, in create_model
+      return create_fn(model_config=model_config, dataset_config=dataset_config, dataset=dataset)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/models/lstm/model.py", line 42, in create_lstm_model
+      return LSTMClassifier(
+  TypeError: LSTMClassifier.__init__() got an unexpected keyword argument 'pooling'
+  -> FAILED
+
+[3/4] RUNNING: runConfigs/experiments/ablation/lstm_mr_maxpool_1layer.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f58b979b730 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=8506>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f58b979b280 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1065>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f58b596d450 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1063>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 09:55:57 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 4f31a51ec1ba41239fbe183db458238c
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  2026/03/23 09:55:57 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 09:55:57 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 4f31a51ec1ba41239fbe183db458238c
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 115, in run_inductive_pipeline
+      model = create_model(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/model_factory.py", line 29, in create_model
+      return create_fn(model_config=model_config, dataset_config=dataset_config, dataset=dataset)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/models/lstm/model.py", line 42, in create_lstm_model
+      return LSTMClassifier(
+  TypeError: LSTMClassifier.__init__() got an unexpected keyword argument 'pooling'
+  -> FAILED
+
+[4/4] RUNNING: runConfigs/experiments/ablation/lstm_mr_maxpool_test.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fefb7daf730 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=8506>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fefb7daf280 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1065>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fefb4049450 
+   vocab len=3736
+   encode_token_type=index 
+   num classes=2
+   num samples=1063>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/23 09:56:00 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 8b7dda4bf10944398922a7920f8b8889
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  2026/03/23 09:56:00 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/23 09:56:00 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 8b7dda4bf10944398922a7920f8b8889
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 115, in run_inductive_pipeline
+      model = create_model(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/model_factory.py", line 29, in create_model
+      return create_fn(model_config=model_config, dataset_config=dataset_config, dataset=dataset)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/models/lstm/model.py", line 42, in create_lstm_model
+      return LSTMClassifier(
+  TypeError: LSTMClassifier.__init__() got an unexpected keyword argument 'pooling'
+  -> FAILED
