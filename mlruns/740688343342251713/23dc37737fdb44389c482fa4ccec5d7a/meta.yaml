@@ -1,8 +1,9 @@
 artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/740688343342251713/23dc37737fdb44389c482fa4ccec5d7a/artifacts
+deleted_time: 1774269632907
 end_time: 1774131396451
 entry_point_name: ''
 experiment_id: '740688343342251713'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 23dc37737fdb44389c482fa4ccec5d7a
 run_name: texting_mr_baseline_randinit
 source_name: ''

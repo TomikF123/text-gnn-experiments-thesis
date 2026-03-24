@@ -1,8 +1,9 @@
 artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/740688343342251713/8b7dda4bf10944398922a7920f8b8889/artifacts
+deleted_time: 1774269632849
 end_time: 1774256160378
 entry_point_name: ''
 experiment_id: '740688343342251713'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 8b7dda4bf10944398922a7920f8b8889
 run_name: lstm_mr_maxpool_test
 source_name: ''
