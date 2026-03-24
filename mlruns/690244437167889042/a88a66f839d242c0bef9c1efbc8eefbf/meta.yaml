@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/690244437167889042/a88a66f839d242c0bef9c1efbc8eefbf/artifacts
+end_time: 1774388155131
+entry_point_name: ''
+experiment_id: '690244437167889042'
+lifecycle_stage: active
+run_id: a88a66f839d242c0bef9c1efbc8eefbf
+run_name: texting_mr_nostop_rare5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1774388118930
+status: 3
+tags: []
+user_id: tomas

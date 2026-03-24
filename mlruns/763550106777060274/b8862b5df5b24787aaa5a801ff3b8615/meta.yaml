@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/763550106777060274/b8862b5df5b24787aaa5a801ff3b8615/artifacts
+end_time: 1774349412511
+entry_point_name: ''
+experiment_id: '763550106777060274'
+lifecycle_stage: active
+run_id: b8862b5df5b24787aaa5a801ff3b8615
+run_name: textgcn_20ng_baseline
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1774349337129
+status: 3
+tags: []
+user_id: tomas
