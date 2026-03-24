@@ -1,8 +1,8 @@
 {
   "experiment_name": "hyperparams_textgcn",
-  "run_name": "textgcn_20ng_lr001",
+  "run_name": "textgcn_mr_lr02",
   "dataset": {
-    "name": "20ng",
+    "name": "mr",
     "tvt_split": [
       0.8,
       0.1,
@@ -11,8 +11,8 @@
     "shuffle": true,
     "random_seed": 42,
     "preprocess": {
-      "remove_stopwords": true,
-      "remove_rare_words": 5
+      "remove_stopwords": false,
+      "remove_rare_words": 0
     },
     "gnn_encoding": {
       "x_type": "identity",
@@ -29,7 +29,7 @@
     },
     "model_specific_params": {
       "hidden_dim": 200,
-      "lr": 0.01,
+      "lr": 0.02,
       "dropout": 0.5,
       "patience": 15,
       "use_edge_weights": true

@@ -1,6 +1,6 @@
 {
   "experiment_name": "hyperparams_textgcn",
-  "run_name": "textgcn_20ng_lr002",
+  "run_name": "textgcn_20ng_lr01",
   "dataset": {
     "name": "20ng",
     "tvt_split": [
@@ -29,7 +29,7 @@
     },
     "model_specific_params": {
       "hidden_dim": 200,
-      "lr": 0.02,
+      "lr": 0.01,
       "dropout": 0.5,
       "patience": 15,
       "use_edge_weights": true
