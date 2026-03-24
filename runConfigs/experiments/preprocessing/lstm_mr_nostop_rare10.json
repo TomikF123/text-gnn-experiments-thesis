@@ -1,6 +1,6 @@
 {
   "experiment_name": "preprocessing_impact",
-  "run_name": "textgcn_mr_nostop_rare0",
+  "run_name": "lstm_mr_nostop_rare10",
   "dataset": {
     "name": "mr",
     "tvt_split": [
@@ -12,27 +12,31 @@
     "random_seed": 42,
     "preprocess": {
       "remove_stopwords": false,
-      "remove_rare_words": 0
+      "remove_rare_words": 10
     },
-    "gnn_encoding": {
-      "x_type": "identity",
-      "window_size": 20
-    }
+    "rnn_encoding": {
+      "tokens_trained_on": 6,
+      "embedding_dim": 300
+    },
+    "max_len": 600
   },
   "model_config": {
-    "model_type": "text_gcn",
+    "model_type": "lstm",
     "common_params": {
       "epochs": 200,
-      "batch_size": 32,
+      "batch_size": 128,
       "seed": 42,
       "device": "cuda"
     },
     "model_specific_params": {
-      "hidden_dim": 200,
-      "lr": 0.02,
+      "hidden_dim": 128,
+      "embedding_dim": 300,
+      "num_layers": 1,
       "dropout": 0.5,
+      "lr": 0.001,
+      "weight_decay": 0.0001,
       "patience": 15,
-      "use_edge_weights": true
+      "pooling": "max"
     }
   }
 }

@@ -113,10 +113,12 @@ class LSTMClassifier(BaseTextClassifier):
             self.head = nn.Linear(hidden_dim * self.direction_factor, output_dim)
 
         self.dropout = nn.Dropout(dropout)
+        self.embed_dropout = nn.Dropout(dropout)
         self.train_func = train_lstm
 
     def forward(self, x, lengths=None):
         x = self.embedding(x)
+        x = self.embed_dropout(x)
 
         if lengths is not None:
             lengths = lengths.clamp(min=1).cpu()
