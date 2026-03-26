@@ -101,10 +101,11 @@ def get_lstm_dataset_object(
     csv_path = os.path.join(dataset_save_path, f"{split}.csv")
     vocab_path = os.path.join(dataset_save_path, "vocab.pkl")
     embedding_matrix_path = os.path.join(full_path, "embedding_matrix.pt")
+    if not os.path.exists(embedding_matrix_path):
+        embedding_matrix_path = None
 
     encoding = get_active_encoding(dataset_config)
     return LSTMDataset(
-        # encode_token_type=encoding.encode_token_type if encoding.encode_token_type is not None else "index",
         embedding_matrix_path=embedding_matrix_path,
         csv_path=csv_path,
         vocab_path=vocab_path,
