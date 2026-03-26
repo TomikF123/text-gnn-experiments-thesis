@@ -17,8 +17,7 @@
     "rnn_encoding": {
       "tokens_trained_on": 6,
       "embedding_dim": 300
-    },
-    "max_len": 600
+    }
   },
   "model_config": {
     "model_type": "lstm",

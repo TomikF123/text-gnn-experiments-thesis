@@ -52,6 +52,20 @@ def run_transductive_pipeline(config: Config):
         split="train"
     )
 
+    # Subsample training mask (for data efficiency experiments)
+    if config.dataset.train_subsample is not None and config.dataset.train_subsample < 1.0:
+        import torch
+        frac = config.dataset.train_subsample
+        mask = train_dataset.split_mask
+        train_indices = mask.nonzero(as_tuple=True)[0]
+        n_keep = max(1, int(len(train_indices) * frac))
+        generator = torch.Generator().manual_seed(config.dataset.random_seed)
+        perm = torch.randperm(len(train_indices), generator=generator)[:n_keep]
+        new_mask = torch.zeros_like(mask)
+        new_mask[train_indices[perm]] = True
+        train_dataset.split_mask = new_mask
+        logger.info(f"Subsampled training mask: {len(train_indices)} -> {n_keep} ({frac*100:.0f}%)")
+
     logger.info("Loading validation dataset...")
     val_dataset = load_data(
         dataset_config=config.dataset,
@@ -149,6 +163,15 @@ def run_transductive_pipeline(config: Config):
             
         tracker.log_per_class_metrics(y_true, y_pred, name="test_per_class_metrics")
         tracker.log_classification_report(y_true, y_pred, name="test_classification_report")
+
+        try:
+            import mlflow, os
+            pred_path = "test_predictions.npz"
+            np.savez(pred_path, y_true=y_true, y_pred=y_pred)
+            mlflow.log_artifact(pred_path)
+            os.remove(pred_path)
+        except Exception:
+            pass
 
     logger.info("Transductive pipeline complete!")
     return trained_model

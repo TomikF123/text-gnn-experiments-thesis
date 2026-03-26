@@ -61,6 +61,7 @@ def create_lstm_artifacts(
         )
 
     vocab = pickle.load(open(os.path.join(dataset_save_path, "vocab.pkl"), "rb"))
+    os.makedirs(full_path, exist_ok=True)
     encoding = get_active_encoding(dataset_config)
     # Create GloVe embedding matrix if tokens_trained_on is specified
     # Model will load these into nn.Embedding weights (if None, uses random init)

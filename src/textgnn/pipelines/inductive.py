@@ -54,6 +54,27 @@ def run_inductive_pipeline(config: Config):
         split="train"
     )
 
+    # Subsample training data (for data efficiency experiments)
+    if config.dataset.train_subsample is not None and config.dataset.train_subsample < 1.0:
+        import random
+        frac = config.dataset.train_subsample
+        n_original = len(train_dataset)
+        n_samples = max(1, int(n_original * frac))
+        rng = random.Random(config.dataset.random_seed)
+        indices = sorted(rng.sample(range(n_original), n_samples))
+
+        # Subsample all list-like attributes
+        if hasattr(train_dataset, 'df'):
+            train_dataset.df = train_dataset.df.iloc[indices].reset_index(drop=True)
+            train_dataset.texts = train_dataset.df["text"].tolist()
+            train_dataset.labels = train_dataset.df["label"].tolist()
+        elif hasattr(train_dataset, 'word_ids'):
+            train_dataset.word_ids = [train_dataset.word_ids[i] for i in indices]
+            train_dataset.adjacencies = [train_dataset.adjacencies[i] for i in indices]
+            train_dataset.labels = [train_dataset.labels[i] for i in indices]
+
+        logger.info(f"Subsampled training data: {n_original} -> {n_samples} ({frac*100:.0f}%)")
+
     if has_validation:
         logger.info("Loading validation dataset...")
         val_dataset = load_data(
@@ -163,6 +184,16 @@ def run_inductive_pipeline(config: Config):
 
         tracker.log_per_class_metrics(y_true, y_pred, name="test_per_class_metrics")
         tracker.log_classification_report(y_true, y_pred, name="test_classification_report")
+
+        # Save per-document predictions for analysis
+        try:
+            import mlflow, os
+            pred_path = "test_predictions.npz"
+            np.savez(pred_path, y_true=y_true, y_pred=y_pred)
+            mlflow.log_artifact(pred_path)
+            os.remove(pred_path)
+        except Exception:
+            pass
 
     logger.info("Inductive pipeline complete!")
     return trained_model

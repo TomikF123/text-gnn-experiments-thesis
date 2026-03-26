@@ -4,9 +4,9 @@
   "dataset": {
     "name": "mr",
     "tvt_split": [
-      0.5,
+      0.8,
       0.1,
-      0.4
+      0.1
     ],
     "shuffle": true,
     "random_seed": 42,
@@ -17,7 +17,8 @@
     "gnn_encoding": {
       "x_type": "identity",
       "window_size": 20
-    }
+    },
+    "train_subsample": 0.625
   },
   "model_config": {
     "model_type": "text_gcn",

@@ -46,6 +46,7 @@ class DatasetConfig(BaseModel):
     shuffle: bool = True
     random_seed: int = 42
     max_len:Optional[int] = None
+    train_subsample: Optional[float] = None  # fraction of train to use (for data efficiency experiments)
     preprocess: Optional[PreprocessingConfig] = None
     rnn_encoding: Optional[ ExternalEncodingConfig] = None
     gnn_encoding: Optional[GNNencodingConfig] = None

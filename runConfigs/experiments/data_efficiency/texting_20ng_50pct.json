@@ -4,9 +4,9 @@
   "dataset": {
     "name": "20ng",
     "tvt_split": [
-      0.5,
+      0.8,
       0.1,
-      0.4
+      0.1
     ],
     "shuffle": true,
     "random_seed": 42,
@@ -18,7 +18,8 @@
       "window_size": 3,
       "embedding_dim": 300
     },
-    "max_len": 600
+    "max_len": 600,
+    "train_subsample": 0.625
   },
   "model_config": {
     "model_type": "texting",
