@@ -1,0 +1,120 @@
+Experiment Run Log - 2026-03-26 23:57:49.273872
+==================================================
+
+
+[1/149] RUNNING: runConfigs/experiments/ablation/lstm_20ng_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/20ng-seed-42 does not exist
+  [INFO] textgnn.loaders.create_basic_dataset: Loading dataset: 20ng
+  [INFO] textgnn.loaders.create_basic_dataset: Dataset size after dropping NAs: 18846
+  [INFO] textgnn.loaders.create_basic_dataset: Splitting dataset with ratios: [0.8, 0.1, 0.1]
+  [INFO] textgnn.loaders.create_basic_dataset: Cleaning text for all splits...
+  [INFO] textgnn.prep_data: Cleaned 15076 documents
+  [INFO] textgnn.prep_data: Cleaned 1885 documents
+  [INFO] textgnn.prep_data: Cleaned 1885 documents
+  [INFO] textgnn.loaders.create_basic_dataset: Building vocabulary from TRAINING data only...
+  [INFO] textgnn.prep_data: Removing stopwords from vocabulary...
+  [INFO] textgnn.prep_data: Removing words with frequency < 5...
+  [INFO] textgnn.prep_data: Removed 63566 rare words from vocabulary
+  [INFO] textgnn.prep_data: Final vocabulary size: 24174
+  [INFO] textgnn.loaders.create_basic_dataset: Applying vocabulary to all splits...
+  [INFO] textgnn.prep_data: Applied vocabulary to 15076 documents
+  [INFO] textgnn.prep_data: Applied vocabulary to 1885 documents
+  [INFO] textgnn.prep_data: Applied vocabulary to 1885 documents
+  [INFO] textgnn.loaders.create_basic_dataset: Removed 458 empty documents from train split
+  [INFO] textgnn.loaders.create_basic_dataset: Removed 60 empty documents from val split
+  [INFO] textgnn.loaders.create_basic_dataset: Removed 46 empty documents from test split
+  [INFO] textgnn.loaders.create_basic_dataset: Saved train split: 14618 samples to /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/train.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved val split: 1825 samples to /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/val.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved test split: 1839 samples to /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/test.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved vocabulary (24174 tokens) to /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/vocab.pkl
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 51, in run_inductive_pipeline
+      train_dataset = load_data(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/load_data.py", line 184, in load_data
+      return load_data(dataset_config, model_type, split)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/load_data.py", line 188, in load_data
+      dataset = get_dataset_object(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/loaders/lstm_loader.py", line 106, in get_lstm_dataset_object
+      return LSTMDataset(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/loaders/lstm_loader.py", line 158, in __init__
+      torch.load(embedding_matrix_path) if embedding_matrix_path else None
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 997, in load
+      with _open_file_like(f, 'rb') as opened_file:
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 444, in _open_file_like
+      return _open_file(name_or_buffer, mode)
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 425, in __init__
+      super().__init__(open(name, mode))
+  FileNotFoundError: [Errno 2] No such file or directory: '/home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/20ng-seed-42/embedding_matrix.pt'
+  -> FAILED
+
+[2/149] RUNNING: runConfigs/experiments/ablation/lstm_mr_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/mr-seed-42 does not exist
+  [INFO] textgnn.loaders.create_basic_dataset: Loading dataset: mr
+  [INFO] textgnn.loaders.create_basic_dataset: Dataset size after dropping NAs: 10662
+  [INFO] textgnn.loaders.create_basic_dataset: Splitting dataset with ratios: [0.8, 0.1, 0.1]
+  [INFO] textgnn.loaders.create_basic_dataset: Cleaning text for all splits...
+  [INFO] textgnn.prep_data: Cleaned 8528 documents
+  [INFO] textgnn.prep_data: Cleaned 1067 documents
+  [INFO] textgnn.prep_data: Cleaned 1067 documents
+  [INFO] textgnn.loaders.create_basic_dataset: Building vocabulary from TRAINING data only...
+  [INFO] textgnn.prep_data: Final vocabulary size: 16635
+  [INFO] textgnn.loaders.create_basic_dataset: Applying vocabulary to all splits...
+  [INFO] textgnn.prep_data: Applied vocabulary to 8528 documents
+  [INFO] textgnn.prep_data: Applied vocabulary to 1067 documents
+  [INFO] textgnn.prep_data: Applied vocabulary to 1067 documents
+  [INFO] textgnn.loaders.create_basic_dataset: Removed 1 empty documents from val split
+  [INFO] textgnn.loaders.create_basic_dataset: Saved train split: 8528 samples to /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/train.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved val split: 1066 samples to /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/val.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved test split: 1067 samples to /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/test.csv
+  [INFO] textgnn.loaders.create_basic_dataset: Saved vocabulary (16635 tokens) to /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/vocab.pkl
+  Traceback (most recent call last):
+    File "/home/tomas/text-gnn-experiments-thesis/main.py", line 72, in <module>
+      trained_model = pipeline_runner(config)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/pipelines/inductive.py", line 51, in run_inductive_pipeline
+      train_dataset = load_data(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/load_data.py", line 184, in load_data
+      return load_data(dataset_config, model_type, split)
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/load_data.py", line 188, in load_data
+      dataset = get_dataset_object(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/loaders/lstm_loader.py", line 106, in get_lstm_dataset_object
+      return LSTMDataset(
+    File "/home/tomas/text-gnn-experiments-thesis/src/textgnn/loaders/lstm_loader.py", line 158, in __init__
+      torch.load(embedding_matrix_path) if embedding_matrix_path else None
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 997, in load
+      with _open_file_like(f, 'rb') as opened_file:
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 444, in _open_file_like
+      return _open_file(name_or_buffer, mode)
+    File "/home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/serialization.py", line 425, in __init__
+      super().__init__(open(name, mode))
+  FileNotFoundError: [Errno 2] No such file or directory: '/home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/mr-seed-42/embedding_matrix.pt'
+  -> FAILED
+
+[3/149] RUNNING: runConfigs/experiments/ablation/textgcn_20ng_noweights.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: text_gcn
+  [INFO] textgnn.pipelines.transductive: Running transductive learning pipeline...
+  [INFO] textgnn.pipelines.transductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.transductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/text-gcn-x-identity-window-20 does not exist
+  Creating TextGCN artifacts at /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/text-gcn-x-identity-window-20...

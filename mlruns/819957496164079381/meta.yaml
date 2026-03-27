@@ -1,6 +1,0 @@
-artifact_location: /home/tomas/text-gnn-experiments-thesis/mlruns/819957496164079381
-creation_time: 1774364685910
-experiment_id: '819957496164079381'
-last_update_time: 1774364685910
-lifecycle_stage: active
-name: hyperparams_textgcn

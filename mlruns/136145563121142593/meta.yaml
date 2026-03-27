@@ -1,6 +1,0 @@
-artifact_location: /home/tomas/text-gnn-experiments-thesis/mlruns/136145563121142593
-creation_time: 1774346947359
-experiment_id: '136145563121142593'
-last_update_time: 1774346947359
-lifecycle_stage: active
-name: ablation_textgcn

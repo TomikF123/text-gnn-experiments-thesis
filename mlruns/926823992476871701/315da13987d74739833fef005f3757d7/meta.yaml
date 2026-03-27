@@ -1,0 +1,14 @@
+artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/926823992476871701/315da13987d74739833fef005f3757d7/artifacts
+end_time: 1774569853254
+entry_point_name: ''
+experiment_id: '926823992476871701'
+lifecycle_stage: active
+run_id: 315da13987d74739833fef005f3757d7
+run_name: texting_mr_gru1_minimal
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1774569837973
+status: 3
+tags: []
+user_id: tomas
