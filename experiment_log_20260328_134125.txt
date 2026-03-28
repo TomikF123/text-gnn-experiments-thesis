@@ -1,0 +1,1168 @@
+Experiment Run Log - 2026-03-28 13:41:26.132471
+==================================================
+
+
+[1/149] RUNNING: runConfigs/experiments/ablation/lstm_20ng_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/20ng-seed-42-noglove does not exist
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0aa9b9f130 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0aa9b9f670 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0aa5e706d0 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 13:41:28 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 4256664d437940b0839220b7faff5cc9
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 346.4996 | Train Acc: 0.0619 | Val Loss: 43.7342 | Val Acc: 0.1512
+    → New best validation accuracy: 0.1512
+  Epoch 2/200 | Train Loss: 336.6280 | Train Acc: 0.1015 | Val Loss: 41.6366 | Val Acc: 0.3649
+    → New best validation accuracy: 0.3649
+  Epoch 3/200 | Train Loss: 315.6951 | Train Acc: 0.1894 | Val Loss: 37.8082 | Val Acc: 0.2959
+  Epoch 4/200 | Train Loss: 278.9050 | Train Acc: 0.2714 | Val Loss: 32.1866 | Val Acc: 0.3721
+    → New best validation accuracy: 0.3721
+  Epoch 5/200 | Train Loss: 249.1240 | Train Acc: 0.3378 | Val Loss: 28.8343 | Val Acc: 0.4142
+    → New best validation accuracy: 0.4142
+  Epoch 6/200 | Train Loss: 224.4785 | Train Acc: 0.3935 | Val Loss: 26.6002 | Val Acc: 0.4444
+    → New best validation accuracy: 0.4444
+  Epoch 7/200 | Train Loss: 210.6815 | Train Acc: 0.4293 | Val Loss: 24.8794 | Val Acc: 0.4597
+    → New best validation accuracy: 0.4597
+  Epoch 8/200 | Train Loss: 202.1114 | Train Acc: 0.4553 | Val Loss: 23.9627 | Val Acc: 0.4942
+    → New best validation accuracy: 0.4942
+  Epoch 9/200 | Train Loss: 186.0186 | Train Acc: 0.4924 | Val Loss: 22.4662 | Val Acc: 0.4997
+    → New best validation accuracy: 0.4997
+  Epoch 10/200 | Train Loss: 173.8792 | Train Acc: 0.5236 | Val Loss: 21.7670 | Val Acc: 0.5375
+    → New best validation accuracy: 0.5375
+  Epoch 11/200 | Train Loss: 163.8202 | Train Acc: 0.5458 | Val Loss: 20.6888 | Val Acc: 0.5479
+    → New best validation accuracy: 0.5479
+  Epoch 12/200 | Train Loss: 154.3660 | Train Acc: 0.5713 | Val Loss: 19.5585 | Val Acc: 0.5858
+    → New best validation accuracy: 0.5858
+  Epoch 13/200 | Train Loss: 144.0603 | Train Acc: 0.5992 | Val Loss: 19.7707 | Val Acc: 0.5858
+  Epoch 14/200 | Train Loss: 135.1556 | Train Acc: 0.6150 | Val Loss: 18.5343 | Val Acc: 0.6066
+    → New best validation accuracy: 0.6066
+  Epoch 15/200 | Train Loss: 126.0837 | Train Acc: 0.6483 | Val Loss: 18.0334 | Val Acc: 0.6318
+    → New best validation accuracy: 0.6318
+  Epoch 16/200 | Train Loss: 118.5661 | Train Acc: 0.6691 | Val Loss: 17.2207 | Val Acc: 0.6455
+    → New best validation accuracy: 0.6455
+  Epoch 17/200 | Train Loss: 116.1184 | Train Acc: 0.6783 | Val Loss: 16.9371 | Val Acc: 0.6482
+    → New best validation accuracy: 0.6482
+  Epoch 18/200 | Train Loss: 107.8361 | Train Acc: 0.7037 | Val Loss: 16.1299 | Val Acc: 0.6658
+    → New best validation accuracy: 0.6658
+  Epoch 19/200 | Train Loss: 103.9112 | Train Acc: 0.7132 | Val Loss: 15.7925 | Val Acc: 0.6778
+    → New best validation accuracy: 0.6778
+  Epoch 20/200 | Train Loss: 94.2994 | Train Acc: 0.7435 | Val Loss: 16.1117 | Val Acc: 0.6690
+  Epoch 21/200 | Train Loss: 91.7081 | Train Acc: 0.7477 | Val Loss: 15.9479 | Val Acc: 0.6718
+  Epoch 22/200 | Train Loss: 82.8331 | Train Acc: 0.7736 | Val Loss: 15.2011 | Val Acc: 0.6893
+    → New best validation accuracy: 0.6893
+  Epoch 23/200 | Train Loss: 77.4472 | Train Acc: 0.7896 | Val Loss: 15.0405 | Val Acc: 0.6932
+    → New best validation accuracy: 0.6932
+  Epoch 24/200 | Train Loss: 71.9939 | Train Acc: 0.8057 | Val Loss: 15.1478 | Val Acc: 0.6948
+    → New best validation accuracy: 0.6948
+  Epoch 25/200 | Train Loss: 64.1785 | Train Acc: 0.8225 | Val Loss: 14.9177 | Val Acc: 0.7014
+    → New best validation accuracy: 0.7014
+  Epoch 26/200 | Train Loss: 64.5974 | Train Acc: 0.8236 | Val Loss: 17.0789 | Val Acc: 0.6592
+  Epoch 27/200 | Train Loss: 60.9636 | Train Acc: 0.8358 | Val Loss: 16.3492 | Val Acc: 0.6690
+  Epoch 28/200 | Train Loss: 55.3280 | Train Acc: 0.8525 | Val Loss: 14.8991 | Val Acc: 0.7063
+    → New best validation accuracy: 0.7063
+  Epoch 29/200 | Train Loss: 52.3028 | Train Acc: 0.8597 | Val Loss: 14.8653 | Val Acc: 0.7101
+    → New best validation accuracy: 0.7101
+  Epoch 30/200 | Train Loss: 50.5736 | Train Acc: 0.8659 | Val Loss: 16.1264 | Val Acc: 0.7079
+  Epoch 31/200 | Train Loss: 50.6505 | Train Acc: 0.8698 | Val Loss: 14.7816 | Val Acc: 0.7101
+  Epoch 32/200 | Train Loss: 53.3609 | Train Acc: 0.8621 | Val Loss: 14.2815 | Val Acc: 0.7332
+    → New best validation accuracy: 0.7332
+  Epoch 33/200 | Train Loss: 41.4476 | Train Acc: 0.8947 | Val Loss: 14.8649 | Val Acc: 0.7227
+  Epoch 34/200 | Train Loss: 37.4094 | Train Acc: 0.9057 | Val Loss: 15.1558 | Val Acc: 0.7151
+  Epoch 35/200 | Train Loss: 41.8323 | Train Acc: 0.8934 | Val Loss: 15.8523 | Val Acc: 0.6981
+  Epoch 36/200 | Train Loss: 37.5427 | Train Acc: 0.9092 | Val Loss: 15.5754 | Val Acc: 0.7184
+  Epoch 37/200 | Train Loss: 32.1944 | Train Acc: 0.9227 | Val Loss: 15.4699 | Val Acc: 0.7112
+  Epoch 38/200 | Train Loss: 30.7366 | Train Acc: 0.9243 | Val Loss: 15.7707 | Val Acc: 0.7030
+  Epoch 39/200 | Train Loss: 29.3015 | Train Acc: 0.9316 | Val Loss: 15.3757 | Val Acc: 0.7162
+  Epoch 40/200 | Train Loss: 25.5599 | Train Acc: 0.9390 | Val Loss: 16.1534 | Val Acc: 0.7074
+  Epoch 41/200 | Train Loss: 22.5622 | Train Acc: 0.9482 | Val Loss: 16.3646 | Val Acc: 0.7079
+  Epoch 42/200 | Train Loss: 23.7514 | Train Acc: 0.9440 | Val Loss: 16.9188 | Val Acc: 0.7030
+  Epoch 43/200 | Train Loss: 21.0810 | Train Acc: 0.9513 | Val Loss: 16.8651 | Val Acc: 0.7019
+  Epoch 44/200 | Train Loss: 20.2162 | Train Acc: 0.9538 | Val Loss: 16.3324 | Val Acc: 0.7167
+  Epoch 45/200 | Train Loss: 18.5600 | Train Acc: 0.9612 | Val Loss: 18.1242 | Val Acc: 0.7003
+  Epoch 46/200 | Train Loss: 20.4631 | Train Acc: 0.9529 | Val Loss: 17.3637 | Val Acc: 0.7041
+  Epoch 47/200 | Train Loss: 18.3489 | Train Acc: 0.9600 | Val Loss: 17.3796 | Val Acc: 0.7162
+  
+  Early stopping triggered after 47 epochs
+  Best validation accuracy: 0.7332
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/15 [00:00<?, ?it/s]
+  Evaluating:   7%|▋         | 1/15 [00:00<00:01,  9.99it/s]
+  Evaluating:  40%|████      | 6/15 [00:00<00:00, 32.91it/s]
+  Evaluating:  73%|███████▎  | 11/15 [00:00<00:00, 38.60it/s]
+  Evaluating: 100%|██████████| 15/15 [00:00<00:00, 37.96it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.63      0.55      0.59        76
+             1       0.76      0.63      0.69        95
+             2       0.55      0.72      0.62        96
+             3       0.58      0.73      0.64        95
+             4       0.81      0.67      0.73        91
+             5       0.85      0.83      0.84        99
+             6       0.76      0.69      0.72        97
+             7       0.66      0.70      0.68        96
+             8       0.72      0.77      0.74        96
+             9       0.84      0.85      0.85        94
+            10       0.91      0.89      0.90        97
+            11       0.84      0.77      0.81        97
+            12       0.64      0.60      0.62        97
+            13       0.76      0.80      0.78        97
+            14       0.74      0.76      0.75        97
+            15       0.69      0.72      0.70        97
+            16       0.59      0.77      0.67        91
+            17       0.93      0.76      0.84        94
+            18       0.62      0.41      0.50        75
+            19       0.47      0.50      0.48        62
+  
+      accuracy                           0.72      1839
+     macro avg       0.72      0.71      0.71      1839
+  weighted avg       0.72      0.72      0.72      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7150625339858618, 'f1_macro': 0.7077720130811993, 'f1_micro': 0.7150625339858618}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 13:54:22 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 13:54:22 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 4256664d437940b0839220b7faff5cc9
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[2/149] RUNNING: runConfigs/experiments/ablation/lstm_mr_randinit.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/mr-seed-42-noglove does not exist
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f257b59f130 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=8528>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f257b59f670 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=1066>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f25778a06d0 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=1067>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 13:54:25 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: f388497f698647478c9f2494e7df7b8d
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 46.5308 | Train Acc: 0.5374 | Val Loss: 5.9965 | Val Acc: 0.6116
+    → New best validation accuracy: 0.6116
+  Epoch 2/200 | Train Loss: 45.2554 | Train Acc: 0.5718 | Val Loss: 5.8199 | Val Acc: 0.6351
+    → New best validation accuracy: 0.6351
+  Epoch 3/200 | Train Loss: 43.6736 | Train Acc: 0.6235 | Val Loss: 5.8557 | Val Acc: 0.6266
+  Epoch 4/200 | Train Loss: 41.7771 | Train Acc: 0.6555 | Val Loss: 5.4894 | Val Acc: 0.6707
+    → New best validation accuracy: 0.6707
+  Epoch 5/200 | Train Loss: 39.6621 | Train Acc: 0.6816 | Val Loss: 5.7351 | Val Acc: 0.6707
+  Epoch 6/200 | Train Loss: 37.6554 | Train Acc: 0.7124 | Val Loss: 5.2694 | Val Acc: 0.7008
+    → New best validation accuracy: 0.7008
+  Epoch 7/200 | Train Loss: 35.7609 | Train Acc: 0.7337 | Val Loss: 5.2506 | Val Acc: 0.7186
+    → New best validation accuracy: 0.7186
+  Epoch 8/200 | Train Loss: 34.2307 | Train Acc: 0.7491 | Val Loss: 5.1350 | Val Acc: 0.7158
+  Epoch 9/200 | Train Loss: 32.5397 | Train Acc: 0.7690 | Val Loss: 5.1038 | Val Acc: 0.7355
+    → New best validation accuracy: 0.7355
+  Epoch 10/200 | Train Loss: 30.4937 | Train Acc: 0.7831 | Val Loss: 5.2999 | Val Acc: 0.7298
+  Epoch 11/200 | Train Loss: 29.0135 | Train Acc: 0.8031 | Val Loss: 5.2709 | Val Acc: 0.7223
+  Epoch 12/200 | Train Loss: 27.6219 | Train Acc: 0.8134 | Val Loss: 5.2486 | Val Acc: 0.7439
+    → New best validation accuracy: 0.7439
+  Epoch 13/200 | Train Loss: 25.2799 | Train Acc: 0.8335 | Val Loss: 6.0535 | Val Acc: 0.7251
+  Epoch 14/200 | Train Loss: 24.3033 | Train Acc: 0.8384 | Val Loss: 5.6962 | Val Acc: 0.7467
+    → New best validation accuracy: 0.7467
+  Epoch 15/200 | Train Loss: 23.2237 | Train Acc: 0.8515 | Val Loss: 5.6472 | Val Acc: 0.7402
+  Epoch 16/200 | Train Loss: 21.2557 | Train Acc: 0.8674 | Val Loss: 5.6190 | Val Acc: 0.7430
+  Epoch 17/200 | Train Loss: 20.2951 | Train Acc: 0.8730 | Val Loss: 5.6493 | Val Acc: 0.7355
+  Epoch 18/200 | Train Loss: 18.0841 | Train Acc: 0.8881 | Val Loss: 6.7095 | Val Acc: 0.7561
+    → New best validation accuracy: 0.7561
+  Epoch 19/200 | Train Loss: 17.9545 | Train Acc: 0.8884 | Val Loss: 5.8271 | Val Acc: 0.7439
+  Epoch 20/200 | Train Loss: 16.5349 | Train Acc: 0.8980 | Val Loss: 5.9059 | Val Acc: 0.7411
+  Epoch 21/200 | Train Loss: 15.4926 | Train Acc: 0.9040 | Val Loss: 6.8989 | Val Acc: 0.7542
+  Epoch 22/200 | Train Loss: 14.4964 | Train Acc: 0.9170 | Val Loss: 7.2655 | Val Acc: 0.7430
+  Epoch 23/200 | Train Loss: 14.5115 | Train Acc: 0.9137 | Val Loss: 6.4133 | Val Acc: 0.7523
+  Epoch 24/200 | Train Loss: 13.0175 | Train Acc: 0.9206 | Val Loss: 6.7460 | Val Acc: 0.7598
+    → New best validation accuracy: 0.7598
+  Epoch 25/200 | Train Loss: 12.6439 | Train Acc: 0.9284 | Val Loss: 7.0839 | Val Acc: 0.7627
+    → New best validation accuracy: 0.7627
+  Epoch 26/200 | Train Loss: 11.2924 | Train Acc: 0.9353 | Val Loss: 6.8048 | Val Acc: 0.7636
+    → New best validation accuracy: 0.7636
+  Epoch 27/200 | Train Loss: 10.1015 | Train Acc: 0.9445 | Val Loss: 7.0900 | Val Acc: 0.7636
+  Epoch 28/200 | Train Loss: 9.8369 | Train Acc: 0.9436 | Val Loss: 7.7640 | Val Acc: 0.7542
+  Epoch 29/200 | Train Loss: 8.6980 | Train Acc: 0.9534 | Val Loss: 8.0751 | Val Acc: 0.7580
+  Epoch 30/200 | Train Loss: 8.4430 | Train Acc: 0.9532 | Val Loss: 7.8253 | Val Acc: 0.7561
+  Epoch 31/200 | Train Loss: 8.1413 | Train Acc: 0.9543 | Val Loss: 7.1895 | Val Acc: 0.7617
+  Epoch 32/200 | Train Loss: 8.1133 | Train Acc: 0.9545 | Val Loss: 8.1160 | Val Acc: 0.7514
+  Epoch 33/200 | Train Loss: 7.6137 | Train Acc: 0.9577 | Val Loss: 8.2645 | Val Acc: 0.7523
+  Epoch 34/200 | Train Loss: 6.5486 | Train Acc: 0.9665 | Val Loss: 8.1035 | Val Acc: 0.7505
+  Epoch 35/200 | Train Loss: 6.6478 | Train Acc: 0.9625 | Val Loss: 8.1096 | Val Acc: 0.7542
+  Epoch 36/200 | Train Loss: 6.0739 | Train Acc: 0.9679 | Val Loss: 8.8011 | Val Acc: 0.7486
+  Epoch 37/200 | Train Loss: 5.8854 | Train Acc: 0.9693 | Val Loss: 8.5187 | Val Acc: 0.7486
+  Epoch 38/200 | Train Loss: 5.6723 | Train Acc: 0.9695 | Val Loss: 8.1489 | Val Acc: 0.7523
+  Epoch 39/200 | Train Loss: 5.2189 | Train Acc: 0.9717 | Val Loss: 8.4238 | Val Acc: 0.7598
+  Epoch 40/200 | Train Loss: 5.1684 | Train Acc: 0.9731 | Val Loss: 7.9286 | Val Acc: 0.7570
+  Epoch 41/200 | Train Loss: 5.0970 | Train Acc: 0.9749 | Val Loss: 8.5192 | Val Acc: 0.7608
+  
+  Early stopping triggered after 41 epochs
+  Best validation accuracy: 0.7636
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/9 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 9/9 [00:00<00:00, 95.36it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.75      0.81      0.78       534
+             1       0.79      0.73      0.76       533
+  
+      accuracy                           0.77      1067
+     macro avg       0.77      0.77      0.77      1067
+  weighted avg       0.77      0.77      0.77      1067
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.767572633552015, 'f1_macro': 0.7672289427942098, 'f1_micro': 0.767572633552015}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 13:55:11 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 13:55:12 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: f388497f698647478c9f2494e7df7b8d
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[3/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_noweights.json
+[4/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win20_dense.json
+[5/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win50_very_dense.json
+[6/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_20ng_win5_sparse.json
+[7/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_noweights.json
+[8/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win20_dense.json
+[9/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win50_very_dense.json
+[10/149] SKIP (completed): runConfigs/experiments/ablation/textgcn_mr_win5_sparse.json
+[11/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_randinit.json
+[12/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_baseline_ref.json
+[13/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_randinit.json
+[14/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win1.json
+[15/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru0_win2.json
+[16/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_minimal.json
+[17/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_gru1_win1.json
+[18/149] SKIP (completed): runConfigs/experiments/ablation/texting_20ng_win1_minimal.json
+[19/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_randinit.json
+[20/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_baseline_ref.json
+[21/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_randinit.json
+[22/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win1.json
+[23/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru0_win2.json
+[24/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_minimal.json
+[25/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_gru1_win1.json
+[26/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_paper_match.json
+[27/149] SKIP (completed): runConfigs/experiments/ablation/texting_mr_win1_minimal.json
+
+[28/149] RUNNING: runConfigs/experiments/baseline/lstm_20ng_baseline.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/20ng-train-80-val-10-test-10-stop-words-remove-true-rare-words-remove-5-vocab-size-none-v2/20ng-seed-42-glove6b-300d does not exist
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0a621ab670 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0a621ab220 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f0a5e4821a0 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 13:55:24 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 807d8a6d04bc4638a9ba8872475d0234
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 290.0680 | Train Acc: 0.2189 | Val Loss: 31.8364 | Val Acc: 0.2915
+    → New best validation accuracy: 0.2915
+  Epoch 2/200 | Train Loss: 209.9056 | Train Acc: 0.4118 | Val Loss: 22.3717 | Val Acc: 0.5359
+    → New best validation accuracy: 0.5359
+  Epoch 3/200 | Train Loss: 174.1557 | Train Acc: 0.5093 | Val Loss: 20.2045 | Val Acc: 0.5825
+    → New best validation accuracy: 0.5825
+  Epoch 4/200 | Train Loss: 158.3037 | Train Acc: 0.5540 | Val Loss: 18.1900 | Val Acc: 0.6279
+    → New best validation accuracy: 0.6279
+  Epoch 5/200 | Train Loss: 147.9998 | Train Acc: 0.5845 | Val Loss: 17.3079 | Val Acc: 0.6433
+    → New best validation accuracy: 0.6433
+  Epoch 6/200 | Train Loss: 142.4406 | Train Acc: 0.6028 | Val Loss: 16.8245 | Val Acc: 0.6537
+    → New best validation accuracy: 0.6537
+  Epoch 7/200 | Train Loss: 136.7019 | Train Acc: 0.6205 | Val Loss: 15.9941 | Val Acc: 0.6756
+    → New best validation accuracy: 0.6756
+  Epoch 8/200 | Train Loss: 130.0403 | Train Acc: 0.6433 | Val Loss: 15.5590 | Val Acc: 0.6822
+    → New best validation accuracy: 0.6822
+  Epoch 9/200 | Train Loss: 129.3299 | Train Acc: 0.6436 | Val Loss: 15.6064 | Val Acc: 0.6849
+    → New best validation accuracy: 0.6849
+  Epoch 10/200 | Train Loss: 123.3037 | Train Acc: 0.6597 | Val Loss: 14.9439 | Val Acc: 0.6899
+    → New best validation accuracy: 0.6899
+  Epoch 11/200 | Train Loss: 119.8400 | Train Acc: 0.6705 | Val Loss: 14.6441 | Val Acc: 0.7101
+    → New best validation accuracy: 0.7101
+  Epoch 12/200 | Train Loss: 118.2034 | Train Acc: 0.6767 | Val Loss: 15.6064 | Val Acc: 0.6811
+  Epoch 13/200 | Train Loss: 116.2062 | Train Acc: 0.6820 | Val Loss: 14.2507 | Val Acc: 0.7151
+    → New best validation accuracy: 0.7151
+  Epoch 14/200 | Train Loss: 112.9099 | Train Acc: 0.6892 | Val Loss: 14.3049 | Val Acc: 0.7129
+  Epoch 15/200 | Train Loss: 110.0283 | Train Acc: 0.6980 | Val Loss: 14.1800 | Val Acc: 0.7129
+  Epoch 16/200 | Train Loss: 108.2533 | Train Acc: 0.7039 | Val Loss: 13.8638 | Val Acc: 0.7266
+    → New best validation accuracy: 0.7266
+  Epoch 17/200 | Train Loss: 105.8062 | Train Acc: 0.7115 | Val Loss: 13.9844 | Val Acc: 0.7216
+  Epoch 18/200 | Train Loss: 102.3469 | Train Acc: 0.7185 | Val Loss: 13.9340 | Val Acc: 0.7178
+  Epoch 19/200 | Train Loss: 100.4933 | Train Acc: 0.7230 | Val Loss: 13.3792 | Val Acc: 0.7293
+    → New best validation accuracy: 0.7293
+  Epoch 20/200 | Train Loss: 99.0870 | Train Acc: 0.7248 | Val Loss: 13.2689 | Val Acc: 0.7299
+    → New best validation accuracy: 0.7299
+  Epoch 21/200 | Train Loss: 97.6466 | Train Acc: 0.7357 | Val Loss: 13.2757 | Val Acc: 0.7353
+    → New best validation accuracy: 0.7353
+  Epoch 22/200 | Train Loss: 96.9136 | Train Acc: 0.7344 | Val Loss: 13.2700 | Val Acc: 0.7364
+    → New best validation accuracy: 0.7364
+  Epoch 23/200 | Train Loss: 94.6192 | Train Acc: 0.7377 | Val Loss: 14.1574 | Val Acc: 0.7096
+  Epoch 24/200 | Train Loss: 96.3522 | Train Acc: 0.7364 | Val Loss: 13.2014 | Val Acc: 0.7332
+  Epoch 25/200 | Train Loss: 92.5406 | Train Acc: 0.7456 | Val Loss: 13.5523 | Val Acc: 0.7277
+  Epoch 26/200 | Train Loss: 95.6245 | Train Acc: 0.7369 | Val Loss: 13.8460 | Val Acc: 0.7260
+  Epoch 27/200 | Train Loss: 90.8893 | Train Acc: 0.7506 | Val Loss: 13.1179 | Val Acc: 0.7414
+    → New best validation accuracy: 0.7414
+  Epoch 28/200 | Train Loss: 89.0209 | Train Acc: 0.7562 | Val Loss: 13.0426 | Val Acc: 0.7370
+  Epoch 29/200 | Train Loss: 87.0939 | Train Acc: 0.7587 | Val Loss: 13.3024 | Val Acc: 0.7326
+  Epoch 30/200 | Train Loss: 87.4427 | Train Acc: 0.7605 | Val Loss: 13.5793 | Val Acc: 0.7288
+  Epoch 31/200 | Train Loss: 86.0589 | Train Acc: 0.7652 | Val Loss: 13.3494 | Val Acc: 0.7337
+  Epoch 32/200 | Train Loss: 84.2271 | Train Acc: 0.7643 | Val Loss: 13.0472 | Val Acc: 0.7408
+  Epoch 33/200 | Train Loss: 83.9524 | Train Acc: 0.7693 | Val Loss: 12.8723 | Val Acc: 0.7408
+  Epoch 34/200 | Train Loss: 82.6947 | Train Acc: 0.7712 | Val Loss: 13.3753 | Val Acc: 0.7370
+  Epoch 35/200 | Train Loss: 81.3160 | Train Acc: 0.7732 | Val Loss: 13.0228 | Val Acc: 0.7436
+    → New best validation accuracy: 0.7436
+  Epoch 36/200 | Train Loss: 81.0323 | Train Acc: 0.7775 | Val Loss: 13.5852 | Val Acc: 0.7348
+  Epoch 37/200 | Train Loss: 79.6104 | Train Acc: 0.7787 | Val Loss: 12.8595 | Val Acc: 0.7496
+    → New best validation accuracy: 0.7496
+  Epoch 38/200 | Train Loss: 77.3187 | Train Acc: 0.7827 | Val Loss: 13.2958 | Val Acc: 0.7381
+  Epoch 39/200 | Train Loss: 80.0170 | Train Acc: 0.7759 | Val Loss: 13.2634 | Val Acc: 0.7419
+  Epoch 40/200 | Train Loss: 76.4112 | Train Acc: 0.7868 | Val Loss: 13.5771 | Val Acc: 0.7381
+  Epoch 41/200 | Train Loss: 75.5574 | Train Acc: 0.7887 | Val Loss: 13.3731 | Val Acc: 0.7403
+  Epoch 42/200 | Train Loss: 73.4353 | Train Acc: 0.7967 | Val Loss: 13.6921 | Val Acc: 0.7408
+  Epoch 43/200 | Train Loss: 74.5264 | Train Acc: 0.7912 | Val Loss: 13.1529 | Val Acc: 0.7414
+  Epoch 44/200 | Train Loss: 73.6437 | Train Acc: 0.7945 | Val Loss: 12.9044 | Val Acc: 0.7430
+  Epoch 45/200 | Train Loss: 72.2987 | Train Acc: 0.7945 | Val Loss: 13.3148 | Val Acc: 0.7403
+  Epoch 46/200 | Train Loss: 73.6138 | Train Acc: 0.7926 | Val Loss: 13.5367 | Val Acc: 0.7463
+  Epoch 47/200 | Train Loss: 71.1994 | Train Acc: 0.8033 | Val Loss: 13.6039 | Val Acc: 0.7447
+  Epoch 48/200 | Train Loss: 74.4413 | Train Acc: 0.7916 | Val Loss: 14.0359 | Val Acc: 0.7200
+  Epoch 49/200 | Train Loss: 79.8418 | Train Acc: 0.7745 | Val Loss: 13.0416 | Val Acc: 0.7507
+    → New best validation accuracy: 0.7507
+  Epoch 50/200 | Train Loss: 74.1879 | Train Acc: 0.7905 | Val Loss: 13.4725 | Val Acc: 0.7408
+  Epoch 51/200 | Train Loss: 72.3550 | Train Acc: 0.7980 | Val Loss: 13.4720 | Val Acc: 0.7364
+  Epoch 52/200 | Train Loss: 70.9038 | Train Acc: 0.8002 | Val Loss: 13.1477 | Val Acc: 0.7523
+    → New best validation accuracy: 0.7523
+  Epoch 53/200 | Train Loss: 68.5721 | Train Acc: 0.8076 | Val Loss: 13.4307 | Val Acc: 0.7452
+  Epoch 54/200 | Train Loss: 67.9098 | Train Acc: 0.8093 | Val Loss: 13.0058 | Val Acc: 0.7447
+  Epoch 55/200 | Train Loss: 68.7739 | Train Acc: 0.8078 | Val Loss: 12.9282 | Val Acc: 0.7534
+    → New best validation accuracy: 0.7534
+  Epoch 56/200 | Train Loss: 67.5823 | Train Acc: 0.8074 | Val Loss: 13.3534 | Val Acc: 0.7419
+  Epoch 57/200 | Train Loss: 65.6704 | Train Acc: 0.8142 | Val Loss: 13.4634 | Val Acc: 0.7337
+  Epoch 58/200 | Train Loss: 65.0499 | Train Acc: 0.8157 | Val Loss: 13.4629 | Val Acc: 0.7452
+  Epoch 59/200 | Train Loss: 65.1273 | Train Acc: 0.8147 | Val Loss: 13.3587 | Val Acc: 0.7430
+  Epoch 60/200 | Train Loss: 64.6223 | Train Acc: 0.8147 | Val Loss: 13.5103 | Val Acc: 0.7529
+  Epoch 61/200 | Train Loss: 64.5785 | Train Acc: 0.8193 | Val Loss: 13.0787 | Val Acc: 0.7468
+  Epoch 62/200 | Train Loss: 62.4692 | Train Acc: 0.8236 | Val Loss: 13.5615 | Val Acc: 0.7447
+  Epoch 63/200 | Train Loss: 64.1743 | Train Acc: 0.8197 | Val Loss: 15.2332 | Val Acc: 0.7134
+  Epoch 64/200 | Train Loss: 75.3643 | Train Acc: 0.7935 | Val Loss: 13.2717 | Val Acc: 0.7408
+  Epoch 65/200 | Train Loss: 67.9712 | Train Acc: 0.8094 | Val Loss: 13.6237 | Val Acc: 0.7403
+  Epoch 66/200 | Train Loss: 65.2377 | Train Acc: 0.8147 | Val Loss: 13.8185 | Val Acc: 0.7326
+  Epoch 67/200 | Train Loss: 63.6969 | Train Acc: 0.8210 | Val Loss: 13.4431 | Val Acc: 0.7436
+  Epoch 68/200 | Train Loss: 61.0865 | Train Acc: 0.8266 | Val Loss: 13.7604 | Val Acc: 0.7386
+  Epoch 69/200 | Train Loss: 59.6008 | Train Acc: 0.8285 | Val Loss: 13.7233 | Val Acc: 0.7425
+  Epoch 70/200 | Train Loss: 59.5958 | Train Acc: 0.8307 | Val Loss: 13.5595 | Val Acc: 0.7452
+  
+  Early stopping triggered after 70 epochs
+  Best validation accuracy: 0.7534
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/15 [00:00<?, ?it/s]
+  Evaluating:  13%|█▎        | 2/15 [00:00<00:00, 16.42it/s]
+  Evaluating:  53%|█████▎    | 8/15 [00:00<00:00, 35.94it/s]
+  Evaluating:  87%|████████▋ | 13/15 [00:00<00:00, 40.13it/s]
+  Evaluating: 100%|██████████| 15/15 [00:00<00:00, 38.66it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.48      0.68      0.56        76
+             1       0.79      0.76      0.77        95
+             2       0.66      0.70      0.68        96
+             3       0.65      0.78      0.71        95
+             4       0.75      0.74      0.74        91
+             5       0.87      0.80      0.83        99
+             6       0.76      0.69      0.72        97
+             7       0.68      0.78      0.73        96
+             8       0.72      0.77      0.74        96
+             9       0.86      0.94      0.90        94
+            10       0.95      0.94      0.94        97
+            11       0.84      0.78      0.81        97
+            12       0.64      0.62      0.63        97
+            13       0.87      0.85      0.86        97
+            14       0.83      0.81      0.82        97
+            15       0.78      0.74      0.76        97
+            16       0.77      0.80      0.78        91
+            17       0.91      0.84      0.87        94
+            18       0.61      0.56      0.58        75
+            19       0.48      0.23      0.31        62
+  
+      accuracy                           0.75      1839
+     macro avg       0.75      0.74      0.74      1839
+  weighted avg       0.75      0.75      0.75      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.7520391517128875, 'f1_macro': 0.7385672721884992, 'f1_micro': 0.7520391517128875}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 14:13:18 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 14:13:18 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 807d8a6d04bc4638a9ba8872475d0234
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[29/149] RUNNING: runConfigs/experiments/baseline/lstm_mr_baseline.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: mr
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: /home/tomas/text-gnn-experiments-thesis/saved/mr-train-80-val-10-test-10-stop-words-remove-false-rare-words-remove-0-vocab-size-none-v2/mr-seed-42-glove6b-300d does not exist
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f13f5597670 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=8528>
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f13f5597220 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=1066>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f13f189de70 
+   vocab len=16635
+   encode_token_type=index 
+   num classes=2
+   num samples=1067>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 14:13:31 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 323ef8f453ad46369c79afb5253acd5c
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 42.2784 | Train Acc: 0.6421 | Val Loss: 5.0301 | Val Acc: 0.7242
+    → New best validation accuracy: 0.7242
+  Epoch 2/200 | Train Loss: 35.3609 | Train Acc: 0.7341 | Val Loss: 4.5659 | Val Acc: 0.7505
+    → New best validation accuracy: 0.7505
+  Epoch 3/200 | Train Loss: 33.3720 | Train Acc: 0.7530 | Val Loss: 4.4733 | Val Acc: 0.7636
+    → New best validation accuracy: 0.7636
+  Epoch 4/200 | Train Loss: 32.5894 | Train Acc: 0.7642 | Val Loss: 4.3555 | Val Acc: 0.7674
+    → New best validation accuracy: 0.7674
+  Epoch 5/200 | Train Loss: 32.1155 | Train Acc: 0.7649 | Val Loss: 4.4548 | Val Acc: 0.7702
+    → New best validation accuracy: 0.7702
+  Epoch 6/200 | Train Loss: 31.1837 | Train Acc: 0.7696 | Val Loss: 4.2566 | Val Acc: 0.7805
+    → New best validation accuracy: 0.7805
+  Epoch 7/200 | Train Loss: 30.3643 | Train Acc: 0.7834 | Val Loss: 4.2700 | Val Acc: 0.7786
+  Epoch 8/200 | Train Loss: 30.9745 | Train Acc: 0.7795 | Val Loss: 4.1784 | Val Acc: 0.7777
+  Epoch 9/200 | Train Loss: 29.0064 | Train Acc: 0.7917 | Val Loss: 4.1617 | Val Acc: 0.7861
+    → New best validation accuracy: 0.7861
+  Epoch 10/200 | Train Loss: 29.3595 | Train Acc: 0.7939 | Val Loss: 4.1586 | Val Acc: 0.7880
+    → New best validation accuracy: 0.7880
+  Epoch 11/200 | Train Loss: 28.4912 | Train Acc: 0.8016 | Val Loss: 4.0488 | Val Acc: 0.7871
+  Epoch 12/200 | Train Loss: 27.6442 | Train Acc: 0.8062 | Val Loss: 4.3762 | Val Acc: 0.7777
+  Epoch 13/200 | Train Loss: 27.5775 | Train Acc: 0.8090 | Val Loss: 4.2609 | Val Acc: 0.7824
+  Epoch 14/200 | Train Loss: 26.9555 | Train Acc: 0.8182 | Val Loss: 4.1833 | Val Acc: 0.7871
+  Epoch 15/200 | Train Loss: 26.0885 | Train Acc: 0.8234 | Val Loss: 4.3022 | Val Acc: 0.7786
+  Epoch 16/200 | Train Loss: 25.8450 | Train Acc: 0.8232 | Val Loss: 4.1168 | Val Acc: 0.7824
+  Epoch 17/200 | Train Loss: 25.8356 | Train Acc: 0.8231 | Val Loss: 4.4052 | Val Acc: 0.7880
+  Epoch 18/200 | Train Loss: 24.6553 | Train Acc: 0.8344 | Val Loss: 4.2520 | Val Acc: 0.7927
+    → New best validation accuracy: 0.7927
+  Epoch 19/200 | Train Loss: 23.7049 | Train Acc: 0.8379 | Val Loss: 4.5226 | Val Acc: 0.7730
+  Epoch 20/200 | Train Loss: 23.4112 | Train Acc: 0.8413 | Val Loss: 4.1176 | Val Acc: 0.7908
+  Epoch 21/200 | Train Loss: 22.8665 | Train Acc: 0.8466 | Val Loss: 4.3119 | Val Acc: 0.7861
+  Epoch 22/200 | Train Loss: 22.3240 | Train Acc: 0.8500 | Val Loss: 4.1412 | Val Acc: 0.7908
+  Epoch 23/200 | Train Loss: 22.3471 | Train Acc: 0.8491 | Val Loss: 4.1556 | Val Acc: 0.7955
+    → New best validation accuracy: 0.7955
+  Epoch 24/200 | Train Loss: 21.5716 | Train Acc: 0.8591 | Val Loss: 4.1235 | Val Acc: 0.7871
+  Epoch 25/200 | Train Loss: 20.5920 | Train Acc: 0.8625 | Val Loss: 4.3231 | Val Acc: 0.7964
+    → New best validation accuracy: 0.7964
+  Epoch 26/200 | Train Loss: 20.1106 | Train Acc: 0.8674 | Val Loss: 4.5007 | Val Acc: 0.7842
+  Epoch 27/200 | Train Loss: 20.0378 | Train Acc: 0.8669 | Val Loss: 4.2402 | Val Acc: 0.7964
+  Epoch 28/200 | Train Loss: 19.8201 | Train Acc: 0.8673 | Val Loss: 4.1621 | Val Acc: 0.7974
+    → New best validation accuracy: 0.7974
+  Epoch 29/200 | Train Loss: 17.7466 | Train Acc: 0.8897 | Val Loss: 4.6107 | Val Acc: 0.7899
+  Epoch 30/200 | Train Loss: 18.3496 | Train Acc: 0.8796 | Val Loss: 4.2070 | Val Acc: 0.7964
+  Epoch 31/200 | Train Loss: 17.9945 | Train Acc: 0.8843 | Val Loss: 4.5411 | Val Acc: 0.7777
+  Epoch 32/200 | Train Loss: 17.5441 | Train Acc: 0.8899 | Val Loss: 4.3780 | Val Acc: 0.7992
+    → New best validation accuracy: 0.7992
+  Epoch 33/200 | Train Loss: 16.6476 | Train Acc: 0.8952 | Val Loss: 4.7198 | Val Acc: 0.7749
+  Epoch 34/200 | Train Loss: 16.1700 | Train Acc: 0.8989 | Val Loss: 4.5310 | Val Acc: 0.7983
+  Epoch 35/200 | Train Loss: 16.3830 | Train Acc: 0.8924 | Val Loss: 4.8638 | Val Acc: 0.7777
+  Epoch 36/200 | Train Loss: 16.2316 | Train Acc: 0.8973 | Val Loss: 4.8036 | Val Acc: 0.7880
+  Epoch 37/200 | Train Loss: 15.2955 | Train Acc: 0.9021 | Val Loss: 5.0222 | Val Acc: 0.7711
+  Epoch 38/200 | Train Loss: 15.5571 | Train Acc: 0.9015 | Val Loss: 4.4762 | Val Acc: 0.7964
+  Epoch 39/200 | Train Loss: 14.5501 | Train Acc: 0.9092 | Val Loss: 4.7815 | Val Acc: 0.7992
+  Epoch 40/200 | Train Loss: 14.3607 | Train Acc: 0.9105 | Val Loss: 4.7255 | Val Acc: 0.7955
+  Epoch 41/200 | Train Loss: 13.3444 | Train Acc: 0.9173 | Val Loss: 4.6490 | Val Acc: 0.8002
+    → New best validation accuracy: 0.8002
+  Epoch 42/200 | Train Loss: 13.3839 | Train Acc: 0.9204 | Val Loss: 4.9866 | Val Acc: 0.7852
+  Epoch 43/200 | Train Loss: 13.2098 | Train Acc: 0.9192 | Val Loss: 4.8331 | Val Acc: 0.7917
+  Epoch 44/200 | Train Loss: 13.1592 | Train Acc: 0.9182 | Val Loss: 5.3159 | Val Acc: 0.7852
+  Epoch 45/200 | Train Loss: 13.8775 | Train Acc: 0.9145 | Val Loss: 4.9227 | Val Acc: 0.7946
+  Epoch 46/200 | Train Loss: 12.1924 | Train Acc: 0.9250 | Val Loss: 5.5725 | Val Acc: 0.7795
+  Epoch 47/200 | Train Loss: 11.8191 | Train Acc: 0.9277 | Val Loss: 5.3208 | Val Acc: 0.7795
+  Epoch 48/200 | Train Loss: 12.0541 | Train Acc: 0.9246 | Val Loss: 5.4517 | Val Acc: 0.7899
+  Epoch 49/200 | Train Loss: 11.1236 | Train Acc: 0.9307 | Val Loss: 5.2327 | Val Acc: 0.7767
+  Epoch 50/200 | Train Loss: 11.2259 | Train Acc: 0.9321 | Val Loss: 5.6022 | Val Acc: 0.7795
+  Epoch 51/200 | Train Loss: 11.6291 | Train Acc: 0.9287 | Val Loss: 5.3885 | Val Acc: 0.7842
+  Epoch 52/200 | Train Loss: 10.9190 | Train Acc: 0.9360 | Val Loss: 5.7475 | Val Acc: 0.7711
+  Epoch 53/200 | Train Loss: 11.0897 | Train Acc: 0.9337 | Val Loss: 5.8002 | Val Acc: 0.7814
+  Epoch 54/200 | Train Loss: 10.6402 | Train Acc: 0.9353 | Val Loss: 5.1645 | Val Acc: 0.7805
+  Epoch 55/200 | Train Loss: 9.9044 | Train Acc: 0.9420 | Val Loss: 5.5462 | Val Acc: 0.7767
+  Epoch 56/200 | Train Loss: 9.5594 | Train Acc: 0.9455 | Val Loss: 5.4082 | Val Acc: 0.8002
+  
+  Early stopping triggered after 56 epochs
+  Best validation accuracy: 0.8002
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/9 [00:00<?, ?it/s]
+  Evaluating: 100%|██████████| 9/9 [00:00<00:00, 90.31it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.80      0.84      0.82       534
+             1       0.83      0.79      0.81       533
+  
+      accuracy                           0.81      1067
+     macro avg       0.82      0.81      0.81      1067
+  weighted avg       0.82      0.81      0.81      1067
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.8144329896907216, 'f1_macro': 0.814276220013925, 'f1_micro': 0.8144329896907216}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 14:14:22 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 14:14:22 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 323ef8f453ad46369c79afb5253acd5c
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+[30/149] SKIP (completed): runConfigs/experiments/baseline/textgcn_20ng_baseline.json
+[31/149] SKIP (completed): runConfigs/experiments/baseline/textgcn_mr_baseline.json
+[32/149] SKIP (completed): runConfigs/experiments/baseline/texting_20ng_baseline.json
+[33/149] SKIP (completed): runConfigs/experiments/baseline/texting_mr_baseline.json
+
+[34/149] RUNNING: runConfigs/experiments/data_efficiency/lstm_20ng_10pct.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f91271b3220 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Subsampled training data: 14618 -> 1827 (12%)
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f91234a4d00 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f91234a5b10 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 14:14:26 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 6bdf74fd04144ac7920c2517277ca931
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 44.8130 | Train Acc: 0.0690 | Val Loss: 44.0709 | Val Acc: 0.0986
+    → New best validation accuracy: 0.0986
+  Epoch 2/200 | Train Loss: 43.6250 | Train Acc: 0.1297 | Val Loss: 42.9416 | Val Acc: 0.2208
+    → New best validation accuracy: 0.2208
+  Epoch 3/200 | Train Loss: 42.1508 | Train Acc: 0.1959 | Val Loss: 40.4067 | Val Acc: 0.2395
+    → New best validation accuracy: 0.2395
+  Epoch 4/200 | Train Loss: 39.0577 | Train Acc: 0.2326 | Val Loss: 36.7718 | Val Acc: 0.2592
+    → New best validation accuracy: 0.2592
+  Epoch 5/200 | Train Loss: 35.2263 | Train Acc: 0.2950 | Val Loss: 33.4716 | Val Acc: 0.3074
+    → New best validation accuracy: 0.3074
+  Epoch 6/200 | Train Loss: 32.4372 | Train Acc: 0.3459 | Val Loss: 30.6697 | Val Acc: 0.3901
+    → New best validation accuracy: 0.3901
+  Epoch 7/200 | Train Loss: 30.0423 | Train Acc: 0.3793 | Val Loss: 28.9718 | Val Acc: 0.3923
+    → New best validation accuracy: 0.3923
+  Epoch 8/200 | Train Loss: 27.9770 | Train Acc: 0.4269 | Val Loss: 26.9852 | Val Acc: 0.4395
+    → New best validation accuracy: 0.4395
+  Epoch 9/200 | Train Loss: 26.0837 | Train Acc: 0.4625 | Val Loss: 25.7799 | Val Acc: 0.4597
+    → New best validation accuracy: 0.4597
+  Epoch 10/200 | Train Loss: 25.0500 | Train Acc: 0.4839 | Val Loss: 25.0305 | Val Acc: 0.4553
+  Epoch 11/200 | Train Loss: 23.5983 | Train Acc: 0.5118 | Val Loss: 24.0505 | Val Acc: 0.4767
+    → New best validation accuracy: 0.4767
+  Epoch 12/200 | Train Loss: 23.4445 | Train Acc: 0.5172 | Val Loss: 24.8953 | Val Acc: 0.4542
+  Epoch 13/200 | Train Loss: 23.2376 | Train Acc: 0.5052 | Val Loss: 23.5436 | Val Acc: 0.4926
+    → New best validation accuracy: 0.4926
+  Epoch 14/200 | Train Loss: 21.9219 | Train Acc: 0.5320 | Val Loss: 22.6662 | Val Acc: 0.5156
+    → New best validation accuracy: 0.5156
+  Epoch 15/200 | Train Loss: 20.4073 | Train Acc: 0.5829 | Val Loss: 21.7612 | Val Acc: 0.5364
+    → New best validation accuracy: 0.5364
+  Epoch 16/200 | Train Loss: 19.8175 | Train Acc: 0.5818 | Val Loss: 21.7373 | Val Acc: 0.5321
+  Epoch 17/200 | Train Loss: 19.7651 | Train Acc: 0.5857 | Val Loss: 21.3205 | Val Acc: 0.5211
+  Epoch 18/200 | Train Loss: 18.6132 | Train Acc: 0.6141 | Val Loss: 20.7542 | Val Acc: 0.5414
+    → New best validation accuracy: 0.5414
+  Epoch 19/200 | Train Loss: 19.6329 | Train Acc: 0.5950 | Val Loss: 22.0859 | Val Acc: 0.5282
+  Epoch 20/200 | Train Loss: 18.8042 | Train Acc: 0.6108 | Val Loss: 21.2698 | Val Acc: 0.5321
+  Epoch 21/200 | Train Loss: 18.0355 | Train Acc: 0.6273 | Val Loss: 20.5850 | Val Acc: 0.5485
+    → New best validation accuracy: 0.5485
+  Epoch 22/200 | Train Loss: 17.0856 | Train Acc: 0.6470 | Val Loss: 20.2299 | Val Acc: 0.5501
+    → New best validation accuracy: 0.5501
+  Epoch 23/200 | Train Loss: 17.3240 | Train Acc: 0.6513 | Val Loss: 19.7936 | Val Acc: 0.5627
+    → New best validation accuracy: 0.5627
+  Epoch 24/200 | Train Loss: 16.6273 | Train Acc: 0.6431 | Val Loss: 19.6779 | Val Acc: 0.5584
+  Epoch 25/200 | Train Loss: 15.9411 | Train Acc: 0.6557 | Val Loss: 19.2055 | Val Acc: 0.5715
+    → New best validation accuracy: 0.5715
+  Epoch 26/200 | Train Loss: 15.7052 | Train Acc: 0.6787 | Val Loss: 19.8440 | Val Acc: 0.5600
+  Epoch 27/200 | Train Loss: 16.0936 | Train Acc: 0.6683 | Val Loss: 19.7558 | Val Acc: 0.5556
+  Epoch 28/200 | Train Loss: 15.6791 | Train Acc: 0.6492 | Val Loss: 19.8180 | Val Acc: 0.5704
+  Epoch 29/200 | Train Loss: 15.2555 | Train Acc: 0.6782 | Val Loss: 19.3361 | Val Acc: 0.5759
+    → New best validation accuracy: 0.5759
+  Epoch 30/200 | Train Loss: 14.6357 | Train Acc: 0.7050 | Val Loss: 19.4431 | Val Acc: 0.5737
+  Epoch 31/200 | Train Loss: 14.3924 | Train Acc: 0.6897 | Val Loss: 19.0706 | Val Acc: 0.5726
+  Epoch 32/200 | Train Loss: 13.8396 | Train Acc: 0.7001 | Val Loss: 19.4294 | Val Acc: 0.5710
+  Epoch 33/200 | Train Loss: 14.0624 | Train Acc: 0.6995 | Val Loss: 19.4777 | Val Acc: 0.5764
+    → New best validation accuracy: 0.5764
+  Epoch 34/200 | Train Loss: 13.5308 | Train Acc: 0.7105 | Val Loss: 19.2656 | Val Acc: 0.5742
+  Epoch 35/200 | Train Loss: 13.3556 | Train Acc: 0.7198 | Val Loss: 19.0393 | Val Acc: 0.5923
+    → New best validation accuracy: 0.5923
+  Epoch 36/200 | Train Loss: 12.7735 | Train Acc: 0.7400 | Val Loss: 19.2082 | Val Acc: 0.5830
+  Epoch 37/200 | Train Loss: 12.2427 | Train Acc: 0.7449 | Val Loss: 19.0398 | Val Acc: 0.5830
+  Epoch 38/200 | Train Loss: 12.6679 | Train Acc: 0.7362 | Val Loss: 19.0646 | Val Acc: 0.5841
+  Epoch 39/200 | Train Loss: 12.1861 | Train Acc: 0.7417 | Val Loss: 19.1393 | Val Acc: 0.5890
+  Epoch 40/200 | Train Loss: 12.6325 | Train Acc: 0.7395 | Val Loss: 19.2659 | Val Acc: 0.5770
+  Epoch 41/200 | Train Loss: 11.3977 | Train Acc: 0.7690 | Val Loss: 19.0727 | Val Acc: 0.5874
+  Epoch 42/200 | Train Loss: 11.1999 | Train Acc: 0.7663 | Val Loss: 19.6662 | Val Acc: 0.5852
+  Epoch 43/200 | Train Loss: 11.0831 | Train Acc: 0.7761 | Val Loss: 19.6399 | Val Acc: 0.5825
+  Epoch 44/200 | Train Loss: 11.2963 | Train Acc: 0.7783 | Val Loss: 19.2985 | Val Acc: 0.5863
+  Epoch 45/200 | Train Loss: 11.3876 | Train Acc: 0.7690 | Val Loss: 19.3790 | Val Acc: 0.5940
+    → New best validation accuracy: 0.5940
+  Epoch 46/200 | Train Loss: 10.9451 | Train Acc: 0.7635 | Val Loss: 19.1665 | Val Acc: 0.5901
+  Epoch 47/200 | Train Loss: 11.1230 | Train Acc: 0.7723 | Val Loss: 19.0605 | Val Acc: 0.5978
+    → New best validation accuracy: 0.5978
+  Epoch 48/200 | Train Loss: 10.5010 | Train Acc: 0.7931 | Val Loss: 19.4308 | Val Acc: 0.5874
+  Epoch 49/200 | Train Loss: 11.1806 | Train Acc: 0.7734 | Val Loss: 19.3516 | Val Acc: 0.5967
+  Epoch 50/200 | Train Loss: 10.3586 | Train Acc: 0.7942 | Val Loss: 19.2379 | Val Acc: 0.6011
+    → New best validation accuracy: 0.6011
+  Epoch 51/200 | Train Loss: 10.7671 | Train Acc: 0.7707 | Val Loss: 19.6822 | Val Acc: 0.5879
+  Epoch 52/200 | Train Loss: 11.0847 | Train Acc: 0.7767 | Val Loss: 19.1035 | Val Acc: 0.5896
+  Epoch 53/200 | Train Loss: 10.3313 | Train Acc: 0.8057 | Val Loss: 18.9052 | Val Acc: 0.6027
+    → New best validation accuracy: 0.6027
+  Epoch 54/200 | Train Loss: 10.2221 | Train Acc: 0.7865 | Val Loss: 19.1934 | Val Acc: 0.5901
+  Epoch 55/200 | Train Loss: 9.5466 | Train Acc: 0.8101 | Val Loss: 19.3120 | Val Acc: 0.5940
+  Epoch 56/200 | Train Loss: 10.0389 | Train Acc: 0.8019 | Val Loss: 18.8686 | Val Acc: 0.6033
+    → New best validation accuracy: 0.6033
+  Epoch 57/200 | Train Loss: 9.3270 | Train Acc: 0.8051 | Val Loss: 19.0725 | Val Acc: 0.6055
+    → New best validation accuracy: 0.6055
+  Epoch 58/200 | Train Loss: 9.6571 | Train Acc: 0.8030 | Val Loss: 19.1022 | Val Acc: 0.5984
+  Epoch 59/200 | Train Loss: 8.8430 | Train Acc: 0.8144 | Val Loss: 19.6961 | Val Acc: 0.5973
+  Epoch 60/200 | Train Loss: 8.6893 | Train Acc: 0.8259 | Val Loss: 19.1014 | Val Acc: 0.6230
+    → New best validation accuracy: 0.6230
+  Epoch 61/200 | Train Loss: 8.8154 | Train Acc: 0.8194 | Val Loss: 19.5347 | Val Acc: 0.5978
+  Epoch 62/200 | Train Loss: 8.9355 | Train Acc: 0.8188 | Val Loss: 19.2995 | Val Acc: 0.6110
+  Epoch 63/200 | Train Loss: 8.2982 | Train Acc: 0.8342 | Val Loss: 20.0468 | Val Acc: 0.6000
+  Epoch 64/200 | Train Loss: 8.7877 | Train Acc: 0.8155 | Val Loss: 20.1108 | Val Acc: 0.5923
+  Epoch 65/200 | Train Loss: 8.1307 | Train Acc: 0.8385 | Val Loss: 19.1207 | Val Acc: 0.6126
+  Epoch 66/200 | Train Loss: 8.0501 | Train Acc: 0.8407 | Val Loss: 19.4980 | Val Acc: 0.6038
+  Epoch 67/200 | Train Loss: 7.7268 | Train Acc: 0.8495 | Val Loss: 20.0291 | Val Acc: 0.5978
+  Epoch 68/200 | Train Loss: 7.4777 | Train Acc: 0.8511 | Val Loss: 20.3107 | Val Acc: 0.6033
+  Epoch 69/200 | Train Loss: 7.2464 | Train Acc: 0.8659 | Val Loss: 19.2106 | Val Acc: 0.6077
+  Epoch 70/200 | Train Loss: 7.9431 | Train Acc: 0.8418 | Val Loss: 19.9210 | Val Acc: 0.5973
+  Epoch 71/200 | Train Loss: 7.6356 | Train Acc: 0.8528 | Val Loss: 19.7833 | Val Acc: 0.6055
+  Epoch 72/200 | Train Loss: 7.2501 | Train Acc: 0.8599 | Val Loss: 20.1751 | Val Acc: 0.6005
+  Epoch 73/200 | Train Loss: 6.6270 | Train Acc: 0.8708 | Val Loss: 19.8184 | Val Acc: 0.6099
+  Epoch 74/200 | Train Loss: 6.8226 | Train Acc: 0.8686 | Val Loss: 20.6200 | Val Acc: 0.5962
+  Epoch 75/200 | Train Loss: 7.0528 | Train Acc: 0.8654 | Val Loss: 19.5907 | Val Acc: 0.6104
+  
+  Early stopping triggered after 75 epochs
+  Best validation accuracy: 0.6230
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/15 [00:00<?, ?it/s]
+  Evaluating:  13%|█▎        | 2/15 [00:00<00:00, 17.08it/s]
+  Evaluating:  47%|████▋     | 7/15 [00:00<00:00, 34.71it/s]
+  Evaluating:  80%|████████  | 12/15 [00:00<00:00, 39.51it/s]
+  Evaluating: 100%|██████████| 15/15 [00:00<00:00, 38.60it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.31      0.24      0.27        76
+             1       0.55      0.53      0.54        95
+             2       0.54      0.55      0.55        96
+             3       0.53      0.55      0.54        95
+             4       0.58      0.52      0.55        91
+             5       0.78      0.55      0.64        99
+             6       0.59      0.59      0.59        97
+             7       0.66      0.62      0.64        96
+             8       0.70      0.74      0.72        96
+             9       0.86      0.84      0.85        94
+            10       0.86      0.86      0.86        97
+            11       0.64      0.71      0.67        97
+            12       0.47      0.65      0.55        97
+            13       0.81      0.75      0.78        97
+            14       0.71      0.79      0.75        97
+            15       0.60      0.74      0.66        97
+            16       0.55      0.52      0.53        91
+            17       0.75      0.78      0.76        94
+            18       0.31      0.40      0.35        75
+            19       0.25      0.10      0.14        62
+  
+      accuracy                           0.62      1839
+     macro avg       0.60      0.60      0.60      1839
+  weighted avg       0.62      0.62      0.61      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.6166394779771615, 'f1_macro': 0.5964323615461257, 'f1_micro': 0.6166394779771615}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 14:17:13 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 14:17:13 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 6bdf74fd04144ac7920c2517277ca931
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[35/149] RUNNING: runConfigs/experiments/data_efficiency/lstm_20ng_30pct.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f398b9ab220 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Subsampled training data: 14618 -> 5481 (38%)
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f3987d00d00 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7f3987d01b10 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 14:17:16 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 6ad4721cc6bc4025a949f11c08e5a969
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 125.1086 | Train Acc: 0.1237 | Val Loss: 40.2340 | Val Acc: 0.2964
+    → New best validation accuracy: 0.2964
+  Epoch 2/200 | Train Loss: 104.0373 | Train Acc: 0.2478 | Val Loss: 31.2044 | Val Acc: 0.3666
+    → New best validation accuracy: 0.3666
+  Epoch 3/200 | Train Loss: 86.1301 | Train Acc: 0.3684 | Val Loss: 26.8421 | Val Acc: 0.4581
+    → New best validation accuracy: 0.4581
+  Epoch 4/200 | Train Loss: 76.1848 | Train Acc: 0.4342 | Val Loss: 23.2737 | Val Acc: 0.5249
+    → New best validation accuracy: 0.5249
+  Epoch 5/200 | Train Loss: 68.5629 | Train Acc: 0.4817 | Val Loss: 21.2896 | Val Acc: 0.5386
+    → New best validation accuracy: 0.5386
+  Epoch 6/200 | Train Loss: 63.7429 | Train Acc: 0.5220 | Val Loss: 20.8154 | Val Acc: 0.5633
+    → New best validation accuracy: 0.5633
+  Epoch 7/200 | Train Loss: 60.8247 | Train Acc: 0.5450 | Val Loss: 19.4814 | Val Acc: 0.5868
+    → New best validation accuracy: 0.5868
+  Epoch 8/200 | Train Loss: 60.0504 | Train Acc: 0.5503 | Val Loss: 19.1589 | Val Acc: 0.6005
+    → New best validation accuracy: 0.6005
+  Epoch 9/200 | Train Loss: 55.9012 | Train Acc: 0.5842 | Val Loss: 18.5056 | Val Acc: 0.6082
+    → New best validation accuracy: 0.6082
+  Epoch 10/200 | Train Loss: 54.2861 | Train Acc: 0.5999 | Val Loss: 18.2671 | Val Acc: 0.6137
+    → New best validation accuracy: 0.6137
+  Epoch 11/200 | Train Loss: 51.6376 | Train Acc: 0.6130 | Val Loss: 18.9124 | Val Acc: 0.6159
+    → New best validation accuracy: 0.6159
+  Epoch 12/200 | Train Loss: 52.7800 | Train Acc: 0.6107 | Val Loss: 17.6214 | Val Acc: 0.6345
+    → New best validation accuracy: 0.6345
+  Epoch 13/200 | Train Loss: 50.2279 | Train Acc: 0.6258 | Val Loss: 17.4174 | Val Acc: 0.6362
+    → New best validation accuracy: 0.6362
+  Epoch 14/200 | Train Loss: 49.4558 | Train Acc: 0.6362 | Val Loss: 17.5016 | Val Acc: 0.6334
+  Epoch 15/200 | Train Loss: 48.8972 | Train Acc: 0.6404 | Val Loss: 16.8632 | Val Acc: 0.6636
+    → New best validation accuracy: 0.6636
+  Epoch 16/200 | Train Loss: 46.7035 | Train Acc: 0.6579 | Val Loss: 16.5976 | Val Acc: 0.6575
+  Epoch 17/200 | Train Loss: 45.1751 | Train Acc: 0.6734 | Val Loss: 16.4436 | Val Acc: 0.6597
+  Epoch 18/200 | Train Loss: 44.6391 | Train Acc: 0.6689 | Val Loss: 16.1372 | Val Acc: 0.6581
+  Epoch 19/200 | Train Loss: 43.6993 | Train Acc: 0.6778 | Val Loss: 16.0415 | Val Acc: 0.6636
+  Epoch 20/200 | Train Loss: 43.5981 | Train Acc: 0.6756 | Val Loss: 15.8473 | Val Acc: 0.6652
+    → New best validation accuracy: 0.6652
+  Epoch 21/200 | Train Loss: 43.3676 | Train Acc: 0.6736 | Val Loss: 16.1968 | Val Acc: 0.6690
+    → New best validation accuracy: 0.6690
+  Epoch 22/200 | Train Loss: 43.5600 | Train Acc: 0.6811 | Val Loss: 16.4466 | Val Acc: 0.6592
+  Epoch 23/200 | Train Loss: 41.8647 | Train Acc: 0.6849 | Val Loss: 16.0416 | Val Acc: 0.6674
+  Epoch 24/200 | Train Loss: 40.5577 | Train Acc: 0.6942 | Val Loss: 15.8306 | Val Acc: 0.6729
+    → New best validation accuracy: 0.6729
+  Epoch 25/200 | Train Loss: 40.3231 | Train Acc: 0.7074 | Val Loss: 15.9077 | Val Acc: 0.6707
+  Epoch 26/200 | Train Loss: 40.0163 | Train Acc: 0.6988 | Val Loss: 15.6116 | Val Acc: 0.6778
+    → New best validation accuracy: 0.6778
+  Epoch 27/200 | Train Loss: 38.2297 | Train Acc: 0.7134 | Val Loss: 15.5119 | Val Acc: 0.6844
+    → New best validation accuracy: 0.6844
+  Epoch 28/200 | Train Loss: 36.8945 | Train Acc: 0.7307 | Val Loss: 15.7791 | Val Acc: 0.6805
+  Epoch 29/200 | Train Loss: 35.8791 | Train Acc: 0.7344 | Val Loss: 15.9298 | Val Acc: 0.6723
+  Epoch 30/200 | Train Loss: 37.1008 | Train Acc: 0.7300 | Val Loss: 15.6365 | Val Acc: 0.6822
+  Epoch 31/200 | Train Loss: 37.0791 | Train Acc: 0.7240 | Val Loss: 17.8535 | Val Acc: 0.6373
+  Epoch 32/200 | Train Loss: 39.5198 | Train Acc: 0.7068 | Val Loss: 15.3006 | Val Acc: 0.6855
+    → New best validation accuracy: 0.6855
+  Epoch 33/200 | Train Loss: 34.8370 | Train Acc: 0.7464 | Val Loss: 15.2790 | Val Acc: 0.6827
+  Epoch 34/200 | Train Loss: 33.7661 | Train Acc: 0.7522 | Val Loss: 15.1602 | Val Acc: 0.6921
+    → New best validation accuracy: 0.6921
+  Epoch 35/200 | Train Loss: 33.0501 | Train Acc: 0.7502 | Val Loss: 15.0824 | Val Acc: 0.6877
+  Epoch 36/200 | Train Loss: 32.7158 | Train Acc: 0.7519 | Val Loss: 15.5169 | Val Acc: 0.6860
+  Epoch 37/200 | Train Loss: 33.0392 | Train Acc: 0.7506 | Val Loss: 15.4802 | Val Acc: 0.6926
+    → New best validation accuracy: 0.6926
+  Epoch 38/200 | Train Loss: 33.9773 | Train Acc: 0.7484 | Val Loss: 15.5255 | Val Acc: 0.6937
+    → New best validation accuracy: 0.6937
+  Epoch 39/200 | Train Loss: 31.7639 | Train Acc: 0.7654 | Val Loss: 15.4954 | Val Acc: 0.6860
+  Epoch 40/200 | Train Loss: 31.7042 | Train Acc: 0.7625 | Val Loss: 15.5108 | Val Acc: 0.6866
+  Epoch 41/200 | Train Loss: 31.1497 | Train Acc: 0.7708 | Val Loss: 15.4025 | Val Acc: 0.6822
+  Epoch 42/200 | Train Loss: 31.2035 | Train Acc: 0.7628 | Val Loss: 16.2222 | Val Acc: 0.6838
+  Epoch 43/200 | Train Loss: 31.4193 | Train Acc: 0.7701 | Val Loss: 15.8274 | Val Acc: 0.6838
+  Epoch 44/200 | Train Loss: 30.4591 | Train Acc: 0.7674 | Val Loss: 15.2667 | Val Acc: 0.6921
+  Epoch 45/200 | Train Loss: 29.2651 | Train Acc: 0.7814 | Val Loss: 15.3600 | Val Acc: 0.6970
+    → New best validation accuracy: 0.6970
+  Epoch 46/200 | Train Loss: 27.5754 | Train Acc: 0.7940 | Val Loss: 15.3807 | Val Acc: 0.6959
+  Epoch 47/200 | Train Loss: 27.3782 | Train Acc: 0.7980 | Val Loss: 15.2585 | Val Acc: 0.6932
+  Epoch 48/200 | Train Loss: 26.5919 | Train Acc: 0.8070 | Val Loss: 15.7184 | Val Acc: 0.6926
+  Epoch 49/200 | Train Loss: 28.2550 | Train Acc: 0.7880 | Val Loss: 15.4858 | Val Acc: 0.6981
+    → New best validation accuracy: 0.6981
+  Epoch 50/200 | Train Loss: 27.6359 | Train Acc: 0.7935 | Val Loss: 15.9594 | Val Acc: 0.6910
+  Epoch 51/200 | Train Loss: 28.4550 | Train Acc: 0.7935 | Val Loss: 15.1702 | Val Acc: 0.6948
+  Epoch 52/200 | Train Loss: 27.1495 | Train Acc: 0.8013 | Val Loss: 15.7882 | Val Acc: 0.6997
+    → New best validation accuracy: 0.6997
+  Epoch 53/200 | Train Loss: 26.1280 | Train Acc: 0.8028 | Val Loss: 15.6081 | Val Acc: 0.6921
+  Epoch 54/200 | Train Loss: 25.8356 | Train Acc: 0.8011 | Val Loss: 15.2075 | Val Acc: 0.7036
+    → New best validation accuracy: 0.7036
+  Epoch 55/200 | Train Loss: 25.2270 | Train Acc: 0.8154 | Val Loss: 15.7237 | Val Acc: 0.7025
+  Epoch 56/200 | Train Loss: 24.1992 | Train Acc: 0.8241 | Val Loss: 15.6455 | Val Acc: 0.7014
+  Epoch 57/200 | Train Loss: 23.6837 | Train Acc: 0.8247 | Val Loss: 15.6447 | Val Acc: 0.7025
+  Epoch 58/200 | Train Loss: 25.9340 | Train Acc: 0.8053 | Val Loss: 15.4240 | Val Acc: 0.7003
+  Epoch 59/200 | Train Loss: 23.5316 | Train Acc: 0.8256 | Val Loss: 15.9368 | Val Acc: 0.6953
+  Epoch 60/200 | Train Loss: 24.1280 | Train Acc: 0.8245 | Val Loss: 15.6477 | Val Acc: 0.6992
+  Epoch 61/200 | Train Loss: 23.8939 | Train Acc: 0.8210 | Val Loss: 16.1417 | Val Acc: 0.6981
+  Epoch 62/200 | Train Loss: 23.3385 | Train Acc: 0.8270 | Val Loss: 18.7766 | Val Acc: 0.6427
+  Epoch 63/200 | Train Loss: 27.7399 | Train Acc: 0.7922 | Val Loss: 15.7893 | Val Acc: 0.6800
+  Epoch 64/200 | Train Loss: 25.1388 | Train Acc: 0.8137 | Val Loss: 16.1172 | Val Acc: 0.6882
+  Epoch 65/200 | Train Loss: 22.9562 | Train Acc: 0.8349 | Val Loss: 15.5792 | Val Acc: 0.6942
+  Epoch 66/200 | Train Loss: 23.5261 | Train Acc: 0.8256 | Val Loss: 16.4128 | Val Acc: 0.6953
+  Epoch 67/200 | Train Loss: 23.2471 | Train Acc: 0.8225 | Val Loss: 15.8613 | Val Acc: 0.7008
+  Epoch 68/200 | Train Loss: 21.8820 | Train Acc: 0.8373 | Val Loss: 15.8392 | Val Acc: 0.6953
+  Epoch 69/200 | Train Loss: 22.9663 | Train Acc: 0.8300 | Val Loss: 15.9171 | Val Acc: 0.6942
+  
+  Early stopping triggered after 69 epochs
+  Best validation accuracy: 0.7036
+  Loaded best model state
+  [INFO] textgnn.pipelines.inductive: Evaluating on test set...
+  
+  Evaluating:   0%|          | 0/15 [00:00<?, ?it/s]
+  Evaluating:   7%|▋         | 1/15 [00:00<00:01,  9.93it/s]
+  Evaluating:  40%|████      | 6/15 [00:00<00:00, 32.99it/s]
+  Evaluating:  73%|███████▎  | 11/15 [00:00<00:00, 38.72it/s]
+  Evaluating: 100%|██████████| 15/15 [00:00<00:00, 38.08it/s]
+  
+  Classification Report:
+  
+                precision    recall  f1-score   support
+  
+             0       0.46      0.49      0.47        76
+             1       0.68      0.66      0.67        95
+             2       0.68      0.52      0.59        96
+             3       0.65      0.65      0.65        95
+             4       0.69      0.65      0.67        91
+             5       0.85      0.74      0.79        99
+             6       0.63      0.72      0.67        97
+             7       0.75      0.75      0.75        96
+             8       0.70      0.76      0.73        96
+             9       0.92      0.81      0.86        94
+            10       0.86      0.95      0.90        97
+            11       0.77      0.72      0.74        97
+            12       0.51      0.64      0.57        97
+            13       0.89      0.78      0.84        97
+            14       0.81      0.76      0.79        97
+            15       0.59      0.81      0.68        97
+            16       0.66      0.76      0.71        91
+            17       0.83      0.83      0.83        94
+            18       0.49      0.49      0.49        75
+            19       0.50      0.21      0.30        62
+  
+      accuracy                           0.70      1839
+     macro avg       0.70      0.69      0.68      1839
+  weighted avg       0.70      0.70      0.70      1839
+  
+  [INFO] textgnn.pipelines.inductive: Test Results: {'accuracy': 0.6987493202827624, 'f1_macro': 0.684659014618956, 'f1_micro': 0.6987493202827624}
+  [INFO] textgnn.experiment_tracker: Logged model checkpoint: best_model.pt
+  [INFO] textgnn.experiment_tracker: Logged confusion matrix: test_confusion_matrix.png
+  [INFO] textgnn.experiment_tracker: Logged ROC curve: test_roc_curve.png
+  [INFO] textgnn.experiment_tracker: Logged PR curve: test_pr_curve.png
+  [INFO] textgnn.experiment_tracker: Logged per-class metrics: test_per_class_metrics.png
+  [INFO] textgnn.experiment_tracker: Logged classification report: test_classification_report.txt
+  2026/03/28 14:24:07 INFO mlflow.system_metrics.system_metrics_monitor: Stopping system metrics monitoring...
+  2026/03/28 14:24:07 INFO mlflow.system_metrics.system_metrics_monitor: Successfully terminated system metrics monitoring!
+  [INFO] textgnn.experiment_tracker: Ended MLflow run: 6ad4721cc6bc4025a949f11c08e5a969
+  [INFO] textgnn.pipelines.inductive: Inductive pipeline complete!
+  [INFO] __main__: Training complete!
+  -> SUCCESS
+
+[36/149] RUNNING: runConfigs/experiments/data_efficiency/lstm_20ng_50pct.json...
+  /home/tomas/text-gnn-experiments-thesis/.venv/lib/python3.10/site-packages/torch/cuda/__init__.py:56: FutureWarning: The pynvml package is deprecated. Please install nvidia-ml-py instead. If you did not install pynvml directly, please report this to the maintainers of the package that installed pynvml for you.
+    import pynvml  # type: ignore[import]
+  [INFO] __main__: Validating config...
+  [INFO] __main__: Parsed config: 20ng
+  [INFO] __main__: Model type: lstm
+  [INFO] textgnn.pipelines.inductive: Running inductive learning pipeline...
+  [INFO] textgnn.pipelines.inductive: Loading datasets (preprocessing phase - not tracked)...
+  [INFO] textgnn.pipelines.inductive: Loading train dataset...
+  [INFO] textgnn.load_data: Loaded train dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fc41d7bb220 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=14618>
+  [INFO] textgnn.pipelines.inductive: Subsampled training data: 14618 -> 9136 (62%)
+  [INFO] textgnn.pipelines.inductive: Loading validation dataset...
+  [INFO] textgnn.load_data: Loaded val dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fc419a88d00 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1825>
+  [INFO] textgnn.pipelines.inductive: Loading test dataset...
+  [INFO] textgnn.load_data: Loaded test dataset: <textgnn.loaders.lstm_loader.LSTMDataset object at 0x7fc419a89b10 
+   vocab len=24174
+   encode_token_type=index 
+   num classes=20
+   num samples=1839>
+  [INFO] textgnn.pipelines.inductive: Creating DataLoaders...
+  [INFO] textgnn.pipelines.inductive: Data loading complete. Starting MLflow tracking for training phase...
+  2026/03/28 14:24:10 INFO mlflow.system_metrics.system_metrics_monitor: Started monitoring system metrics.
+  [INFO] textgnn.experiment_tracker: Started MLflow run: 133ebe422b7748d585b02b48cce3189d
+  [INFO] textgnn.experiment_tracker: System metrics logging enabled (CPU, RAM, GPU, VRAM)
+  [INFO] textgnn.experiment_tracker: Logged hyperparameters to MLflow
+  [INFO] textgnn.experiment_tracker: Logged config JSON to MLflow
+  [INFO] textgnn.pipelines.inductive: Creating model...
+  [INFO] textgnn.experiment_tracker: Logged model architecture summary
+  [INFO] textgnn.pipelines.inductive: Training model with validation...
+  Training on device: cuda
+  Training with validation | patience=15
+  Epoch 1/200 | Train Loss: 196.7431 | Train Acc: 0.1643 | Val Loss: 33.4792 | Val Acc: 0.3348
+    → New best validation accuracy: 0.3348
+  Epoch 2/200 | Train Loss: 145.1376 | Train Acc: 0.3530 | Val Loss: 25.6888 | Val Acc: 0.4564
+    → New best validation accuracy: 0.4564
+  Epoch 3/200 | Train Loss: 120.3059 | Train Acc: 0.4585 | Val Loss: 22.2847 | Val Acc: 0.5266
+    → New best validation accuracy: 0.5266
+  Epoch 4/200 | Train Loss: 108.2214 | Train Acc: 0.5070 | Val Loss: 20.3010 | Val Acc: 0.5633
+    → New best validation accuracy: 0.5633
+  Epoch 5/200 | Train Loss: 101.3817 | Train Acc: 0.5425 | Val Loss: 19.1203 | Val Acc: 0.5907
+    → New best validation accuracy: 0.5907
+  Epoch 6/200 | Train Loss: 95.4202 | Train Acc: 0.5721 | Val Loss: 18.4738 | Val Acc: 0.6263
+    → New best validation accuracy: 0.6263
+  Epoch 7/200 | Train Loss: 90.5253 | Train Acc: 0.5939 | Val Loss: 18.2027 | Val Acc: 0.6181
+  Epoch 8/200 | Train Loss: 86.6828 | Train Acc: 0.6150 | Val Loss: 16.9166 | Val Acc: 0.6488
+    → New best validation accuracy: 0.6488
+  Epoch 9/200 | Train Loss: 83.4998 | Train Acc: 0.6270 | Val Loss: 16.3043 | Val Acc: 0.6729
+    → New best validation accuracy: 0.6729
+  Epoch 10/200 | Train Loss: 80.8067 | Train Acc: 0.6445 | Val Loss: 16.3657 | Val Acc: 0.6559
+  Epoch 11/200 | Train Loss: 78.5195 | Train Acc: 0.6497 | Val Loss: 15.9002 | Val Acc: 0.6685
+  Epoch 12/200 | Train Loss: 76.9199 | Train Acc: 0.6579 | Val Loss: 15.7548 | Val Acc: 0.6784
+    → New best validation accuracy: 0.6784
+  Epoch 13/200 | Train Loss: 74.1637 | Train Acc: 0.6694 | Val Loss: 15.3542 | Val Acc: 0.6811
+    → New best validation accuracy: 0.6811
+  Epoch 14/200 | Train Loss: 72.3619 | Train Acc: 0.6795 | Val Loss: 15.1896 | Val Acc: 0.6877
+    → New best validation accuracy: 0.6877
+  Epoch 15/200 | Train Loss: 69.6628 | Train Acc: 0.6913 | Val Loss: 14.9878 | Val Acc: 0.6937
+    → New best validation accuracy: 0.6937
+  Epoch 16/200 | Train Loss: 68.8015 | Train Acc: 0.6944 | Val Loss: 14.8356 | Val Acc: 0.6942
+    → New best validation accuracy: 0.6942
+  Epoch 17/200 | Train Loss: 66.7273 | Train Acc: 0.7058 | Val Loss: 14.9685 | Val Acc: 0.7019
+    → New best validation accuracy: 0.7019
+  Epoch 18/200 | Train Loss: 66.2151 | Train Acc: 0.7106 | Val Loss: 15.2567 | Val Acc: 0.6855
+  Epoch 19/200 | Train Loss: 65.5784 | Train Acc: 0.7116 | Val Loss: 14.9937 | Val Acc: 0.6921
+  Epoch 20/200 | Train Loss: 64.3962 | Train Acc: 0.7139 | Val Loss: 14.8079 | Val Acc: 0.7008
+  Epoch 21/200 | Train Loss: 62.1729 | Train Acc: 0.7264 | Val Loss: 14.7538 | Val Acc: 0.7129
+    → New best validation accuracy: 0.7129
+  Epoch 22/200 | Train Loss: 61.3993 | Train Acc: 0.7289 | Val Loss: 14.2431 | Val Acc: 0.7085
+  Epoch 23/200 | Train Loss: 59.8588 | Train Acc: 0.7373 | Val Loss: 14.2234 | Val Acc: 0.7112
+  Epoch 24/200 | Train Loss: 59.9646 | Train Acc: 0.7384 | Val Loss: 14.0603 | Val Acc: 0.7140
+    → New best validation accuracy: 0.7140
+  Epoch 25/200 | Train Loss: 58.8554 | Train Acc: 0.7439 | Val Loss: 14.4300 | Val Acc: 0.7030
+  Epoch 26/200 | Train Loss: 57.7041 | Train Acc: 0.7467 | Val Loss: 14.1408 | Val Acc: 0.7058
+  Epoch 27/200 | Train Loss: 57.9694 | Train Acc: 0.7438 | Val Loss: 14.2598 | Val Acc: 0.7151
+    → New best validation accuracy: 0.7151
+  Epoch 28/200 | Train Loss: 55.5385 | Train Acc: 0.7566 | Val Loss: 14.2107 | Val Acc: 0.7151
+  Epoch 29/200 | Train Loss: 55.4607 | Train Acc: 0.7516 | Val Loss: 15.2334 | Val Acc: 0.6882
+  Epoch 30/200 | Train Loss: 58.3204 | Train Acc: 0.7380 | Val Loss: 14.3182 | Val Acc: 0.6997
+  Epoch 31/200 | Train Loss: 55.3237 | Train Acc: 0.7565 | Val Loss: 15.5814 | Val Acc: 0.6838
+  Epoch 32/200 | Train Loss: 54.3678 | Train Acc: 0.7589 | Val Loss: 13.8962 | Val Acc: 0.7189
+    → New best validation accuracy: 0.7189
+  Epoch 33/200 | Train Loss: 56.6142 | Train Acc: 0.7508 | Val Loss: 14.6128 | Val Acc: 0.7047
+  Epoch 34/200 | Train Loss: 54.0158 | Train Acc: 0.7604 | Val Loss: 13.8580 | Val Acc: 0.7227
+    → New best validation accuracy: 0.7227
+  Epoch 35/200 | Train Loss: 51.6782 | Train Acc: 0.7667 | Val Loss: 14.2873 | Val Acc: 0.6975
+  Epoch 36/200 | Train Loss: 52.0734 | Train Acc: 0.7692 | Val Loss: 14.1639 | Val Acc: 0.7134
+  Epoch 37/200 | Train Loss: 49.2827 | Train Acc: 0.7798 | Val Loss: 13.8803 | Val Acc: 0.7216
+  Epoch 38/200 | Train Loss: 48.2797 | Train Acc: 0.7856 | Val Loss: 13.8394 | Val Acc: 0.7167
+  Epoch 39/200 | Train Loss: 47.6696 | Train Acc: 0.7907 | Val Loss: 14.2058 | Val Acc: 0.7112
+  Epoch 40/200 | Train Loss: 47.8734 | Train Acc: 0.7889 | Val Loss: 14.2701 | Val Acc: 0.7233
+    → New best validation accuracy: 0.7233
+  Epoch 41/200 | Train Loss: 45.6461 | Train Acc: 0.7956 | Val Loss: 14.6720 | Val Acc: 0.7156
+  Epoch 42/200 | Train Loss: 46.9973 | Train Acc: 0.7948 | Val Loss: 13.8099 | Val Acc: 0.7216
+  Epoch 43/200 | Train Loss: 45.3179 | Train Acc: 0.7972 | Val Loss: 14.2627 | Val Acc: 0.7249
+    → New best validation accuracy: 0.7249
+  Epoch 44/200 | Train Loss: 47.0921 | Train Acc: 0.7861 | Val Loss: 14.3362 | Val Acc: 0.7118
+  Epoch 45/200 | Train Loss: 47.3374 | Train Acc: 0.7858 | Val Loss: 14.0414 | Val Acc: 0.7299
+    → New best validation accuracy: 0.7299
+  Epoch 46/200 | Train Loss: 45.0745 | Train Acc: 0.7968 | Val Loss: 14.3217 | Val Acc: 0.7249
+  Epoch 47/200 | Train Loss: 43.7888 | Train Acc: 0.8008 | Val Loss: 14.6124 | Val Acc: 0.7216
+  Epoch 48/200 | Train Loss: 46.4366 | Train Acc: 0.7912 | Val Loss: 14.0691 | Val Acc: 0.7282
+  Epoch 49/200 | Train Loss: 43.9346 | Train Acc: 0.8034 | Val Loss: 14.1901 | Val Acc: 0.7288
+  Epoch 50/200 | Train Loss: 42.3885 | Train Acc: 0.8104 | Val Loss: 14.3808 | Val Acc: 0.7266
+  Epoch 51/200 | Train Loss: 41.3745 | Train Acc: 0.8198 | Val Loss: 13.9234 | Val Acc: 0.7282
+  Epoch 52/200 | Train Loss: 43.1044 | Train Acc: 0.8130 | Val Loss: 14.0621 | Val Acc: 0.7205
+  Epoch 53/200 | Train Loss: 42.8050 | Train Acc: 0.8111 | Val Loss: 14.0261 | Val Acc: 0.7310
+    → New best validation accuracy: 0.7310
+  Epoch 54/200 | Train Loss: 43.5402 | Train Acc: 0.8046 | Val Loss: 14.1678 | Val Acc: 0.7255
+  Epoch 55/200 | Train Loss: 40.7082 | Train Acc: 0.8208 | Val Loss: 14.3092 | Val Acc: 0.7222
+  Epoch 56/200 | Train Loss: 39.8819 | Train Acc: 0.8248 | Val Loss: 14.7690 | Val Acc: 0.7266
+  Epoch 57/200 | Train Loss: 38.4251 | Train Acc: 0.8299 | Val Loss: 14.4474 | Val Acc: 0.7238
+  Epoch 58/200 | Train Loss: 38.7436 | Train Acc: 0.8287 | Val Loss: 14.7976 | Val Acc: 0.7222
+  Epoch 59/200 | Train Loss: 37.5011 | Train Acc: 0.8330 | Val Loss: 14.4221 | Val Acc: 0.7310
+  Epoch 60/200 | Train Loss: 37.3808 | Train Acc: 0.8290 | Val Loss: 15.0264 | Val Acc: 0.7233
+  Epoch 61/200 | Train Loss: 36.8676 | Train Acc: 0.8337 | Val Loss: 15.1198 | Val Acc: 0.7310
+  Epoch 62/200 | Train Loss: 36.8206 | Train Acc: 0.8340 | Val Loss: 14.8877 | Val Acc: 0.7271
+  Epoch 63/200 | Train Loss: 35.7444 | Train Acc: 0.8431 | Val Loss: 15.0843 | Val Acc: 0.7255
+  Epoch 64/200 | Train Loss: 37.9823 | Train Acc: 0.8340 | Val Loss: 14.8452 | Val Acc: 0.7348
+    → New best validation accuracy: 0.7348

@@ -1,8 +1,9 @@
 artifact_uri: /home/tomas/text-gnn-experiments-thesis/mlruns/886108279081666265/b7c0f37753624c77a45bcc76bdedb023/artifacts
+deleted_time: 1774701672108
 end_time: 1774570743751
 entry_point_name: ''
 experiment_id: '886108279081666265'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: b7c0f37753624c77a45bcc76bdedb023
 run_name: lstm_mr_baseline
 source_name: ''
