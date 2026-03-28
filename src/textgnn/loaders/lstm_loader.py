@@ -135,9 +135,9 @@ def create_lstm_filename(dataset_config: DatasetConfig, model_type: str) -> str:
     # )
     # encode_token_type += f"_{embed_dim}d" if embed_dim else ""
 
+    glove_tag = f"glove{tokens_trained_on}B_{embed_dim}d" if tokens_trained_on else "noglove"
     parts = [
-        f"{name}_seed_{dataset_config.random_seed}",
-        # f"text_encoded_{encode_token_type}",
+        f"{name}_seed_{dataset_config.random_seed}_{glove_tag}",
     ]
     return slugify("_".join(parts))
 
