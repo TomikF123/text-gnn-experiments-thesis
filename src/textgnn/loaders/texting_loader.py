@@ -33,51 +33,70 @@ def create_texting_filename(dataset_config: DatasetConfig, model_type: str) -> s
     return slugify("_".join(parts))
 
 
-def build_adjacency_from_word_count(num_words, window_size=3):
+def build_adjacency_unique_words(word_ids, window_size=3):
     """
-    Build adjacency matrix from word count only (no embedding lookup).
-
-    This is much faster than build_document_graph() as it doesn't need
-    to look up GloVe embeddings.
+    Build adjacency matrix from unique words with co-occurrence edge weights.
+    Matches the original TextING paper: one node per unique word,
+    edges weighted by co-occurrence count within sliding window.
 
     Args:
-        num_words: Number of words in document
+        word_ids: List of word IDs (token positions, may have duplicates)
         window_size: Sliding window size for co-occurrence
 
     Returns:
-        adj: scipy sparse adjacency matrix [num_words, num_words]
+        unique_ids: List of unique word IDs (node ordering)
+        adj: scipy sparse adjacency matrix [num_unique, num_unique]
     """
-    if num_words == 0:
-        return sp.csr_matrix((1, 1))
+    if len(word_ids) == 0:
+        return [], sp.csr_matrix((1, 1))
 
-    # Build adjacency with sliding window
-    edges = []
+    # Map word IDs to local node indices (unique words only)
+    unique_ids = list(dict.fromkeys(word_ids))  # preserves order, removes duplicates
+    id_to_local = {wid: i for i, wid in enumerate(unique_ids)}
+    num_unique = len(unique_ids)
 
-    if num_words <= window_size:
-        # Document shorter than window - fully connected
-        for i in range(num_words):
-            for j in range(i + 1, num_words):
-                edges.append((i, j))
-                edges.append((j, i))
+    # Map token positions to local node indices
+    local_ids = [id_to_local[wid] for wid in word_ids]
+
+    # Count co-occurrences within sliding window
+    from collections import Counter
+    edge_counts = Counter()
+
+    if len(local_ids) <= window_size:
+        for i in range(len(local_ids)):
+            for j in range(i + 1, len(local_ids)):
+                a, b = local_ids[i], local_ids[j]
+                if a != b:  # no self-loops from co-occurrence
+                    edge_counts[(a, b)] += 1
+                    edge_counts[(b, a)] += 1
     else:
-        # Sliding window
-        for start in range(num_words - window_size + 1):
-            # Connect all pairs within window
-            for i in range(start, start + window_size):
-                for j in range(i + 1, start + window_size):
-                    edges.append((i, j))
-                    edges.append((j, i))
+        for start in range(len(local_ids) - window_size + 1):
+            window = local_ids[start:start + window_size]
+            for i in range(len(window)):
+                for j in range(i + 1, len(window)):
+                    a, b = window[i], window[j]
+                    if a != b:
+                        edge_counts[(a, b)] += 1
+                        edge_counts[(b, a)] += 1
 
     # Create sparse adjacency matrix
-    if len(edges) > 0:
-        rows, cols = zip(*edges)
-        data = np.ones(len(edges))
-        adj = sp.csr_matrix((data, (rows, cols)), shape=(num_words, num_words))
+    if len(edge_counts) > 0:
+        rows, cols, data = [], [], []
+        for (r, c), count in edge_counts.items():
+            rows.append(r)
+            cols.append(c)
+            data.append(float(count))
+        adj = sp.csr_matrix((data, (rows, cols)), shape=(num_unique, num_unique))
+        # Symmetric normalization: D^{-1/2} A D^{-1/2}
+        rowsum = np.array(adj.sum(1)).flatten()
+        d_inv_sqrt = np.power(rowsum, -0.5)
+        d_inv_sqrt[np.isinf(d_inv_sqrt)] = 0.0
+        d_mat = sp.diags(d_inv_sqrt)
+        adj = d_mat.dot(adj).dot(d_mat)
     else:
-        # No edges - isolated nodes
-        adj = sp.csr_matrix((num_words, num_words))
+        adj = sp.csr_matrix((num_unique, num_unique))
 
-    return adj
+    return unique_ids, adj
 
 
 def build_document_graph(words, word_embeddings, window_size=3, weighted=False):
@@ -287,10 +306,10 @@ def create_texting_artifacts(
                 words = words[:max_len]
 
             # Convert words to IDs (INTEGERS - much smaller!)
-            word_ids = [word_to_idx.get(word, 1) for word in words]  # 1 = <UNK>
+            word_ids_raw = [word_to_idx.get(word, 1) for word in words]  # 1 = <UNK>
 
-            # Build adjacency (sparse scipy matrix)
-            adj_scipy = build_adjacency_from_word_count(len(words), window_size)
+            # Build adjacency with unique word nodes (matches original TextING paper)
+            word_ids, adj_scipy = build_adjacency_unique_words(word_ids_raw, window_size)
 
             # CACHE: Convert to PyTorch sparse COO once (memory-efficient for large docs!)
             # This moves expensive conversion from training time to artifact creation time
