@@ -38,7 +38,9 @@ def main():
 
     project_root = Path(__file__).parent
     experiments_dir = project_root / "runConfigs" / "experiments"
-    log_file = project_root / f"experiment_log_{datetime.now():%Y%m%d_%H%M%S}.txt"
+    logs_dir = project_root / "logs"
+    logs_dir.mkdir(exist_ok=True)
+    log_file = logs_dir / f"experiment_log_{datetime.now():%Y%m%d_%H%M%S}.txt"
 
     # Setup MLflow
     mlflow.set_tracking_uri(str(project_root / "mlruns"))
